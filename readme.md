@@ -24,20 +24,21 @@ assembly tools:
 ## direct scrubber output
 
 - venn diagrame of modified read
-- # of read
-- # of base
-- # reads length histogram
-- # mapped read ?
-- # mismatch ?
+- \# of read
+- \# of base
+- \# reads length histogram
+- % base removed
+- \# mapped read ?
+- \# mismatch ?
 - timing
 
 ## compare correction output
 
-- # of read
-- # of base
-- # reads length histogram
-- # mapped read ?
-- # mismatch ?
+- \# of read
+- \# of base
+- \# reads length histogram
+- \# mapped read ?
+- \# mismatch ?
 - timing
 - other stat provides in corrector publication
 
@@ -50,12 +51,26 @@ Anaylsis if time computation reduction is correlate to read reduction
 
 # Result
 
-|               | raw  | yacrd | dascrubber | miniscrub |
-| ----------    | ---- | ----- | ---------- | --------- |
-| # of read     |      |       |            |           |
-| # of base     |      |       |            |           | 
-| % mapped read |      |       |            |           |
-| % mapped base |      |       |            |           |
-| # mismatch    |      |       |            |           |
-| time          |      |       |            |           |
-| memory        |      |       |            |           |
+|                   | raw  | yacrd | dascrubber | miniscrub |
+| ----------------  | ---- | ----- | ---------- | --------- |
+| # of read         |      |       |            |           |
+| # of base         |      |       |            |           | 
+| % of base removed |      |       |            |           | 
+| % mapped read     |      |       |            |           |
+| % mapped base     |      |       |            |           |
+| # mismatch        |      |       |            |           |
+| time              |      |       |            |           |
+| memory            |      |       |            |           |
+
+# How to run
+
+1. Install all tools in your PATH
+
+2. Run:
+   - download data `snakemake --snakefiles pipeline/download.snakefile all`
+   - run scrubbing `snakemake --snakefiles pipeline/scrubbing.snakefile all`
+   - run correction `snakemake --snakefiles pipeline/correction.snakefile all`
+   - run assembly `snakemake --snakefiles pipeline/assembly.snakefile all`
+
+3. Analysis:
+   TODO

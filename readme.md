@@ -1,7 +1,9 @@
 # Dataset
 
-- Reference [Escherichia coli str. K-12 substr. MDS42](https://www.ncbi.nlm.nih.gov/nuccore/AP012306.1?report=fasta)
-- Reads [Nanopore 1D](https://portal.nersc.gov/archive/home/r/regan/www/X0124/nanopore03_jgi_psf_org_20170608_FNFAH07719_MN17641_sequencing_run_170608_1002000055_001-combined.pass-1D.fastq.gz)
+- Reference [E. cole CFT073](https://www.uniprot.org/taxonomy/199310)
+- Reads:
+  * [Pacbio](https://www.ebi.ac.uk/ena/data/view/SRX5299472)
+  * [Oxford nanopore](https://www.ebi.ac.uk/ena/data/view/SRR8494940)
 
 # Tools
 
@@ -51,6 +53,21 @@ Anaylsis if time computation reduction is correlate to read reduction
 
 # Result
 
+## Scrubbing
+
+|                   | raw  | yacrd | dascrubber | miniscrub |
+| ----------------  | ---- | ----- | ---------- | --------- |
+| # of read         |      |       |            |           |
+| # of base         |      |       |            |           |
+| % of base removed |      |       |            |           |
+| % mapped read     |      |       |            |           |
+| % mapped base     |      |       |            |           |
+| # mismatch        |      |       |            |           |
+| time              |      |       |            |           |
+| memory            |      |       |            |           |
+
+## Correction
+
 |                   | raw  | yacrd | dascrubber | miniscrub |
 | ----------------  | ---- | ----- | ---------- | --------- |
 | # of read         |      |       |            |           |
@@ -62,15 +79,28 @@ Anaylsis if time computation reduction is correlate to read reduction
 | time              |      |       |            |           |
 | memory            |      |       |            |           |
 
+## Correction
+
+|                   | raw  | yacrd | dascrubber | miniscrub |
+| ----------------  | ---- | ----- | ---------- | --------- |
+| # of contig       |      |       |            |           |
+| # of base         |      |       |            |           | 
+| % assembly mapped |      |       |            |           |
+| # mismatch        |      |       |            |           |
+| time              |      |       |            |           |
+| memory            |      |       |            |           |
+
 # How to run
 
-1. Install all tools in your PATH
+1. Install all tools in your PATH, and python3
 
-2. Run:
-   - download data `snakemake --snakefiles pipeline/download.snakefile all`
-   - run scrubbing `snakemake --snakefiles pipeline/scrubbing.snakefile all`
-   - run correction `snakemake --snakefiles pipeline/correction.snakefile all`
-   - run assembly `snakemake --snakefiles pipeline/assembly.snakefile all`
+2. Install python dependency `pip install -r requirements.txt`
 
-3. Analysis:
+3. Run:
+   - download data `snakemake --snakefile pipeline/download.snakefile all`
+   - run scrubbing `snakemake --snakefile pipeline/scrubbing.snakefile all`
+   - run correction `snakemake --snakefile pipeline/correction.snakefile all`
+   - run assembly `snakemake --snakefile pipeline/assembly.snakefile all`
+
+4. Analysis:
    TODO

@@ -1,9 +1,26 @@
 # Dataset
 
-- Reference [E. cole CFT073](https://www.uniprot.org/taxonomy/199310)
+- Reference [E. cole CFT073](https://www.uniprot.org/taxonomy/199310)  5.231428 Mb
 - Reads:
   * [Pacbio](https://www.ebi.ac.uk/ena/data/view/SRX5299472)
   * [Oxford nanopore](https://www.ebi.ac.uk/ena/data/view/SRR8494940)
+
+
+|                   | Pacbio         | Nanopore       |
+| ----------------  |:-------------- |:-------------- |
+| # of sequences    | 207069         | 158590         |
+| Total length      | 1425.446392 Mb | 1621.000527 Mb |
+| Longest sequence  | 41.631 Kb      | 164.088 Kb     |
+| Shortest sequence | 35 b           | 88 b           |
+| Mean sequences    | 6.883 Kb       | 10.221 Kb      |
+| Median Length     | 6.679 Kb       | 5.591 Kb       |
+| N10               | 7467           | 2531           |
+| N50               | 58081          | 23903          |
+| N90               | 142591         | 86781          |
+| L10               | 15.631 Kb      | 50.77 Kb       |
+| L50               | 9.052 Kb       | 20.189 Kb      |
+| L90               | 4.191 Kb       | 4.763 Kb       |
+| Coverage          | 272x           | 309x           |
 
 # Tools
 

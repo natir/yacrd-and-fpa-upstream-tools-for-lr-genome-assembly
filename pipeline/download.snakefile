@@ -18,18 +18,35 @@ rule dl_reference:
 
 rule dl_reads_pb:
     output:     
-        "data/real_reads_pb.fastq.gz",
+        "data/all_real_reads_pb.fastq.gz",
         
     shell:
         "curl ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR849/001/SRR8494911/SRR8494911_subreads.fastq.gz > {output}"
    
 rule dl_reads_ont:
     output:     
-        "data/real_reads_ont.fastq.gz",
+        "data/all_real_reads_ont.fastq.gz",
         
     shell:
         "curl ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR849/000/SRR8494940/SRR8494940.fastq.gz > {output}"
 
+rule subsampling_pb:
+    input:
+        "data/all_real_reads_pb.fastq.gz"
+    output:
+        "data/real_reads_pb.fastq"
+    shell:
+        "seqtk sample -s 42 {input} 0.18 > {output}"
+
+rule subsampling_ont:
+    input:
+        "data/all_real_reads_ont.fastq.gz"
+    output:
+        "data/real_reads_ont.fastq"
+    shell:
+        "seqtk sample -s 42 {input} 0.16 > {output}"
+        
+        
 rule gz_to_fastq:
     input:
         "{name}.fastq.gz",

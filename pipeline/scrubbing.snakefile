@@ -30,7 +30,7 @@ rule yacrd_pb:
         "benchmarks/{prefix}_pb.yacrd.txt",
         
     shell:
-        "minimap -t 8 -x ava-pb {input} {input} | fpa -l 2000 -s -i > scrubbing/{wildcards.prefix}_pb.paf | yacrd -c 10 -o scrubbing/{wildcards.prefix}_pb.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_pb.yacrd.fasta scrubbing/"
+        "minimap -t 8 -x ava-pb {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf | yacrd -c 1 -o scrubbing/{wildcards.prefix}_pb.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_pb.yacrd.fasta scrubbing/"
 
 rule yacrd_ont:
     input:
@@ -43,7 +43,7 @@ rule yacrd_ont:
         "benchmarks/{prefix}_ont.yacrd.txt",
 
     shell:
-        "minimap -t 8 -x ava-ont {input} {input} | fpa -l 2000 -s -i > scrubbing/{wildcards.prefix}_ont.paf | yacrd -c 10 -o scrubbing/{wildcards.prefix}_ont.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_ont.fasta scrubbing/"
+        "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_ont.paf | yacrd -c 1 -o scrubbing/{wildcards.prefix}_ont.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_ont.fasta scrubbing/"
         
 rule dascrubber:
     input:

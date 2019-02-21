@@ -54,7 +54,7 @@ rule canu_pb:
         "benchmarks/{prefix}_pb.{scrubber}.{corrector}.canu.txt",
         
     shell:
-        "canu -p canu -d canu_asm/{prefix}_pb_{scrubber}_corrector genomeSize=4.6g -pacbio-corrected {input}"
+        "canu -p canu -d canu_asm/{prefix}_pb_{scrubber}_corrector genomeSize=4.6g -pacbio-corrected {input} executiveThread=8"
 
 rule canu_ont:
     input:
@@ -68,7 +68,7 @@ rule canu_ont:
         "benchmarks/{prefix}_ont.{scrubber}.{corrector}.canu.txt",
         
     shell:
-        "canu -p canu -d canu_asm/{prefix}_ont_{scrubber}_corrector genomeSize=4.6g -nanopore-corrected {input}"
+        "canu -p canu -d canu_asm/{prefix}_ont_{scrubber}_corrector genomeSize=4.6g -nanopore-corrected {input} executiveThread=8"
 
 rule miniasm_pb:
     input:
@@ -83,8 +83,8 @@ rule miniasm_pb:
         
     shell:
         " && ".join([
-            "minimap2 -x ava-pb {input} {input} > assembly/{prefix}_pb.{scrubber}.{corrector}.paf",
-            "miniasm -f {input} assembly/{prefix}_pb.{scrubber}.{corrector}.paf > assembly/{prefix}_pb.{scrubber}.{corrector}.gfa",
+            "minimap2 -t 8 -x ava-pb {input} {input} > assembly/{prefix}_pb.{scrubber}.{corrector}.paf",
+            "miniasm -t 8 -f {input} assembly/{prefix}_pb.{scrubber}.{corrector}.paf > assembly/{prefix}_pb.{scrubber}.{corrector}.gfa",
             "./script/gfaminiasm2fasta.py assembly/{prefix}_pb.{scrubber}.{corrector}.gfa assembly/{prefix}_pb.{scrubber}.{corrector}.fasta"
         ])
 
@@ -101,7 +101,7 @@ rule miniasm_ont:
         
     shell:
         " && ".join([
-            "minimap2 -x ava-ont {input} {input} > assembly/{prefix}_ont.{scrubber}.{corrector}.paf",
-            "miniasm -f {input} assembly/{prefix}_ont.{scrubber}.{corrector}.paf > assembly/{prefix}_ont.{scrubber}.{corrector}.gfa",
+            "minimap2 -t 8 -x ava-ont {input} {input} > assembly/{prefix}_ont.{scrubber}.{corrector}.paf",
+            "miniasm -t 8 -f {input} assembly/{prefix}_ont.{scrubber}.{corrector}.paf > assembly/{prefix}_ont.{scrubber}.{corrector}.gfa",
             "./script/gfaminiasm2fasta.py assembly/{prefix}_ont.{scrubber}.{corrector}.gfa assembly/{prefix}_ont.{scrubber}.{corrector}.fasta"
         ])

@@ -11,13 +11,13 @@ rule all:
 
 rule raw:
     input:
-        "data/{file}.{ext}"
+        "data/{file}.fasta"
 
     output:
-        "scrubbing/{file}.raw.{ext}"
+        "scrubbing/{file}.raw.fasta"
 
     shell:
-        "ln -s {input} {output}"
+        "ln -s $(readlink -f {input}) {output}"
         
 rule yacrd_pb:
     input:
@@ -30,7 +30,7 @@ rule yacrd_pb:
         "benchmarks/{prefix}_pb.yacrd.txt",
         
     shell:
-        "minimap -x ava-pb {input} {input} | fpa -l 500 -i > scrubbing/{prefix}_pb.paf | yacrd -c 1 -i -o scrubbing/{prefix}_pb.yacrd -s {input} --splited-suffix .yacrd && mv data/{prefix}_pb.fasta scrubbing/"
+        "minimap -t 8 -x ava-pb {input} {input} | fpa -l 2000 -s -i > scrubbing/{wildcards.prefix}_pb.paf | yacrd -c 10 -o scrubbing/{wildcards.prefix}_pb.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_pb.yacrd.fasta scrubbing/"
 
 rule yacrd_ont:
     input:
@@ -43,11 +43,11 @@ rule yacrd_ont:
         "benchmarks/{prefix}_ont.yacrd.txt",
 
     shell:
-        "minimap -x ava-ont {input} {input} | fpa -l 500 -i > scrubbing/{prefix}_pb.paf | yacrd -c 1 -i -o scrubbing/{prefix}_pb.yacrd -s {input} --splited-suffix .yacrd && mv data/{prefix}_pb.fasta scrubbing/"
+        "minimap -t 8 -x ava-ont {input} {input} | fpa -l 2000 -s -i > scrubbing/{wildcards.prefix}_ont.paf | yacrd -c 10 -o scrubbing/{wildcards.prefix}_ont.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_ont.fasta scrubbing/"
         
 rule dascrubber:
     input:
-        "data/{prefix}_pb.fasta",
+        "data/{prefix}.fasta",
         
     output:
         "scrubbing/{prefix}.dascrubber.fasta",
@@ -56,17 +56,21 @@ rule dascrubber:
         "benchmarks/{prefix}.dascrubber.txt",        
 
     shell:
-        "dascrubber_wrapper.py -i {input} -g 4.6M > {output}"
+        "dascrubber_wrapper.py --daligner_options='-T 8' --datander_options='-T 8' -i {input} -g 4.6M > {output}"
 
 rule miniscrub:
     input:
-        "data/{prefix}.fasta",
+        "data/{prefix}.fastq",
         
     output:
-        "scrubbing/{prefix}.miniscrub.fastq",
+        "scrubbing/{prefix}.miniscrub.fasta",
         
     benchmark:
         "benchmarks/{prefix}.miniscrub.txt",
         
     shell:
-        "miniscrub.py --output {output} {input}"
+        " && ".join([
+            "run_miniscrub.sh --processes 8 --output scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
+            "sed -n '1~4s/^@/>/p;2~4p' scrubbing/{wildcards.prefix}.miniscrub.fastq > {output}"
+            ])
+

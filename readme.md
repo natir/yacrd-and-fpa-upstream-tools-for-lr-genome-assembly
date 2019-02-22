@@ -90,16 +90,17 @@ Anaylsis if time computation reduction is correlate to read reduction
 
 ### Nanopore
 
-|                   | raw  | yacrd | dascrubber | miniscrub |
-| ----------------  | ---- | ----- | ---------- | --------- |
-| # of read         |      |       |            |           |
-| # of base         |      |       |            |           |
-| % of base removed |      |       |            |           |
-| % mapped read     |      |       |            |           |
-| % mapped base     |      |       |            |           |
-| # mismatch        |      |       |            |           |
-| time              |      |       |            |           |
-| memory            |      |       |            |           |
+|                        | raw        | yacrd      | dascrubber | miniscrub  |
+|:---------------------- | ----------:| ----------:| ----------:| ----------:|
+| # of read              | 25469      | 25660      | 22538      | 62915      |
+| # of base (Mb)         | 257.508441 | 252.085244 | 236.474486 | 180.605742 |
+| % of base removed (Mb) |            | 5.423197   | 21.033955  | 76.902699  |
+| coverage               |            | 48x        | 45x        | 34x        |
+| % mapped read          |            |            |            |            |
+| % mapped base          |            |            |            |            |
+| # mismatch             |            |            |            |            |
+| time (s)               |            | 28.4964    | 526.5879   | 21352.3889 |
+| memory (Mo)            |            | 2103.60    | 27901.59   | 18240.23   |
 
 ## Correction
 

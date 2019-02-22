@@ -14,6 +14,16 @@ rule all:
         "correction/real_reads_pb.dascrubber.canu.fasta",
         "correction/real_reads_ont.dascrubber.canu.fasta",
 
+        # mecat
+        "correction/real_reads_pb.raw.mecat.fasta",
+        "correction/real_reads_ont.raw.mecat.fasta",
+        "correction/real_reads_pb.yacrd.mecat.fasta",
+        "correction/real_reads_ont.yacrd.mecat.fasta",
+        "correction/real_reads_pb.miniscrub.mecat.fasta",
+        "correction/real_reads_ont.miniscrub.mecat.fasta",
+        "correction/real_reads_pb.dascrubber.mecat.fasta",
+        "correction/real_reads_ont.dascrubber.mecat.fasta",
+        
         # consent
         "correction/real_reads_pb.raw.consent.fasta",
         "correction/real_reads_ont.raw.consent.fasta",
@@ -67,6 +77,41 @@ rule canu_correct_ont:
             "canu -trim -p canu -d canu_asm/canu_{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "gzip -d -c canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"
             ])
+
+rule mecat_pb:
+    input:
+        "scrubbing/{prefix}_pb.{scrubber}.fasta"
+
+    output:
+        corrected = "correction/{prefix}_pb.{scrubber}.mecat.fasta",
+        work_dir = "mecat/{prefix}_ont_{scrubber}"
+        
+    benchmark:
+        "benchmarks/{prefix}_pb.{scrubber}.mecat.txt"
+
+    shell:
+        " && ".join([
+            "mecat2pw -j 0 -t 8 -d {input} -o correction/{wildcards.prefix}_pb.{wildcards.scrubber}.pm.can -w mecat/{wildcards.prefix}_pb_{wildcards.scrubber}",
+            "mecat2cns -i 0 -t 8 correction/{wildcards.prefix}_pb.{wildcards.scrubber}.pm.can {input} {output.corrected}",
+            ])
+
+rule mecat_ont:
+    input:
+        "scrubbing/{prefix}_ont.{scrubber}.fasta"
+
+    output:
+        corrected = "correction/{prefix}_ont.{scrubber}.mecat.fasta",
+        work_dir = "mecat/{prefix}_ont_{scrubber}"
+
+    benchmark:
+        "benchmarks/{prefix}_ont.{scrubber}.mecat.txt"
+
+    shell:
+        " && ".join([
+            "mecat2pw -j 0 -t 8 -x 1 -d {input} -o correction/{wildcards.prefix}_ont.{wildcards.scrubber}.candidatex.txt -w mecat/{wildcards.prefix}_ont_{wildcards.scrubber}",
+            "mecat2cns -i 0 -t 8 -x 1 correction/{wildcards.prefix}_ont.{wildcards.scrubber}.candidatex.txt {input} {output.corrected}"
+            ])
+
         
 rule consent_pb:
     input:

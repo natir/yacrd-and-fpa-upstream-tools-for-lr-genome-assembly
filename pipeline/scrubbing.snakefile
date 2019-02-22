@@ -30,11 +30,14 @@ rule yacrd_pb:
         "benchmarks/{prefix}_pb.yacrd.txt",
         
     shell:
-        "minimap -t 8 -x ava-pb {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf | yacrd -c 1 -o scrubbing/{wildcards.prefix}_pb.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_pb.yacrd.fasta scrubbing/"
+        " && ".join([
+            "minimap -t 8 -x ava-pb {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf",
+            "yacrd scrubbing -c 1 -m scrubbing/{wildcards.prefix}_pb.paf -r scrubbing/{wildcards.prefix}_pb.yacrd -s {input} -S {output}"
+            ])
 
 rule yacrd_ont:
     input:
-        "data/{prefix}_pb.fasta",
+        "data/{prefix}_ont.fasta",
         
     output:
         "scrubbing/{prefix}_ont.yacrd.fasta",
@@ -43,7 +46,10 @@ rule yacrd_ont:
         "benchmarks/{prefix}_ont.yacrd.txt",
 
     shell:
-        "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_ont.paf | yacrd -c 1 -o scrubbing/{wildcards.prefix}_ont.yacrd -s {input} --splited-suffix .yacrd && mv data/{wildcards.prefix}_ont.fasta scrubbing/"
+        " && ".join([
+            "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf",
+            "yacrd scrubbing -c 1 -m scrubbing/{wildcards.prefix}_pb.paf -r scrubbing/{wildcards.prefix}_pb.yacrd -s {input} -S {output}"
+            ])
         
 rule dascrubber:
     input:
@@ -56,7 +62,7 @@ rule dascrubber:
         "benchmarks/{prefix}.dascrubber.txt",        
 
     shell:
-        "dascrubber_wrapper.py --daligner_options='-T 8' --datander_options='-T 8' -i {input} -g 4.6M > {output}"
+        "dascrubber_wrapper.py --daligner_options='-T8' --datander_options='-T8' -i {input} -g 4.6M > {output}"
 
 rule miniscrub:
     input:

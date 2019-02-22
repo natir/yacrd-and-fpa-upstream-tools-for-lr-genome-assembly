@@ -32,7 +32,7 @@ rule raw:
         "correction/{file}.raw.{ext}"
 
     shell:
-        "ln -s {input} {output}"
+        "ln -s $(readlink -f {input}) {output}"
         
 rule canu_correct_pb:
     input:
@@ -46,7 +46,8 @@ rule canu_correct_pb:
         
     shell:
         " && ".join([
-            "canu -trim -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber} genomeSize=5.2g -pacbio-raw {input} gnuplotTested=true executiveThread=8",
+            "canu -correct -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber} genomeSize=5.2m -pacbio-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
+        "canu -trim -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber} genomeSize=5.2m -pacbio-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "gzip -d -c canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"
             ])
 
@@ -62,7 +63,8 @@ rule canu_correct_ont:
         
     shell:
         " && ".join([
-            "canu -trim -p canu -d canu_asm/canu_{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2g -nanopore-raw {input} gnuplotTested=true executiveThread=8",
+            "canu -correct -p canu -d canu_asm/canu_{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
+            "canu -trim -p canu -d canu_asm/canu_{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "gzip -d -c canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"
             ])
         

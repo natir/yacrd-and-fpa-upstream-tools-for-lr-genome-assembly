@@ -7,7 +7,7 @@
 
 
 |                   | Pacbio         | Nanopore       | Pacbio subsample     | Nanopore subsample  |
-| ----------------  |:-------------- |:-------------- |:-------------------- |:------------------  |
+| ----------------  | --------------:| --------------:| --------------------:| -------------------:|
 | # of sequences    | 207069         | 158590         | 37404         (18 %) | 25469        (16 %) |
 | Total length      | 1425.446392 Mb | 1621.000527 Mb | 257.882884 Mb (18 %) | 257508441 Mb (16 %) |
 | Longest sequence  | 41.631 Kb      | 164.088 Kb     | 38.331 Kb            | 137.142 Kb          |
@@ -21,6 +21,8 @@
 | L50               | 9.052 Kb       | 20.189 Kb      | 9.064 Kb             | 20.073 Kb           |
 | L90               | 4.191 Kb       | 4.763 Kb       | 4.218 Kb             | 4.701 Kb            |
 | Coverage          | 272x           | 309x           | 49x                  | 49x                 |
+
+
 
 # Tools
 
@@ -71,6 +73,22 @@ Anaylsis if time computation reduction is correlate to read reduction
 # Result
 
 ## Scrubbing
+
+### Pacbio
+
+|                        | raw        | yacrd      | dascrubber | miniscrub  |
+|:---------------------- | ----------:| ----------:| ----------:| ----------:|
+| # of read              | 37404      | 38890      | 33926      | 59174      |
+| # of base (Mb)         | 257.882884 | 224.056471 | 177.025153 | 79.459162  |
+| % of base removed (Mb) |            | 33.826413  | 80.857731  | 178.423722 |
+| coverage               |            | 43x        | 34x        | 15x        |
+| % mapped read          |            |            |            |            |
+| % mapped base          |            |            |            |            |
+| # mismatch             |            |            |            |            |
+| time (s)               |            | 21.2511    | 381.8210   | 19995.2767 |
+| memory (Mo)            |            | 2258.18    | 13832.30   | 17234.49   |
+
+### Nanopore
 
 |                   | raw  | yacrd | dascrubber | miniscrub |
 | ----------------  | ---- | ----- | ---------- | --------- |

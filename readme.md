@@ -9,7 +9,7 @@
 |                   | Pacbio         | Nanopore       | Pacbio subsample     | Nanopore subsample  |
 | ----------------  | --------------:| --------------:| --------------------:| -------------------:|
 | # of sequences    | 207069         | 158590         | 37404         (18 %) | 25469        (16 %) |
-| Total length      | 1425.446392 Mb | 1621.000527 Mb | 257.882884 Mb (18 %) | 257508441 Mb (16 %) |
+| Total length      | 1425.446392 Mb | 1621.000527 Mb | 257.882884 Mb (18 %) | 257.508441 Mb (16 %) |
 | Longest sequence  | 41.631 Kb      | 164.088 Kb     | 38.331 Kb            | 137.142 Kb          |
 | Shortest sequence | 35 b           | 88 b           | 35 b                 | 152 b               |
 | Mean sequences    | 6.883 Kb       | 10.221 Kb      | 6.894 Kb             | 10.11 Kb            |

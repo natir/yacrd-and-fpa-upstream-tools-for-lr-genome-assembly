@@ -84,7 +84,7 @@ rule mecat_pb:
 
     output:
         corrected = "correction/{prefix}_pb.{scrubber}.mecat.fasta",
-        work_dir = "mecat/{prefix}_ont_{scrubber}"
+        work_dir = "mecat/{prefix}_pb_{scrubber}/fileindex.txt"
         
     benchmark:
         "benchmarks/{prefix}_pb.{scrubber}.mecat.txt"
@@ -101,8 +101,8 @@ rule mecat_ont:
 
     output:
         corrected = "correction/{prefix}_ont.{scrubber}.mecat.fasta",
-        work_dir = "mecat/{prefix}_ont_{scrubber}"
-
+        work_dir = "mecat/{prefix}_ont_{scrubber}/fileindex.txt"
+        
     benchmark:
         "benchmarks/{prefix}_ont.{scrubber}.mecat.txt"
 

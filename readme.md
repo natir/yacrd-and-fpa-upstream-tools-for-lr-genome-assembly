@@ -104,27 +104,72 @@ Anaylsis if time computation reduction is correlate to read reduction
 
 ## Correction
 
-|                   | raw  | yacrd | dascrubber | miniscrub |
-| ----------------  | ---- | ----- | ---------- | --------- |
-| # of read         |      |       |            |           |
-| # of base         |      |       |            |           | 
-| % of base removed |      |       |            |           | 
-| % mapped read     |      |       |            |           |
-| % mapped base     |      |       |            |           |
-| # mismatch        |      |       |            |           |
-| time              |      |       |            |           |
-| memory            |      |       |            |           |
+### Pacbio
+
+#### Raw
+
+|        | raw.canu	 | raw.consent | raw.mecat |
+| ------ | ---------:| -----------:| ---------:|
+| time   | 3103.2063 | 2118.4074   | 162.7338  |
+| memory | 3357.47   | 4279.85	   | 246.45    |
+
+#### yacrd
+
+|        | yacrd.canu |	yacrd.consent | yacrd.mecat |
+| ------ | ----------:| -------------:| -----------:|
+| time   | 2743.7773  | 2067.4703     | 189.394     |
+| memory | 4208.07    | 4054.53	      | 1882.32     |
+
+#### dascrubber
+
+|        | dascrubber.canu	| dascrubber.consent	| dascrubber.mecat |
+| ------ | ----------------:| ---------------------:| ----------------:|
+| time   | 2429.91			| 1782.7734			    | 151.4521         |
+| memory | 4421.41			| 2511.33				| 1489.2           |
+
+#### mecat
+
+|        | miniscrub.canu	| miniscrub.consent	| miniscrub.mecat |
+| ------ | ----------------:| -----------------:| ---------------:|
+| time   | 793.1057		    | 661.6553			| 17.1732         |
+| memory | 2891.51			| 1301.25			| 1165.45         |
+
+
+### Nanopore
 
 ## Correction
 
-|                   | raw  | yacrd | dascrubber | miniscrub |
-| ----------------  | ---- | ----- | ---------- | --------- |
-| # of contig       |      |       |            |           |
-| # of base         |      |       |            |           | 
-| % assembly mapped |      |       |            |           |
-| # mismatch        |      |       |            |           |
-| time              |      |       |            |           |
-| memory            |      |       |            |           |
+### Pacbio
+
+#### raw 
+
+|        | raw.raw.miniasm	| raw.consent.miniasm	| raw.consent.canu	| raw.canu.canu	| raw.canu.miniasm	| raw.raw.canu	| raw.mecat.canu | raw.mecat.miniasm |
+| ------ | ----------------:| ---------------------:| -----------------:| -------------:| -----------------:| -------------:| --------------:| -----------------:|
+| time   | 25.7627			| 68.3803				| 0.3703			| 0.3781		| 47.2837			| 22.8496		| 0.3645		 | 18.2072           |
+| memory | 2489.82			| 1762.65				| 2.88				| 3	            | 1203.89	 	    | 952.37		| 2.87			 | 784.16            |
+
+#### yacrd
+
+|        | yacrd.consent.miniasm | yacrd.consent.canu	| yacrd.canu.canu	| yacrd.canu.miniasm	| yacrd.mecat.miniasm	| yacrd.mecat.canu |
+| ------ | ---------------------:| --------------------:| -----------------:| ---------------------:| ---------------------:| ----------------:|
+| time   | 65.2462	             | 0.3688	            | 0.3674    	    | 48.7166	            | 21.9514            	| 0.3704           |
+| memory | 1735.23	             | 2.92	                | 2.95	            | 1342.86	            | 851.81	            | 2.92             | 
+
+#### dascrubber
+
+| dascrubber.consent.canu | dascrubber.consent.miniasm | dascrubber.canu.miniasm | dascrubber.canu.canu | dascrubber.mecat.canu | dascrubber.mecat.miniasm |
+| -----------------------:| --------------------------:| -----------------------:| --------------------:| ---------------------:| ------------------------:|
+| 0.371                   | 59.8127                    | 56.7287                 | 0.3825               | 0.3665                | 27.4294                  |
+| 2.94                    | 1471.61                    | 1547.96                 | 2.97                 | 2.95                  | 924.59                   |
+
+#### miniscrub
+
+| miniscrub.mecat.miniasm | miniscrub.consent.miniasm | miniscrub.canu.canu	| miniscrub.canu.miniasm	| miniscrub.consent.canu	| miniscrub.mecat.canu |
+| -----------------------:| -------------------------:| -------------------:| -------------------------:| -------------------------:| --------------------:|
+| 0.0709				  | 15.6122					  | 0.3663				| 9.6378					| 134.5584					| 0.3913               |
+| 2.88					  | 653.78					  | 2.94				| 489.35					| 1413.37					| 2.92                 |
+
+
 
 # How to run
 

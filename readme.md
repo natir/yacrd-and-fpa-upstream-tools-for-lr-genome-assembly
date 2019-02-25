@@ -137,6 +137,31 @@ Anaylsis if time computation reduction is correlate to read reduction
 
 ### Nanopore
 
+#### raw
+
+| raw.canu	    | raw.mecat | raw.consent |
+| 13676.9856	| 658.4983	| 3970.4994   |
+| 4428.85		| 2045.31	| 3693.43     |
+
+#### yacrd
+
+|	yacrd.consent	| yacrd.mecat	| yacrd.canu	|
+|	3935.5846		| 639.6991		| 4.0438        |
+|	3663.08			| 2022.72		| 44.34         |
+
+
+#### dascrubber
+
+|	dascrubber.consent	| dascrubber.canu |
+|	3609.1146			| 4.3111          |
+|	3608.59				| 44.27           |
+
+#### miniscrub
+
+|	miniscrub.consent	| miniscrub.mecat	| miniscrub.canu	|
+|	2265.2232			| 234.6207			| 1.9398			|
+|	2655.66				| 1665.74			| 21.7				|
+
 ## Correction
 
 ### Pacbio
@@ -169,6 +194,32 @@ Anaylsis if time computation reduction is correlate to read reduction
 | 0.0709				  | 15.6122					  | 0.3663				| 9.6378					| 134.5584					| 0.3913               |
 | 2.88					  | 653.78					  | 2.94				| 489.35					| 1413.37					| 2.92                 |
 
+### Nanopore
+
+#### raw
+
+|	raw.raw.miniasm | raw.consent.miniasm	| raw.consent.canu	| raw.mecat.canu	| raw.mecat.miniasm | raw.canu.miniasm	| raw.canu.canu | raw.raw.canu |
+|	40.2725			| 157.2728				| 0.4003			| 0.4384			| 133.3762			| 60.5426			| 0.3701		| 51.6651      |
+|	3489.91			| 3703.86				| 2.94				| 3					| 3406.86			| 1777.24			| 2.95			| 410.22       |
+
+#### yacrd
+
+|	yacrd.consent.miniasm	| yacrd.consent.canu	| yacrd.mecat.canu	| yacrd.mecat.miniasm	| yacrd.canu.miniasm	| yacrd.canu.canu |
+|	157.0813				| 0.3906				| 0.3787			| 134.2463				| 62.0122				| 0.3665          |
+|	3819.04					| 2.95					| 2.95				| 3414.4				| 1794.04				| 2.95            |
+
+#### dascrubber
+
+|	dascrubber.consent.miniasm	| dascrubber.consent.canu	| dascrubber.canu.miniasm	| dascrubber.canu.canu |
+|	147.5832					| 0.3816					| 72.1994					| 0.3677               |
+|	3628.72						| 3							| 1861.88					| 2.94                 |
+
+
+#### miniscrub
+
+|	miniscrub.mecat.miniasm | miniscrub.consent.miniasm | miniscrub.consent.canu	| miniscrub.mecat.canu	| miniscrub.canu.miniasm	| miniscrub.canu.canu |
+|	53.9216					| 89.0136					| 0.3934					| 0.3715				| 12.7905					| 0.3716              |
+|	1765.57					| 2138.55					| 2.88						| 2.95					| 687.51					| 3                   |
 
 
 # How to run

@@ -19,6 +19,12 @@ rule all:
         "assembly/real_reads_ont.yacrd.consent.miniasm.fasta",
         "assembly/real_reads_pb.yacrd.mecat.miniasm.fasta",
         "assembly/real_reads_ont.yacrd.mecat.miniasm.fasta",
+        "assembly/real_reads_pb.yacrd2.canu.miniasm.fasta",
+        "assembly/real_reads_ont.yacrd2.canu.miniasm.fasta",
+        "assembly/real_reads_pb.yacrd2.consent.miniasm.fasta",
+        "assembly/real_reads_ont.yacrd2.consent.miniasm.fasta",
+        "assembly/real_reads_pb.yacrd2.mecat.miniasm.fasta",
+        "assembly/real_reads_ont.yacrd2.mecat.miniasm.fasta",
         ## dascrubber
 	# "assembly/real_reads_pb.dascrubber.raw.miniasm.fasta",
         # "assembly/real_reads_ont.dascrubber.raw.miniasm.fasta",
@@ -57,7 +63,12 @@ rule all:
         "assembly/real_reads_ont.yacrd.consent.canu.fasta",
         "assembly/real_reads_pb.yacrd.mecat.canu.fasta",
         "assembly/real_reads_ont.yacrd.mecat.canu.fasta",
-        ## dascrubber
+        "assembly/real_reads_pb.yacrd2.canu.canu.fasta",
+        "assembly/real_reads_ont.yacrd2.canu.canu.fasta",
+        "assembly/real_reads_pb.yacrd2.consent.canu.fasta",
+        "assembly/real_reads_ont.yacrd2.consent.canu.fasta",
+        "assembly/real_reads_pb.yacrd2.mecat.canu.fasta",
+        "assembly/real_reads_ont.yacrd2.mecat.canu.fasta",        ## dascrubber
 	# "assembly/real_reads_pb.dascrubber.raw.canu.fasta",
         # "assembly/real_reads_ont.dascrubber.raw.canu.fasta",
         "assembly/real_reads_pb.dascrubber.canu.canu.fasta",

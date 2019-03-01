@@ -92,29 +92,37 @@ rule canu_pb:
         "correction/{prefix}_pb.{scrubber}.{corrector}.fasta"
 
     output:
-        "assembly/{prefix}_pb.{scrubber}.{corrector}.canu.gfa",
-        "assembly/{prefix}_pb.{scrubber}.{corrector}.canu.fasta"
+        graph = "assembly/{prefix}_pb.{scrubber}.{corrector}.canu.gfa",
+        contigs = "assembly/{prefix}_pb.{scrubber}.{corrector}.canu.fasta"
         
     benchmark:
         "benchmarks/{prefix}_pb.{scrubber}.{corrector}.canu.txt",
         
     shell:
-        "canu -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector} genomeSize=5.2m -pacbio-corrected {input} executiveThreads=8"
+        " && ".join([
+            "canu -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector} genomeSize=5.2m -pacbio-corrected {input} executiveThreads=8",
+            "cp canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.gfa {output.graph}",
+            "cp canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.fasta {output.contigs}"
+        ])
 
 rule canu_ont:
     input:
         "correction/{prefix}_ont.{scrubber}.{corrector}.fasta"
 
     output:
-        "assembly/{prefix}_ont.{scrubber}.{corrector}.canu.gfa",
-        "assembly/{prefix}_ont.{scrubber}.{corrector}.canu.fasta"
+        graph = "assembly/{prefix}_ont.{scrubber}.{corrector}.canu.gfa",
+        contigs = "assembly/{prefix}_ont.{scrubber}.{corrector}.canu.fasta"
         
     benchmark:
         "benchmarks/{prefix}_ont.{scrubber}.{corrector}.canu.txt",
         
     shell:
-        "canu -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector} genomeSize=5.2m -nanopore-corrected {input} executiveThreads=8"
-
+        " && ".join([
+            "canu -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector} genomeSize=5.2m -nanopore-corrected {input} executiveThreads=8",
+            "cp canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.gfa {output.graph}",
+            "cp canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.fasta {output.contigs}"
+        ])
+        
 rule miniasm_pb:
     input:
         "correction/{prefix}_pb.{scrubber}.{corrector}.fasta"

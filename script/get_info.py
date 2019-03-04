@@ -10,45 +10,6 @@ from collections import defaultdict
 
 import pysam
 
-TEMPLATE_SCRUBBING = \
-"""
-|                | {:>30} |
-| -------------- | ------------------------------:|
-| \# of read     | {:>30} |
-| \# of base     | {:>30} |
-| N10            | {:>30} |
-| L10            | {:>30} |
-| N50            | {:>30} |
-| L50            | {:>30} |
-| N90            | {:>30} |
-| L90            | {:>30} |
-| % base removed | {:>30.2f} |
-| \# mapped read | {:>30} |
-| \# mismatch    | {:>30} |
-| time           | {:>30} |
-| memory         | {:>30} |
-"""
-
-TEMPLATE_CORRECTING = \
-"""
-|                | {:>30} |
-| -------------- | ------------------------------:|
-| \# of read     | {:>30} |
-| \# of base     | {:>30} |
-| N10            | {:>30} |
-| L10            | {:>30} |
-| N50            | {:>30} |
-| L50            | {:>30} |
-| N90            | {:>30} |
-| L90            | {:>30} |
-| % base removed | {:>30.2f} |
-| \# mapped read | {:>30} |
-| \# mismatch    | {:>30} |
-| time           | {:>30} |
-| memory         | {:>30} |
-"""
-
-
 
 def main(args=None):
     if args is None:
@@ -72,8 +33,8 @@ def main(args=None):
         data = stat_correction(args.technologys, args.scrubbers, args.correctors)
         show_scrubber(data)
     else:
-        stat_correction(args.technologys, args.scrubbers, args.correctors, args.assemblys)
-
+        data = stat_assembly(args.technologys, args.scrubbers, args.correctors, args.assemblys)
+        show_assembly(data)
 
 def stat_scrubber(technologys, scrubbers):
     data = {"name": list(), "# read": list(), "# base": list(), "coverage": list(),"N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# mismatch": list(), "time": list(), "memory": list()}
@@ -84,24 +45,7 @@ def stat_scrubber(technologys, scrubbers):
 
     return data
 
-def show_scrubber(data):
-    print("|                | " + " | ".join(data["name"]) + " |")
-    print("| - |"+" -:| "*len(data["name"]))
-    print("| \# of read     | " + " | ".join(data["# read"]) + " |")
-    print("| \# of base     | " + " | ".join(data["# base"]) + " |")
-    print("| \# of base     | " + " | ".join(data["# base"]) + " |")
-    print("| coverage       | " + " | ".join(data["coverage"]) + " |")
-    print("| L10            | " + " | ".join(data["L10"]) + " |")
-    print("| N50            | " + " | ".join(data["N50"]) + " |")
-    print("| L50            | " + " | ".join(data["N50"]) + " |")
-    print("| N90            | " + " | ".join(data["N90"]) + " |")
-    print("| L90            | " + " | ".join(data["L90"]) + " |")
-    print("| % base removed | " + " | ".join(data["% base removed"]) + " |")
-    print("| \# mapped read | " + " | ".join(data["# mapped read"]) + " |")
-    print("| \# mismatch    | " + " | ".join(data["# mismatch"]) + " |")
-    print("| time           | " + " | ".join(data["time"]) + " |")
-    print("| memory         | " + " | ".join(data["memory"]) + " |")
-    
+
 def __stat_scrubber(tech, scrub, data):
     raw_reads      = "data/real_reads_{}.fasta"
     benchmark_file = "benchmarks/real_reads_{}.{}.txt"
@@ -143,6 +87,25 @@ def __stat_scrubber(tech, scrub, data):
     data["time"].append(str(time))
     data["memory"].append(str(memory))
 
+
+def show_scrubber(data):
+    print("|                | " + " | ".join(data["name"]) + " |")
+    print("| - |"+" -:| "*len(data["name"]) + " |")
+    print("| \# of read     | " + " | ".join(data["# read"]) + " |")
+    print("| \# of base     | " + " | ".join(data["# base"]) + " |")
+    print("| coverage       | " + " | ".join(data["coverage"]) + " |")
+    print("| N10            | " + " | ".join(data["N10"]) + " |")
+    print("| L10            | " + " | ".join(data["L10"]) + " |")
+    print("| N50            | " + " | ".join(data["N50"]) + " |")
+    print("| L50            | " + " | ".join(data["L50"]) + " |")
+    print("| N90            | " + " | ".join(data["N90"]) + " |")
+    print("| L90            | " + " | ".join(data["L90"]) + " |")
+    print("| % base removed | " + " | ".join(data["% base removed"]) + " |")
+    print("| \# mapped read | " + " | ".join(data["# mapped read"]) + " |")
+    print("| \# mismatch    | " + " | ".join(data["# mismatch"]) + " |")
+    print("| time           | " + " | ".join(data["time"]) + " |")
+    print("| memory         | " + " | ".join(data["memory"]) + " |")
+    
     
 def stat_correction(techs, scrubs, corrs):
     data = {"name": list(), "# read": list(), "# base": list(), "coverage": list(), "N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# mismatch": list(), "time": list(), "memory": list()}
@@ -200,9 +163,81 @@ def __stat_correction(tech, scrub, corr, data):
     data["memory"].append(str(memory))
 
 
-def stat_assembly(technology, scrubber, corrector, assembly):
-    pass        
+def stat_assembly(techs, scrubs, corrs, asms):
+    data = {"name": list(), "# contig": list(), "# base": list(), "N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "genome fraction": list(), "unaligned length": list(), "misassemblies": list(), "misassembled contigs length": list(), "time": list(), "memory": list()}
+    
 
+    for tech in techs:
+        for scrub in scrubs:
+            for corr in corrs:
+                for asm in asms:
+                    __stat_assembly(tech, scrub, corr, asm, data)
+
+    return data
+
+
+def __stat_assembly(tech, scrub, corr, asm, data):
+    contigs = "assembly/real_reads_{}.{}.{}.{}.fasta"
+    quast_report = "quast/real_reads_{}.{}.{}.{}/report.tsv"
+    benchmark_file = "benchmarks/real_reads_{}.{}.{}.{}.txt"
+
+    if not os.path.isfile(quast_report.format(tech, scrub, corr, asm)):
+        return 
+
+    if os.path.isfile(benchmark_file.format(tech, scrub, corr, asm)):
+        time, memory = get_benchmark(benchmark_file.format(tech, scrub, corr, asm))
+    else:
+        time, memory = 0, 0
+    
+    data["name"].append(generate_column_name(tech, scrub, corr, asm))
+    data["time"].append(str(time))
+    data["memory"].append(str(memory))
+
+    _, s_lengths = reads_stat(contigs.format(tech, scrub, corr, asm))
+
+    s_lengths.reverse()
+    n10, l10 = get_N_L(s_lengths, 0.1)
+    n50, l50 = get_N_L(s_lengths, 0.5)
+    n90, l90 = get_N_L(s_lengths, 0.9)
+    
+    data["N10"].append(str(n10))
+    data["N50"].append(str(n50))
+    data["N90"].append(str(n90))
+    data["L10"].append(str(l10))
+    data["L50"].append(str(l50))
+    data["L90"].append(str(l90))    
+    
+    quast_data = dict()
+    with open(quast_report.format(tech, scrub, corr, asm)) as file_handler:
+        reader = csv.reader(file_handler, delimiter='\t')
+        for row in reader:
+            quast_data[row[0]] = row[1]
+
+    data["# contig"].append(quast_data["# contigs"])
+    data["# base"].append(quast_data["Total length"])
+    data["genome fraction"].append(quast_data["Genome fraction (%)"])
+    data["unaligned length"].append(quast_data["Unaligned length"])
+    data["misassemblies"].append(quast_data["# misassemblies"])
+    data["misassembled contigs length"].append(quast_data["Misassembled contigs length"])
+
+
+def show_assembly(data):
+    print("|                             | " + " | ".join(data["name"]) + " |")
+    print("| - |"+" -:| "*len(data["name"]) + " |")
+    print("| \# of contig                | " + " | ".join(data["# contig"]) + " |")
+    print("| \# of base                  | " + " | ".join(data["# base"]) + " |")
+    print("| N10                         | " + " | ".join(data["N10"]) + " |")
+    print("| L10                         | " + " | ".join(data["L10"]) + " |")
+    print("| N50                         | " + " | ".join(data["N50"]) + " |")
+    print("| L50                         | " + " | ".join(data["L50"]) + " |")
+    print("| N90                         | " + " | ".join(data["N90"]) + " |")
+    print("| L90                         | " + " | ".join(data["L90"]) + " |")
+    print("| genome fraction             | " + " | ".join(data["genome fraction"]) + " |")
+    print("| unaligned length            | " + " | ".join(data["unaligned length"]) + " |")
+    print("| misassemblies               | " + " | ".join(data["misassemblies"]) + " |")
+    print("| misassembled contigs length | " + " | ".join(data["misassembled contigs length"]) + " |")
+    print("| time                        | " + " | ".join(data["time"]) + " |")
+    print("| memory                      | " + " | ".join(data["memory"]) + " |")
 
 def get_N_L(lengths, part):
     all_base = sum(lengths)

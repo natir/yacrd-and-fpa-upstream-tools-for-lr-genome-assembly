@@ -80,7 +80,7 @@ rule canu_correct_ont:
     shell:
         " && ".join([
             "canu -correct -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
-            "canu -trim -p canu -d canu_asm/canu_{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
+            "canu -trim -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "gzip -d -c canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"
             ])
 

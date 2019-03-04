@@ -72,6 +72,94 @@ Anaylsis if time computation reduction is correlate to read reduction
 
 # Result
 
+## Read type 
+
+### Pacbio
+
+Count:
+
+|           | yacrd | dascrubber | miniscrub |
+| --------- | -----:| ----------:| ---------:|
+| discard   |  1842 |      13400 |      5928 |
+| splited   |  1628 |      15708 |      2208 |
+| trimmed   | 28583 |       6743 |     29268 |
+| nmodified |  5351 |       1553 |        73 |
+
+Jacard distance discard:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.07 |            |           |
+| miniscrub  |  0.09 |       0.40 |           |
+
+Jacard distance splited:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.33 |            |           |
+| miniscrub  |  0.05 |       0.05 |           |
+
+Jacard distance trimmed:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.87 |            |           |
+| miniscrub  |  0.20 |       0.20 |           |
+
+Jacard distance not modified:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.00 |            |           |
+| miniscrub  |  0.04 |       0.00 |           |
+
+### Nanopore
+
+Count:
+
+|           | yacrd | dascrubber | miniscrub |
+| --------- | -----:| ----------:| ---------:|
+| discard   |   138 |       3293 |      3096 |
+| splited   |   184 |      10611 |       158 |
+| trimmed   | 22590 |       2892 |     22215 |
+| nmodified |  2557 |       8673 |         0 |
+
+Jacard distance discard:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.03 |            |           |
+| miniscrub  |  0.03 |       0.46 |           |
+
+Jacard distance splited:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.34 |            |           |
+| miniscrub  |  0.01 |       0.01 |           |
+
+Jacard distance trimmed:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.94 |            |           |
+| miniscrub  |  0.12 |       0.12 |           |
+
+Jacard distance not modified:
+
+|            | yacrd | dascrubber | miniscrub |
+| ---------- | -----:| ----------:| ---------:|
+| yacrd      |       |            |           |
+| dascrubber |  0.00 |            |           |
+| miniscrub  |  0.12 |       0.00 |           |
+
 ## Scrubbing
 
 ### Pacbio

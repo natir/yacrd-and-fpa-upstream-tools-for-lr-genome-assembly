@@ -89,7 +89,8 @@ def show_scrubber(data):
     print("| - |"+" -:| "*len(data["name"]))
     print("| \# of read     | " + " | ".join(data["# read"]) + " |")
     print("| \# of base     | " + " | ".join(data["# base"]) + " |")
-    print("| N10            | " + " | ".join(data["N10"]) + " |")
+    print("| \# of base     | " + " | ".join(data["# base"]) + " |")
+    print("| coverage       | " + " | ".join(data["coverage"]) + " |")
     print("| L10            | " + " | ".join(data["L10"]) + " |")
     print("| N50            | " + " | ".join(data["N50"]) + " |")
     print("| L50            | " + " | ".join(data["N50"]) + " |")
@@ -144,7 +145,7 @@ def __stat_scrubber(tech, scrub, data):
 
     
 def stat_correction(techs, scrubs, corrs):
-    data = {"name": list(), "# read": list(), "# base": list(), "N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# mismatch": list(), "time": list(), "memory": list()}
+    data = {"name": list(), "# read": list(), "# base": list(), "coverage": list(), "N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# mismatch": list(), "time": list(), "memory": list()}
     
 
     for tech in techs:
@@ -185,6 +186,7 @@ def __stat_correction(tech, scrub, corr, data):
     data["name"].append(generate_column_name(tech, scrub, corr))
     data["# read"].append(str(len(s_lengths)))
     data["# base"].append(str(s_nb_base))
+    data["coverage"].append("{:.2f}x".format(s_nb_base / 5231428))
     data["N10"].append(str(n10))
     data["N50"].append(str(n50))
     data["N90"].append(str(n90))

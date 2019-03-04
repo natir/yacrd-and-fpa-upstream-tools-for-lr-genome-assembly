@@ -44,6 +44,12 @@ rule quast:
     shell:
         "quast -o quast/{wildcards.prefix}/ -r {input.ref} -t 8 {input.asm}"
 
+rule sub_sample:
+    input:
+        "data/real_reads_pb.25.fasta",
+        "data/real_reads_pb.50.fasta",
+        
+        
 rule mapping_scrubbing:
     input:
         "mapping/scrubbing/real_reads_pb.raw.bam",
@@ -57,7 +63,7 @@ rule mapping_scrubbing:
         "mapping/scrubbing/real_reads_ont.dascrubber.bam",
         "mapping/scrubbing/real_reads_ont.miniscrub.bam",
 
-rule mapping_correction:
+rule mapping_corrected:
     input:
         # raw
         "mapping/correction/real_reads_pb.raw.raw.bam",

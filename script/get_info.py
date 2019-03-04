@@ -90,7 +90,7 @@ def __stat_scrubber(tech, scrub, data):
 
 def show_scrubber(data):
     print("|                | " + " | ".join(data["name"]) + " |")
-    print("| - |"+" -:| "*len(data["name"]) + " |")
+    print("| - |" + " -:|" * len(data["name"]))
     print("| \# of read     | " + " | ".join(data["# read"]) + " |")
     print("| \# of base     | " + " | ".join(data["# base"]) + " |")
     print("| coverage       | " + " | ".join(data["coverage"]) + " |")
@@ -223,7 +223,7 @@ def __stat_assembly(tech, scrub, corr, asm, data):
 
 def show_assembly(data):
     print("|                             | " + " | ".join(data["name"]) + " |")
-    print("| - |"+" -:| "*len(data["name"]) + " |")
+    print("| - |" + " -:|" * len(data["name"]))
     print("| \# of contig                | " + " | ".join(data["# contig"]) + " |")
     print("| \# of base                  | " + " | ".join(data["# base"]) + " |")
     print("| N10                         | " + " | ".join(data["N10"]) + " |")

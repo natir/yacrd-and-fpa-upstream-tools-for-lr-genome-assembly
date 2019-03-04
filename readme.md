@@ -77,7 +77,7 @@ Anaylsis if time computation reduction is correlate to read reduction
 ### Pacbio
 
 |                | pb.raw | pb.yacrd | pb.yacrd2 | pb.dascrubber | pb.miniscrub |
-| - | -:|  -:|  -:|  -:|  -:|  |
+| - | -:| -:| -:| -:| -:|
 | \# of read     | 37404 | 38890 | 38068 | 33926 | 59174 |
 | \# of base     | 257882884 | 224056471 | 209162570 | 177025153 | 79459162 |
 | coverage       | 49.29x | 42.83x | 39.98x | 33.84x | 15.19x |
@@ -96,7 +96,7 @@ Anaylsis if time computation reduction is correlate to read reduction
 ### Nanopore
 
 |                | ont.raw | ont.yacrd | ont.yacrd2 | ont.dascrubber | ont.miniscrub |
-| - | -:|  -:|  -:|  -:|  -:|  |
+| - | -:| -:| -:| -:| -:|
 | \# of read     | 25469 | 25660 | 25590 | 22538 | 62915 |
 | \# of base     | 257508441 | 252085244 | 250396634 | 236474486 | 180605742 |
 | coverage       | 49.22x | 48.19x | 47.86x | 45.20x | 34.52x |
@@ -117,7 +117,7 @@ Anaylsis if time computation reduction is correlate to read reduction
 ### Pacbio
 
 |                | pb.raw.raw | pb.raw.canu | pb.raw.consent | pb.raw.mecat | pb.yacrd.canu | pb.yacrd.consent | pb.yacrd.mecat | pb.yacrd2.canu | pb.yacrd2.consent | pb.yacrd2.mecat | pb.dascrubber.canu | pb.dascrubber.consent | pb.dascrubber.mecat | pb.miniscrub.canu | pb.miniscrub.consent | pb.miniscrub.mecat |
-| - | -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  |
+| - | -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:|
 | \# of read     | 37404 | 24439 | 33642 | 10905 | 25569 | 35021 | 12150 | 24657 | 32818 | 11817 | 28518 | 32775 | 14102 | 26254 | 49976 | 0 |
 | \# of base     | 257882884 | 147344360 | 188870837 | 81199441 | 149811236 | 183105081 | 90110565 | 145211033 | 174306872 | 87363457 | 161809806 | 168948669 | 105499016 | 54369709 | 69959182 | 0 |
 | coverage       | 49.29x | 28.17x | 36.10x | 15.52x | 28.64x | 35.00x | 17.22x | 27.76x | 33.32x | 16.70x | 30.93x | 32.29x | 20.17x | 10.39x | 13.37x | 0.00x |
@@ -136,7 +136,7 @@ Anaylsis if time computation reduction is correlate to read reduction
 ### Nanopore
 
 |                | ont.raw.raw | ont.raw.canu | ont.raw.consent | ont.raw.mecat | ont.yacrd.consent | ont.yacrd.mecat | ont.yacrd2.canu | ont.yacrd2.consent | ont.yacrd2.mecat | ont.dascrubber.canu | ont.dascrubber.consent | ont.miniscrub.canu | ont.miniscrub.consent | ont.miniscrub.mecat |
-| - | -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  |
+| - | -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:|
 | \# of read     | 25469 | 24439 | 24208 | 19972 | 24322 | 19835 | 24657 | 24208 | 19734 | 28518 | 22302 | 26254 | 57412 | 23761 |
 | \# of base     | 257508441 | 147344360 | 252343673 | 239684772 | 251645063 | 238062600 | 145211033 | 250468181 | 236971782 | 161809806 | 237219041 | 54369709 | 175260949 | 138989242 |
 | coverage       | 49.22x | 28.17x | 48.24x | 45.82x | 48.10x | 45.51x | 27.76x | 47.88x | 45.30x | 30.93x | 45.34x | 10.39x | 33.50x | 26.57x |
@@ -157,7 +157,7 @@ Anaylsis if time computation reduction is correlate to read reduction
 ### Pacbio
 
 |                             | pb.raw.raw.miniasm | pb.raw.canu.miniasm | pb.raw.canu.canu | pb.raw.consent.miniasm | pb.raw.consent.canu | pb.raw.mecat.canu | pb.yacrd.canu.miniasm | pb.yacrd.canu.canu | pb.yacrd.consent.miniasm | pb.yacrd.consent.canu | pb.yacrd.mecat.canu | pb.yacrd2.canu.miniasm | pb.yacrd2.canu.canu | pb.yacrd2.consent.miniasm | pb.yacrd2.consent.canu | pb.yacrd2.mecat.canu | pb.dascrubber.canu.miniasm | pb.dascrubber.canu.canu | pb.dascrubber.consent.miniasm | pb.dascrubber.consent.canu | pb.dascrubber.mecat.canu |
-| - | -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  |
+| - | -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:|
 | \# of contig                | 4 | 14 | 4 | 12 | 3 | 76 | 13 | 3 | 10 | 2 | 66 | 13 | 3 | 10 | 10 | 71 | 10 | 3 | 10 | 14 | 59 |
 | \# of base                  | 5417095 | 5291308 | 5266503 | 5311045 | 5243442 | 5115332 | 5291304 | 5256701 | 5303726 | 5253082 | 5144689 | 5275568 | 5256427 | 5298556 | 5232660 | 5129748 | 5275853 | 5258099 | 5288414 | 5280884 | 5181184 |
 | N10                         | 1 | 1 | 5267 | 1 | 5244 | 5116 | 1 | 5257 | 1 | 5254 | 5145 | 1 | 5257 | 1 | 5233 | 5130 | 1 | 5259 | 1 | 5281 | 5182 |
@@ -176,7 +176,7 @@ Anaylsis if time computation reduction is correlate to read reduction
 ### Nanopore
 
 |                             | ont.raw.canu.miniasm | ont.raw.canu.canu | ont.raw.consent.miniasm | ont.raw.consent.canu | ont.raw.mecat.canu | ont.yacrd.canu.miniasm | ont.yacrd.canu.canu | ont.yacrd.consent.miniasm | ont.yacrd.consent.canu | ont.yacrd.mecat.canu | ont.yacrd2.canu.miniasm | ont.yacrd2.canu.canu | ont.yacrd2.consent.miniasm | ont.yacrd2.consent.canu | ont.yacrd2.mecat.canu | ont.dascrubber.canu.miniasm | ont.dascrubber.canu.canu | ont.dascrubber.consent.miniasm | ont.dascrubber.consent.canu | ont.miniscrub.consent.canu | ont.miniscrub.mecat.canu |
-| - | -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  -:|  |
+| - | -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:| -:|
 | \# of contig                | 14 | 10 | 1 | 3 | 1 | 11 | 12 | 1 | 1 | 1 | 14 | 12 | 1 | 1 | 1 | 11 | 6 | 1 | 3 | 5 | 12 |
 | \# of base                  | 5257542 | 5311197 | 5194071 | 5275063 | 5225082 | 5272269 | 5331390 | 5198237 | 5257416 | 5220515 | 5276320 | 5331611 | 5194621 | 5262107 | 5220532 | 5274623 | 5283771 | 5208605 | 5253766 | 5244047 | 5249717 |
 | N10                         | 1 | 5312 | 0 | 5276 | 5226 | 1 | 5332 | 0 | 5258 | 5221 | 1 | 5332 | 0 | 5263 | 5221 | 1 | 5284 | 0 | 5254 | 5245 | 5250 |
@@ -192,7 +192,6 @@ Anaylsis if time computation reduction is correlate to read reduction
 | time                        | 60.5426 | 700.0259 | 157.2728 | 11009.5875 | 28701.7988 | 62.0122 | 702.6146 | 157.0813 | 9769.6387 | 28579.6023 | 59.1903 | 650.0218 | 163.3751 | 8089.7369 | 28569.4188 | 72.1994 | 716.8257 | 147.5832 | 5088.9658 | 767.2521 | 972.6400 |
 | memory                      | 1777.24 | 4407.60 | 3703.86 | 8522.98 | 7609.25 | 1794.04 | 4437.46 | 3819.04 | 7945.97 | 7254.09 | 1759.77 | 4359.96 | 3746.79 | 7998.99 | 7181.24 | 1861.88 | 4285.22 | 3628.72 | 7287.12 | 4287.68 | 4306.69 |
 
-
 # How to run
 
 1. Install all tools in your PATH, and python3
@@ -206,6 +205,7 @@ Anaylsis if time computation reduction is correlate to read reduction
    - run assembly `snakemake --snakefile pipeline/assembly.snakefile all`
 
 4. Analysis:
-   - map scrubbed 
-   - map corrected
-   - run quast on assembly
+   - map scrubbed `snakemake --snakefile pipeline/post_operation.snakefile mapping_scrubbing `
+   - map corrected `snakemake --snakefile pipeline/post_operation.snakefile mapping_corrected`
+   - run quast on assembly `snakemake --snakefile pipeline/post_operation.snakefile quast`
+   - summarize info `./script/get_info.py -t [ont|pb] -s (raw) (yacrd) (yacrd2) (dascrubber) (miniscrub) -c (canu) (consent) (mecat) -a (miniasm) (canu)`

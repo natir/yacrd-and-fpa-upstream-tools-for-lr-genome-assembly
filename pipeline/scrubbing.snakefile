@@ -49,8 +49,8 @@ rule yacrd_ont:
 
     shell:
         " && ".join([
-            "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf",
-            "yacrd scrubbing -c 1 -m scrubbing/{wildcards.prefix}_pb.paf -r scrubbing/{wildcards.prefix}_pb.yacrd -s {input} -S {output}"
+            "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_ont.paf",
+            "yacrd scrubbing -c 1 -m scrubbing/{wildcards.prefix}_ont.paf -r scrubbing/{wildcards.prefix}_ont.yacrd -s {input} -S {output}"
             ])
 
    
@@ -67,7 +67,7 @@ rule yacrd_pb2:
     shell:
         " && ".join([
             "minimap -t 8 -x ava-pb {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf",
-            "yacrd scrubbing -c 2 -m scrubbing/{wildcards.prefix}_pb.paf -r scrubbing/{wildcards.prefix}_pb.yacrd -s {input} -S {output}"
+            "yacrd scrubbing -c 2 -m scrubbing/{wildcards.prefix}_pb.paf -r scrubbing/{wildcards.prefix}_pb.yacrd2 -s {input} -S {output}"
             ])
 
 rule yacrd_ont2:
@@ -82,8 +82,8 @@ rule yacrd_ont2:
 
     shell:
         " && ".join([
-            "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf",
-            "yacrd scrubbing -c 2 -m scrubbing/{wildcards.prefix}_pb.paf -r scrubbing/{wildcards.prefix}_pb.yacrd -s {input} -S {output}"
+            "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_ont.paf",
+            "yacrd scrubbing -c 2 -m scrubbing/{wildcards.prefix}_ont.paf -r scrubbing/{wildcards.prefix}_ont.yacrd2 -s {input} -S {output}"
             ])
         
 rule dascrubber:
@@ -97,7 +97,7 @@ rule dascrubber:
         "benchmarks/{prefix}.dascrubber.txt",        
 
     shell:
-        "dascrubber_wrapper.py --daligner_options='-T8' --datander_options='-T8' -i {input} -g 4.6M > {output}"
+        "dascrubber_wrapper.py --daligner_options='-T8' --datander_options='-T8' -i {input} -g 5.2M > {output}"
 
 rule miniscrub:
     input:

@@ -22,7 +22,7 @@ def main(args = None):
             for line in fh:
                 if line.startswith("S"):
                     _, tig_id, tig_seq, _ = line.split("\t")
-                    fh_out.write(">{}\n{}".format(tig_id, tig_seq))
+                    fh_out.write(">{}\n{}\n".format(tig_id, tig_seq))
 
 
 if __name__ == "__main__":

@@ -1,28 +1,30 @@
 # Dataset
 
 - Reference [E. coli CFT073](https://www.uniprot.org/taxonomy/199310)  5.231428 Mb
+- Reference D melanogaster 143.726002 Mb
+- Reference Homo sapiens GRCh38 248.956422 Mb
 - Reads:
   * [Pacbio](https://www.ebi.ac.uk/ena/data/view/SRX5299472)
   * [Oxford nanopore](https://www.ebi.ac.uk/ena/data/view/SRR8494940)
+  * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
+  * [Oxford nanopore Homo sapiens](https://www.ebi.ac.uk/ena/data/view/PRJEB23027)
 
 
-|                   | Pacbio         | Nanopore       | Pacbio subsample     | Nanopore subsample  |
-| ----------------  | --------------:| --------------:| --------------------:| -------------------:|
-| # of sequences    | 207069         | 158590         | 37404         (18 %) | 25469        (16 %) |
-| Total length      | 1425.446392 Mb | 1621.000527 Mb | 257.882884 Mb (18 %) | 257.508441 Mb (16 %) |
-| Longest sequence  | 41.631 Kb      | 164.088 Kb     | 38.331 Kb            | 137.142 Kb          |
-| Shortest sequence | 35 b           | 88 b           | 35 b                 | 152 b               |
-| Mean sequences    | 6.883 Kb       | 10.221 Kb      | 6.894 Kb             | 10.11 Kb            |
-| Median Length     | 6.679 Kb       | 5.591 Kb       | 6.672 Kb             | 5.515 Kb            |
-| N10               | 7467           | 2531           | 1354                 | 400                 |
-| N50               | 58081          | 23903          | 10502                | 3807                |
-| N90               | 142591         | 86781          | 25787                | 13969               |
-| L10               | 15.631 Kb      | 50.77 Kb       | 15.591 Kb            | 51.316 Kb           |
-| L50               | 9.052 Kb       | 20.189 Kb      | 9.064 Kb             | 20.073 Kb           |
-| L90               | 4.191 Kb       | 4.763 Kb       | 4.218 Kb             | 4.701 Kb            |
-| Coverage          | 272x           | 309x           | 49x                  | 49x                 |
-
-
+|                   | Pacbio         | Nanopore       | Pacbio subsample     | Nanopore subsample   | D melanogaster | Homo sapiens   |
+| ----------------  | --------------:| --------------:| --------------------:| --------------------:| --------------:| --------------:|
+| # of sequences    | 207069         | 158590         | 37404         (18 %) | 25469        (16 %)  | 1327569		 | 1074043		  | 
+| Total length      | 1425.446392 Mb | 1621.000527 Mb | 257.882884 Mb (18 %) | 257.508441 Mb (16 %) | 9064.470438 Mb | 7120.880108 Mb | 
+| Longest sequence  | 41.631 Kb      | 164.088 Kb     | 38.331 Kb            | 137.142 Kb           | 446.05 kb	     | 49.971 kb	  | 
+| Shortest sequence | 35 b           | 88 b           | 35 b                 | 152 b                | 5 b			 | 30 b		      |
+| Mean Length       | 6.883 Kb       | 10.221 Kb      | 6.894 Kb             | 10.11 Kb             | 6.827 kb	     | 6.629 kb	      |
+| Median Length     | 6.679 Kb       | 5.591 Kb       | 6.672 Kb             | 5.515 Kb             | 4.568 kb	     | 5.076 kb	      |
+| N10               | 7467           | 2531           | 1354                 | 400                  | 29049		     | 25206		  |
+| N50               | 58081          | 23903          | 10502                | 3807                 | 243356		 | 224997		  |
+| N90               | 142591         | 86781          | 25787                | 13969                | 779045 		 | 654084 		  |
+| L10               | 15.631 Kb      | 50.77 Kb       | 15.591 Kb            | 51.316 Kb            | 25.964 kb	     | 22.211 kb	  |
+| L50               | 9.052 Kb       | 20.189 Kb      | 9.064 Kb             | 20.073 Kb            | 11.853 kb	     | 10.414 kb	  |
+| L90               | 4.191 Kb       | 4.763 Kb       | 4.218 Kb             | 4.701 Kb             | 3.533 kb       | 3.49 kb        |
+| Coverage          | 272x           | 309x           | 49x                  | 49x                  | 63x            | 28x            |
 
 # Tools
 
@@ -85,37 +87,37 @@ Count:
 | trimmed   | 28583 |       6743 |     29268 |
 | nmodified |  5351 |       1553 |        73 |
 
-Jacard distance discard:
+Discard {intersection} {union} {jacard}: 
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.07 |            |           |
-| miniscrub  |  0.09 |       0.40 |           |
+|            | yacrd           | dascrubber      | miniscrub |
+| ---------- | ---------------:| ---------------:| ---------:|
+| yacrd      |                 |                 |           |
+| dascrubber | 487 7283 0.07   |                 |           |
+| miniscrub  | 1247 13995 0.09 | 5554 13774 0.40 |           |
 
-Jacard distance splited:
+Splited {intersection} {union} {jacard}: 
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.33 |            |           |
-| miniscrub  |  0.05 |       0.05 |           |
+|            | yacrd          | dascrubber     | miniscrub |
+| ---------- | --------------:| --------------:| ---------:|
+| yacrd      |                |                |           |
+| dascrubber | 943 2893 0.33  |                |           |
+| miniscrub  | 816 16520 0.05 | 920 16996 0.05 |           |
 
-Jacard distance trimmed:
+Trimmed {intersection} {union} {jacard}:
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.87 |            |           |
-| miniscrub  |  0.20 |       0.20 |           |
+|            | yacrd            | dascrubber      | miniscrub |
+| ---------- | ----------------:| ---------------:| ---------:|
+| yacrd      |                  |                 |           |
+| dascrubber | 26874 30977 0.87 |                 |           |
+| miniscrub  | 5790 29536 0.20  | 6010 30001 0.20 |           |
 
-Jacard distance not modified:
+Not modified {intersection} {union} {jacard}:
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.00 |            |           |
-| miniscrub  |  0.04 |       0.00 |           |
+|            | yacrd         | dascrubber     | miniscrub |
+| ---------- | -------------:| --------------:| ---------:|
+| yacrd      |               |                |           |
+| dascrubber | 0 5424 0.00   |                |           |
+| miniscrub  | 276 6628 0.04 | 6 1620 0.00    |           |
 
 ### Nanopore
 
@@ -128,37 +130,39 @@ Count:
 | trimmed   | 22590 |       2892 |     22215 |
 | nmodified |  2557 |       8673 |         0 |
 
-Jacard distance discard:
+Discard {intersection} {union} {jacard}:
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.03 |            |           |
-| miniscrub  |  0.03 |       0.46 |           |
+|            | yacrd        | dascrubber     | miniscrub |
+| ---------- | ------------:| --------------:| ---------:|
+| yacrd      |              |                |           |
+| dascrubber | 81 3153 0.03 |                |           |
+| miniscrub  | 90 3341 0.03 | 2005 4384 0.46 |           |
 
-Jacard distance splited:
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.34 |            |           |
-| miniscrub  |  0.01 |       0.01 |           |
+Splited {intersection} {union} {jacard}:
 
-Jacard distance trimmed:
+|            | yacrd          | dascrubber      | miniscrub |
+| ---------- | --------------:| ---------------:| ---------:|
+| yacrd      |                |                 |           |
+| dascrubber | 87 255 0.34    |                 |           |
+| miniscrub  | 130 10665 0.01 | 130 10639 0.01  |           |
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.94 |            |           |
-| miniscrub  |  0.12 |       0.12 |           |
 
-Jacard distance not modified:
+Trimmed {intersection} {union} {jacard}:
 
-|            | yacrd | dascrubber | miniscrub |
-| ---------- | -----:| ----------:| ---------:|
-| yacrd      |       |            |           |
-| dascrubber |  0.00 |            |           |
-| miniscrub  |  0.12 |       0.00 |           |
+|            | yacrd            | dascrubbe r     | miniscrub |
+| ---------- | ----------------:| ---------------:| ---------:|
+| yacrd      |                  |                 |           |
+| dascrubber | 21679 23126 0.94 |                 |           |
+| miniscrub  | 2718 22764 0.12  | 2782 22325 0.12 |           |
+
+Not modified {intersection} {union} {jacard}:
+
+|            | yacrd           | dascrubber     | miniscrub |
+| ---------- | ---------------:| --------------:| ---------:|
+| yacrd      |                 |                |           |
+| dascrubber | 0 2557 0.00     |                |           |
+| miniscrub  | 1186 10044 0.12 | 0 8673 0.00    |           |
 
 ## Scrubbing
 

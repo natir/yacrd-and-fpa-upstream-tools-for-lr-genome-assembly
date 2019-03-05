@@ -109,8 +109,8 @@ rule evaluate_assembly:
     input:
         # miniasm
         ## raw
-        "quast/real_reads_pb.raw.raw.miniasm/report.tsv",
-        "quast/real_reads_ont.raw.raw.miniasm/report.tsv",
+        # "quast/real_reads_pb.raw.raw.miniasm/report.tsv",
+        # "quast/real_reads_ont.raw.raw.miniasm/report.tsv",
         "quast/real_reads_pb.raw.canu.miniasm/report.tsv",
         "quast/real_reads_ont.raw.canu.miniasm/report.tsv",
         "quast/real_reads_pb.raw.consent.miniasm/report.tsv",

@@ -62,8 +62,9 @@ rule canu_correct_pb:
         
     shell:
         " && ".join([
+            "rm -rf canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}",
             "canu -correct -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber} genomeSize=5.2m -pacbio-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
-        "canu -trim -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber} genomeSize=5.2m -pacbio-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
+            "canu -trim -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber} genomeSize=5.2m -pacbio-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "gzip -d -c canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"
             ])
 
@@ -79,6 +80,7 @@ rule canu_correct_ont:
         
     shell:
         " && ".join([
+            "rm -rf canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}",
             "canu -correct -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "canu -trim -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "gzip -d -c canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"

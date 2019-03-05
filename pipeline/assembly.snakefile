@@ -100,6 +100,7 @@ rule canu_pb:
         
     shell:
         " && ".join([
+            "rm -rf canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector}"
             "canu -p canu -d canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector} genomeSize=5.2m -pacbio-corrected {input} executiveThreads=8",
             "cp canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.gfa {output.graph}",
             "cp canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.fasta {output.contigs}"
@@ -118,6 +119,7 @@ rule canu_ont:
         
     shell:
         " && ".join([
+            "rm canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector}"
             "canu -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector} genomeSize=5.2m -nanopore-corrected {input} executiveThreads=8",
             "cp canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.gfa {output.graph}",
             "cp canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}_{wildcards.corrector}/canu.contigs.fasta {output.contigs}"

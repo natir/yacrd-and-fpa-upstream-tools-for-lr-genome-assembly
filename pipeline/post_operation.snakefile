@@ -63,6 +63,59 @@ rule mapping_scrubbing:
         "mapping/scrubbing/real_reads_ont.dascrubber.bam",
         "mapping/scrubbing/real_reads_ont.miniscrub.bam",
 
+        
+rule mapping_scrubbing_d_melanogaster:
+    input:
+        "mapping/scrubbing/d_melanogaster_reads_ont.raw.fasta"
+        "mapping/scrubbing/d_melanogaster_reads_ont.yacrd.fasta"
+        "mapping/scrubbing/d_melanogaster_reads_ont.yacrd2.fasta"
+        "mapping/scrubbing/d_melanogaster_reads_ont.miniscrub.fasta"
+
+
+rule mapping_yacrd_test:
+    input:       
+        "mapping/scrubbing/real_reads_pb.yacrd.1.8.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.1.7.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.1.6.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.1.5.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.1.4.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.2.8.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.2.7.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.2.6.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.2.5.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.2.4.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.3.8.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.3.7.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.3.6.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.3.5.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.3.4.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.4.8.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.4.7.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.4.6.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.4.5.bam",
+        "mapping/scrubbing/real_reads_pb.yacrd.4.4.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.1.8.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.1.7.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.1.6.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.1.5.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.1.4.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.2.8.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.2.7.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.2.6.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.2.5.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.2.4.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.3.8.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.3.7.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.3.6.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.3.5.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.3.4.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.4.8.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.4.7.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.4.6.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.4.5.bam",
+        "mapping/scrubbing/real_reads_ont.yacrd.4.4.bam",
+        
+        
 rule mapping_corrected:
     input:
         # raw

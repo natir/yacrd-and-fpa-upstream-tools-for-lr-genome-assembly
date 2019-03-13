@@ -87,6 +87,44 @@ rule all:
         "assembly/real_reads_pb.miniscrub.mecat.canu.fasta",
         "assembly/real_reads_ont.miniscrub.mecat.canu.fasta",
 
+rule d_melano:
+    # miniasm
+    ## raw
+    "assembly/d_melanogaster_reads_ont.raw.raw.miniasm.fasta"
+
+    ## canu
+    "assembly/d_melanogaster_reads_ont.raw.canu.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd.canu.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd2.canu.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.dascrubber.canu.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.miniscrub.canu.miniasm.fasta",
+
+    ## consent
+    "assembly/d_melanogaster_reads_ont.raw.consent.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd.consent.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd2.consent.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.dascrubber.consent.miniasm.fasta",
+    "assembly/d_melanogaster_reads_ont.miniscrub.consent.miniasm.fasta",
+
+    # canu
+    ## raw
+    # "assembly/d_melanogaster_reads_ont.raw.raw.canu.fasta"
+
+    ## canu
+    "assembly/d_melanogaster_reads_ont.raw.canu.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd.canu.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd2.canu.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.dascrubber.canu.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.miniscrub.canu.canu.fasta",
+
+    ## consent
+    "assembly/d_melanogaster_reads_ont.raw.consent.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd.consent.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.yacrd2.consent.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.dascrubber.consent.canu.fasta",
+    "assembly/d_melanogaster_reads_ont.miniscrub.consent.canu.fasta",
+
+
 rule canu_pb:
     input:
         "correction/{prefix}_pb.{scrubber}.{corrector}.fasta"

@@ -39,7 +39,27 @@ rule all:
         "correction/real_reads_ont.miniscrub.consent.fasta",
         "correction/real_reads_pb.dascrubber.consent.fasta",
         "correction/real_reads_ont.dascrubber.consent.fasta",
-        
+
+rule d_melano:
+    input:
+        # raw
+        "correction/d_melanogaster_reads_ont.raw.raw.fasta",
+
+        # canu
+        "correction/d_melanogaster_reads_ont.raw.canu.fasta",
+        "correction/d_melanogaster_reads_ont.yacrd.canu.fasta",
+        "correction/d_melanogaster_reads_ont.yacrd2.canu.fasta",
+        #"correction/d_melanogaster_reads_ont.dascrubber.canu.fasta",
+        "correction/d_melanogaster_reads_ont.miniscrub.canu.fasta",
+
+        # consent
+        "correction/d_melanogaster_reads_ont.raw.consent.fasta",
+        "correction/d_melanogaster_reads_ont.yacrd.consent.fasta",
+        "correction/d_melanogaster_reads_ont.yacrd2.consent.fasta",
+        #"correction/d_melanogaster_reads_ont.dascrubber.consent.fasta",
+        "correction/d_melanogaster_reads_ont.miniscrub.consent.fasta",
+
+
 rule raw:
     input:
         "scrubbing/{file}.{ext}"
@@ -83,7 +103,7 @@ rule canu_correct_ont:
             "rm -rf canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}",
             "canu -correct -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
             "canu -trim -p canu -d canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber} genomeSize=5.2m -nanopore-raw {input} executiveThreads=8 batMemory=160 batThreads=8 maxThreads=8",
-            "gzip -d -c canu_asm/{wildcards.prefix}_pb_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"
+            "gzip -d -c canu_asm/{wildcards.prefix}_ont_{wildcards.scrubber}/canu.trimmedReads.fasta.gz > {output}"
             ])
 
 rule mecat_pb:

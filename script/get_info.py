@@ -260,6 +260,7 @@ def parse_mapping(mapping_file):
     edit_distance = 0
     read_id = set()
 
+    print(mapping_file)
     mapping = pysam.AlignmentFile(mapping_file, "rb")
     for m in mapping.fetch():
         if m.flag == 0 or m.flag == 16:

@@ -1,4 +1,4 @@
-genome_size = {"real_reads_pb": "5.2M", "real_reads_ont": "5.2M", "h_sapiens_chr1_reads_ont": "248M", "d_melanogaster_reads_ont": "143M"}
+
 
 read_type = {"ont": "ava-ont", "pb": "ava-pb"}
 
@@ -25,7 +25,7 @@ rule yacrd:
         
     shell:
         " && ".join([
-            "minimap -x ava-{wildcards.techno} {input.reads} {input.reads} | fpa -i -l 2000 > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf",
+            "minimap -t 16 -x ava-{wildcards.techno} {input.reads} {input.reads} | fpa -i -l 2000 > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf",
             "yacrd -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
         ])
 
@@ -42,11 +42,12 @@ rule yacrd_precision:
         
     shell:
         " && ".join([
-            "minimap -x ava-{wildcards.techno} -g 1000 -n 3 {input.reads} {input.reads} > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf",
+            "minimap -t16 -x ava-{wildcards.techno} -g 1000 -n 3 {input.reads} {input.reads} > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf",
             "yacrd -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
         ])
-    
-            
+
+        
+coverage = {"real_reads_pb": "49", "real_reads_ont": "49", "d_melanogaster_reads_ont": "63"} 
 rule dascrubber:
     input:
         "data/{prefix}.fasta",
@@ -55,14 +56,47 @@ rule dascrubber:
         "scrubbing/{prefix}.dascrubber.fasta",
 
     params:
-        genome_size=lambda wildcards, output: genome_size[wildcards.prefix]
+        coverage=lambda wildcards, output: coverage[wildcards.prefix]
         
     benchmark:
         "benchmarks/{prefix}.dascrubber.txt",        
 
     shell:
-        "dascrubber_wrapper.py --dbsplit_options='-x1000' --daligner_options='-T8' --datander_options='-T8' -i {input} -g {params.genome_size} > {output}"
+        " && ".join([
+            "mkdir -p dascrubber/{prefix}/"
+            "cd dascrubber/{prefix}/",
 
+            "./script/rename_with_fake_pacbio.py {input} renamed_reads.fasta"
+            "fasta2DB reads.db renamed_reads.fasta",
+            "DBsplit -s200 -x100 reads",
+
+            "mkdir align_temp",
+            "HPC.daligner -v -M16 -Palign_temp -T16 reads | csh",
+            "rm -r align_temp",
+
+            "HPC.REPmask -v -c{params.coverage} reads reads.reads.las | csh",
+
+            "mkdir align_temp",
+            "datander -v -Palign_temp -T16 reads",
+            "rm -r align_temp",
+
+            "TANmask -v reads TAN.reads",
+
+            "mkdir align_temp",
+            "HPC.daligner -v -Palign_temp -mrep -mtan -T16 reads | csh",
+            "rm -r align_temp",
+
+            "HPC.DAScover -v reads reads.reads.las | csh",
+
+            "DASqv -v -c{params.coverage} reads reads.reads.las",
+
+            "DAStrim -v reads reads.reads.las",
+
+            "DASpatch -v reads reads.reads.las",
+
+            "DASedit '-v' reads patched_reads",
+        ])
+        
 rule miniscrub:
     input:
         "data/{prefix}.fastq",
@@ -75,7 +109,8 @@ rule miniscrub:
         
     shell:
         " && ".join([
-            "run_miniscrub.sh --processes 8 --output scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
+            "module load tensorflow/1.12.0/anaconda3",
+            "python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
             "sed -n '1~4s/^@/>/p;2~4p' scrubbing/{wildcards.prefix}.miniscrub.fastq > {output}"
             ])
 

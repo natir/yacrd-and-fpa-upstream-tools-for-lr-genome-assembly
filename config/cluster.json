@@ -1,0 +1,22 @@
+{
+    "__default__":
+    {
+	"mem": "60G",
+	"nodes": "1",
+	"mail-type": "ALL",
+	"time": "96:00:00",
+	"ntasks-per-node": "16,"
+	"mail-user": "pierre.marijon@univ-lille.fr",
+    },
+
+    "miniscrub":
+    {
+	"nodes": "1",
+	"ntasks-per-node": "16",
+	"mem": "246G",
+	"gres": "gpu:K80",
+	"mail-type": "ALL",
+	"mail-user": "pierre.marijon@univ-lille.fr",
+	"time": "96:00:00"
+    }
+}

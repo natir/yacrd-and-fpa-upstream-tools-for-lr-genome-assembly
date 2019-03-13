@@ -1,5 +1,3 @@
-
-
 read_type = {"ont": "ava-ont", "pb": "ava-pb"}
 
 rule raw:
@@ -15,7 +13,7 @@ rule raw:
 
 rule yacrd:
     input:
-        reads="data/{prefix}.fasta"
+        reads="data/{prefix}_{techno}.fasta"
         
     output:
         "scrubbing/{prefix}_{techno}.{coverage}.{discard}.yacrd.fasta"
@@ -32,7 +30,7 @@ rule yacrd:
         
 rule yacrd_precision:
     input:
-        reads="data/{prefix}.fasta"
+        reads="data/{prefix}_{techno}.fasta"
         
     output:
         "scrubbing/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.fasta"
@@ -63,8 +61,8 @@ rule dascrubber:
 
     shell:
         " && ".join([
-            "mkdir -p dascrubber/{prefix}/"
-            "cd dascrubber/{prefix}/",
+            "mkdir -p dascrubber/{wildcards.prefix}/"
+            "cd dascrubber/{wildcards.prefix}/",
 
             "./script/rename_with_fake_pacbio.py {input} renamed_reads.fasta"
             "fasta2DB reads.db renamed_reads.fasta",

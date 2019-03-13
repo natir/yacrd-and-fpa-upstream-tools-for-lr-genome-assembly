@@ -16,7 +16,7 @@ rule dl_reference:
             "gzip -dk {output}.gz > {output}"
             ])
 
-rule dl_reference:
+rule dl_droso:
     output:
         "data/ref_d_melanogaster.fasta",
 
@@ -40,7 +40,7 @@ rule dl_reads_ont:
     shell:
         "curl ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR849/000/SRR8494940/SRR8494940.fastq.gz > {output}"
 
-rule dl_reads_ont:
+rule dl_reads_droso:
     output:     
         "data/d_melanogaster_reads_ont.fastq.gz",
         

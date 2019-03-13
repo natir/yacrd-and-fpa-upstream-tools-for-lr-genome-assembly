@@ -1,69 +1,7 @@
 genome_size = {"real_reads_pb": "5.2M", "real_reads_ont": "5.2M", "h_sapiens_chr1_reads_ont": "248M", "d_melanogaster_reads_ont": "143M"}
 
-rule all:
-    input:
-        "scrubbing/real_reads_pb.raw.fasta",
-        "scrubbing/real_reads_pb.yacrd.fasta",
-        "scrubbing/real_reads_pb.yacrd2.fasta",
-        "scrubbing/real_reads_pb.dascrubber.fasta",
-        "scrubbing/real_reads_pb.miniscrub.fasta",
-        "scrubbing/real_reads_ont.raw.fasta",
-        "scrubbing/real_reads_ont.yacrd.fasta",
-        "scrubbing/real_reads_ont.yacrd2.fasta",
-        "scrubbing/real_reads_ont.dascrubber.fasta",
-        "scrubbing/real_reads_ont.miniscrub.fasta",
+read_type = {"ont": "ava-ont", "pb": "ava-pb"}
 
-rule yacrd_test:
-    input:
-        "scrubbing/real_reads_pb.yacrd.1.8.fasta",
-        "scrubbing/real_reads_pb.yacrd.1.7.fasta",
-        "scrubbing/real_reads_pb.yacrd.1.6.fasta",
-        "scrubbing/real_reads_pb.yacrd.1.5.fasta",
-        "scrubbing/real_reads_pb.yacrd.1.4.fasta",
-        "scrubbing/real_reads_pb.yacrd.2.8.fasta",
-        "scrubbing/real_reads_pb.yacrd.2.7.fasta",
-        "scrubbing/real_reads_pb.yacrd.2.6.fasta",
-        "scrubbing/real_reads_pb.yacrd.2.5.fasta",
-        "scrubbing/real_reads_pb.yacrd.2.4.fasta",
-        "scrubbing/real_reads_pb.yacrd.3.8.fasta",
-        "scrubbing/real_reads_pb.yacrd.3.7.fasta",
-        "scrubbing/real_reads_pb.yacrd.3.6.fasta",
-        "scrubbing/real_reads_pb.yacrd.3.5.fasta",
-        "scrubbing/real_reads_pb.yacrd.3.4.fasta",
-        "scrubbing/real_reads_pb.yacrd.4.8.fasta",
-        "scrubbing/real_reads_pb.yacrd.4.7.fasta",
-        "scrubbing/real_reads_pb.yacrd.4.6.fasta",
-        "scrubbing/real_reads_pb.yacrd.4.5.fasta",
-        "scrubbing/real_reads_pb.yacrd.4.4.fasta",
-        "scrubbing/real_reads_ont.yacrd.1.8.fasta",
-        "scrubbing/real_reads_ont.yacrd.1.7.fasta",
-        "scrubbing/real_reads_ont.yacrd.1.6.fasta",
-        "scrubbing/real_reads_ont.yacrd.1.5.fasta",
-        "scrubbing/real_reads_ont.yacrd.1.4.fasta",
-        "scrubbing/real_reads_ont.yacrd.2.8.fasta",
-        "scrubbing/real_reads_ont.yacrd.2.7.fasta",
-        "scrubbing/real_reads_ont.yacrd.2.6.fasta",
-        "scrubbing/real_reads_ont.yacrd.2.5.fasta",
-        "scrubbing/real_reads_ont.yacrd.2.4.fasta",
-        "scrubbing/real_reads_ont.yacrd.3.8.fasta",
-        "scrubbing/real_reads_ont.yacrd.3.7.fasta",
-        "scrubbing/real_reads_ont.yacrd.3.6.fasta",
-        "scrubbing/real_reads_ont.yacrd.3.5.fasta",
-        "scrubbing/real_reads_ont.yacrd.3.4.fasta",
-        "scrubbing/real_reads_ont.yacrd.4.8.fasta",
-        "scrubbing/real_reads_ont.yacrd.4.7.fasta",
-        "scrubbing/real_reads_ont.yacrd.4.6.fasta",
-        "scrubbing/real_reads_ont.yacrd.4.5.fasta",
-        "scrubbing/real_reads_ont.yacrd.4.4.fasta",
-        
-rule d_melano:
-    input:
-        "scrubbing/d_melanogaster_reads_ont.raw.fasta",
-        "scrubbing/d_melanogaster_reads_ont.yacrd.fasta",
-        "scrubbing/d_melanogaster_reads_ont.yacrd2.fasta",
-        "scrubbing/d_melanogaster_reads_ont.dascrubber.fasta",
-        "scrubbing/d_melanogaster_reads_ont.miniscrub.fasta",
-        
 rule raw:
     input:
         "data/{file}.fasta"
@@ -73,72 +11,41 @@ rule raw:
 
     shell:
         "ln -s $(readlink -f {input}) {output}"
-        
-rule yacrd_pb:
+
+
+rule yacrd:
     input:
-        "data/{prefix}_pb.fasta",
+        reads="data/{prefix}.fasta"
         
     output:
-        "scrubbing/{prefix}_pb.yacrd.fasta",
+        "scrubbing/{prefix}_{techno}.{coverage}.{discard}.yacrd.fasta"
 
     benchmark:
-        "benchmarks/{prefix}_pb.yacrd.txt",
+        "benchmarks/scrubbing/{prefix}_{techno}.{coverage}.{discard}.yacrd.txt"
         
     shell:
         " && ".join([
-            "minimap -t 8 -x ava-pb {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_pb.paf",
-            "yacrd scrubbing -c 1 -m scrubbing/{wildcards.prefix}_pb.paf -r scrubbing/{wildcards.prefix}_pb.yacrd -s {input} -S {output}"
-            ])
+            "minimap -x ava-{wildcards.techno} {input.reads} {input.reads} | fpa -i -l 2000 > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf",
+            "yacrd -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
+        ])
 
-rule yacrd_ont:
+        
+rule yacrd_precision:
     input:
-        "data/{prefix}_ont.fasta",
+        reads="data/{prefix}.fasta"
         
     output:
-        "scrubbing/{prefix}_ont.yacrd.fasta",
-        
-    benchmark:
-        "benchmarks/{prefix}_ont.yacrd.txt",
+        "scrubbing/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.fasta"
 
+    benchmark:
+        "benchmarks/scrubbing/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.txt"
+        
     shell:
         " && ".join([
-            "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > scrubbing/{wildcards.prefix}_ont.paf",
-            "yacrd scrubbing -c 1 -m scrubbing/{wildcards.prefix}_ont.paf -r scrubbing/{wildcards.prefix}_ont.yacrd -s {input} -S {output}"
-            ])
-
-rule minimap_pb:
-    input:
-        reads="data/{prefix}_pb.fasta",
-
-    output:
-        overlaps="scrubbing/{prefix}_pb.paf"
-
-    shell:
-        "minimap -t 8 -x ava-pb {input} {input} | fpa -l 1000 -s -i > {output}"
-
-rule minimap_ont:
-    input:
-        reads="data/{prefix}_ont.fasta",
-
-    output:
-        overlaps="scrubbing/{prefix}_ont.paf",
-
-    shell:
-        "minimap -t 8 -x ava-ont {input} {input} | fpa -l 1000 -s -i > {output}"
-        
-rule yacrd_combo:
-    input:
-        reads="data/{prefix}.fasta",
-        overlaps="scrubbing/{prefix}.paf",
-    output:
-        "scrubbing/{prefix}.yacrd.{coverage}.{discard}.fasta",
-        
-    benchmark:
-        "benchmarks/{prefix}.yacrd.{coverage}.{discard}.txt",
-
-    shell:
-        "yacrd scrubbing -c {wildcards.coverage} -n 0.{wildcards.discard} -m {input.overlaps} -r scrubbing/{wildcards.prefix}.{wildcards.coverage}.{wildcards.discard}.yacrd -s {input.reads} -S {output}"
-
+            "minimap -x ava-{wildcards.techno} -g 1000 -n 3 {input.reads} {input.reads} > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf",
+            "yacrd -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
+        ])
+    
             
 rule dascrubber:
     input:

@@ -1,6 +1,12 @@
+def tech2tech(wildcards, output):
+    if "ont" in wildcards.tech:
+        return "ont"
+    else:
+        return "pb"
+
 include: "scrubbing.snakefile"
 include: "assembly.snakefile"
-include: "quast.snakefile"
+include: "analysis.snakefile"
 
 rule scrubb_droso:
     input:
@@ -76,49 +82,73 @@ rule asm_pb:
         "assembly/real_reads_pb.dascrubber.wtdbg2.fasta",
         "assembly/real_reads_pb.miniscrub.wtdbg2.fasta",
 
-rule quast_all:
+rule all:
     input:
-        # droso
-        ## miniasm
+        # quast
+        ## droso
+        ### miniasm
         "quast/d_melanogaster_reads_ont.raw.miniasm/report.txt",
         "quast/d_melanogaster_reads_ont.4.4.yacrd.miniasm/report.txt",
         "quast/d_melanogaster_reads_ont.4.4.precision.yacrd.miniasm/report.txt",
         "quast/d_melanogaster_reads_ont.dascrubber.miniasm/report.txt",
         "quast/d_melanogaster_reads_ont.miniscrub.miniasm/report.txt",
         
-        # wtdbg2
+        ### wtdbg2
         "quast/d_melanogaster_reads_ont.raw.wtdbg2/report.txt",
         "quast/d_melanogaster_reads_ont.4.4.yacrd.wtdbg2/report.txt",
         "quast/d_melanogaster_reads_ont.4.4.precision.yacrd.wtdbg2/report.txt",
         "quast/d_melanogaster_reads_ont.dascrubber.wtdbg2/report.txt",
         "quast/d_melanogaster_reads_ont.miniscrub.wtdbg2/report.txt",
 
-        # ont
-        ## miniasm
+        ## ont
+        ### miniasm
         "quast/real_reads_ont.raw.miniasm/report.txt",
         "quast/real_reads_ont.4.4.yacrd.miniasm/report.txt",
         "quast/real_reads_ont.4.4.precision.yacrd.miniasm/report.txt",
         "quast/real_reads_ont.dascrubber.miniasm/report.txt",
         "quast/real_reads_ont.miniscrub.miniasm/report.txt",
 
-        ## wtdbg2
+        ### wtdbg2
         "quast/real_reads_ont.raw.wtdbg2/report.txt",
         "quast/real_reads_ont.4.4.yacrd.wtdbg2/report.txt",
         "quast/real_reads_ont.4.4.precision.yacrd.wtdbg2/report.txt",
         "quast/real_reads_ont.dascrubber.wtdbg2/report.txt",
         "quast/real_reads_ont.miniscrub.wtdbg2/report.txt",
 
-        # pb
-        ## miniasm
+        ## pb
+        ### miniasm
         "quast/real_reads_pb.raw.miniasm/report.txt",
         "quast/real_reads_pb.4.4.yacrd.miniasm/report.txt",
         "quast/real_reads_pb.4.4.precision.yacrd.miniasm/report.txt",
         "quast/real_reads_pb.dascrubber.miniasm/report.txt",
         "quast/real_reads_pb.miniscrub.miniasm/report.txt",
 
-        ## wtdbg2
+        ### wtdbg2
         "quast/real_reads_pb.raw.wtdbg2/report.txt",
         "quast/real_reads_pb.4.4.yacrd.wtdbg2/report.txt",
         "quast/real_reads_pb.4.4.precision.yacrd.wtdbg2/report.txt",
         "quast/real_reads_pb.dascrubber.wtdbg2/report.txt",
         "quast/real_reads_pb.miniscrub.wtdbg2/report.txt",
+
+        # mapping
+        ## droso
+        "mapping/d_melanogaster_reads_ont.raw.bam",
+        "mapping/d_melanogaster_reads_ont.4.4.yacrd.bam",
+        "mapping/d_melanogaster_reads_ont.4.4.precision.yacrd.bam",
+        "mapping/d_melanogaster_reads_ont.dascrubber.bam",
+        "mapping/d_melanogaster_reads_ont.miniscrub.bam",
+    
+        ## ont
+        "mapping/real_reads_ont.raw.bam",
+        "mapping/real_reads_ont.4.4.yacrd.bam",
+        "mapping/real_reads_ont.4.4.precision.yacrd.bam",
+        "mapping/real_reads_ont.dascrubber.bam",
+        "mapping/real_reads_ont.miniscrub.bam",
+
+        ## pb
+        "mapping/real_reads_pb.raw.bam",
+        "mapping/real_reads_pb.4.4.yacrd.bam",
+        "mapping/real_reads_pb.4.4.precision.yacrd.bam",
+        "mapping/real_reads_pb.dascrubber.bam",
+        "mapping/real_reads_pb.miniscrub.bam",
+        

@@ -302,4 +302,4 @@ Not modified {intersection} {union} {jacard}:
    - run quast on assembly `snakemake --snakefile pipeline/post_operation.snakefile quast`
    - summarize info `./script/get_info.py -t [ont|pb] -s (raw) (yacrd) (yacrd2) (dascrubber) (miniscrub) -c (canu) (consent) (mecat) -a (miniasm) (canu)`
 
-`snakemake --snakefile pipeline/uncorrected.snakefile --directory /home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly -j 999 --cluster-config config/cluster.json -c "sbatch --gres={cluster.gres} --mem={cluster.mem} --nodes={cluster.nodes} --mail-type={cluster.mail-type} --time={cluster.time} --ntasks-per-node={cluster.ntasks-per-node} --mail-user={cluster.mail-user}" quast_all -r -p`
+`snakemake --snakefile pipeline/uncorrected.snakefile --directory /home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly -j 999 --cluster-config config/cluster.json -c "sbatch --gres={cluster.gres} --mem={cluster.mem} --nodes={cluster.nodes} --mail-type={cluster.mail-type} --time={cluster.time} --ntasks-per-node={cluster.ntasks-per-node} --mail-user={cluster.mail-user}" -r -p all`

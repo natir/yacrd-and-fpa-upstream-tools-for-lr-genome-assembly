@@ -72,7 +72,8 @@ rule dascrubber:
             "HPC.daligner -v -M16 -Palign_temp -T16 reads | csh",
             "rm -r align_temp",
 
-            "HPC.REPmask -v -g2 -c{params.coverage} reads reads.reads.las | csh",
+
+            "HPC.REPmask -v -g2 -c{params.coverage} reads 1-$(ls *.las | cut -d. -f2 | sort -rn | head -1) | csh",
 
             "mkdir align_temp",
             "datander -v -Palign_temp -T16 reads",
@@ -93,6 +94,10 @@ rule dascrubber:
             "DASpatch -v reads reads.reads.las",
 
             "DASedit '-v' reads patched_reads",
+
+            "mv renamed_reads.fasta temp.fasta",
+            "DB2fasta -vU patched_reads",
+            "mv renamed_reads.fasta ../../{output}"
         ])
         
 rule miniscrub:

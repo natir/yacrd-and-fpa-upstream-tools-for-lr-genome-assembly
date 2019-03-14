@@ -1,5 +1,6 @@
 include: "scrubbing.snakefile"
-#include: "assembly.snakefile"
+include: "assembly.snakefile"
+include: "quast.snakefile"
 
 rule scrubb_droso:
     input:
@@ -75,7 +76,7 @@ rule asm_pb:
         "assembly/real_reads_pb.dascrubber.wtdbg2.fasta",
         "assembly/real_reads_pb.miniscrub.wtdbg2.fasta",
 
-rule quast:
+rule quast_all:
     input:
         # droso
         ## miniasm

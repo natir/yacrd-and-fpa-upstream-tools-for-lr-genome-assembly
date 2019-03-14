@@ -18,20 +18,20 @@ rule miniasm:
         ])
 
 
-genome_size={"real_reads_ont": "5.2m", "real_reads_pb": "5.2m", "d_melanogaster_reads_ont": "143.7m"}
+genome_size={"real_reads": "5.2m", "d_melanogaster_reads": "143.7m"}
 rule wdbtg2:
     input:
-        "scrubbing/{prefix}.{scrubber}.fasta"
+        "scrubbing/{prefix}_{tech}.{scrubber}.fasta"
 
     output:
-        asm="assembly/{prefix}_{tech}.{scrubber}.fasta",
-        layout="assembly/{prefix}_{tech}.{scrubber}.ctg.lay.gz"
+        asm="assembly/{prefix}_{tech}.{scrubber}.wtdbg2.fasta",
+        layout="assembly/{prefix}_{tech}.{scrubber}.wtdbg2.ctg.lay.gz"
 
-   params:
+    params:
         genome_size=lambda wildcards, output: genome_size[wildcards.prefix] 
         
     shell:
         " && ".join([
-            "/home/pierre.marijon/tools/wtdbg2/wtdbg2 -t 16 -g {params.genome_size} -x ont -i {input} -fo assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}",
+            "/home/pierre.marijon/tools/wtdbg2/wtdbg2 -t 16 -g {params.genome_size} -x ont -i {input} -fo assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.wtdbg2",
             "/home/pierre.marijon/tools/wtdbg2/wtpoa-cns -16 -x ont -i {output.layout} -fo {output.asm}"
         ])

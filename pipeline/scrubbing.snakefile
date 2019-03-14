@@ -61,10 +61,10 @@ rule dascrubber:
 
     shell:
         " && ".join([
-            "mkdir -p dascrubber/{wildcards.prefix}/"
+            "mkdir -p dascrubber/{wildcards.prefix}/",
             "cd dascrubber/{wildcards.prefix}/",
 
-            "./script/rename_with_fake_pacbio.py {input} renamed_reads.fasta"
+            "./script/rename_with_fake_pacbio.py {input} renamed_reads.fasta",
             "fasta2DB reads.db renamed_reads.fasta",
             "DBsplit -s200 -x100 reads",
 

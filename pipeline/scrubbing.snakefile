@@ -24,7 +24,7 @@ rule yacrd:
     shell:
         " && ".join([
             "minimap2 -t 16 -x ava-{wildcards.techno} {input.reads} {input.reads} | /home/pierre.marijon/tools/fpa/target/release/fpa -i -l 2000 > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf",
-            "yacrd -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
+            "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
         ])
 
         
@@ -41,7 +41,7 @@ rule yacrd_precision:
     shell:
         " && ".join([
             "minimap2 -t16 -x ava-{wildcards.techno} -g 1000 -n 3 {input.reads} {input.reads} > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf",
-            "yacrd -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
+            "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output}",
         ])
 
         
@@ -64,7 +64,7 @@ rule dascrubber:
             "mkdir -p dascrubber/{wildcards.prefix}/",
             "cd dascrubber/{wildcards.prefix}/",
 
-            "./script/rename_with_fake_pacbio.py {input} renamed_reads.fasta",
+            "./../script/rename_with_fake_pacbio.py ../{input} renamed_reads.fasta",
             "fasta2DB reads.db renamed_reads.fasta",
             "DBsplit -s200 -x100 reads",
 

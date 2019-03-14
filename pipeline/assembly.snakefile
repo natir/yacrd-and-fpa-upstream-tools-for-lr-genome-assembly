@@ -1,8 +1,3 @@
-def tech2tech(wildcards, output):
-    if "ont" in wildcards.tech:
-        return "ont"
-    else:
-        return "pb"
 
 rule miniasm:
     input:

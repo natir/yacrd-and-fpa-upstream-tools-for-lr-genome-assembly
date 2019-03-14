@@ -64,7 +64,7 @@ rule dascrubber:
             "mkdir -p dascrubber/{wildcards.prefix}/",
             "cd dascrubber/{wildcards.prefix}/",
 
-            "./../script/rename_with_fake_pacbio.py ../{input} renamed_reads.fasta",
+            "./../../script/rename_with_fake_pacbio.py ../../{input} renamed_reads.fasta",
             "fasta2DB reads.db renamed_reads.fasta",
             "DBsplit -s200 -x100 reads",
 
@@ -108,7 +108,9 @@ rule miniscrub:
     shell:
         " && ".join([
             "module load tensorflow/1.12.0/anaconda3",
-            "python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
-            "sed -n '1~4s/^@/>/p;2~4p' scrubbing/{wildcards.prefix}.miniscrub.fastq > {output}"
+            "mkdir -p miniscrub/{wildcards.prefix}/",
+            "cd miniscrub/{wildcards.prefix}/"
+            "python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output ../../scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
+            "sed -n '1~4s/^@/>/p;2~4p' ../../scrubbing/{wildcards.prefix}.miniscrub.fastq > {output}"
             ])
 

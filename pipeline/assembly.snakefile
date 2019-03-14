@@ -1,3 +1,9 @@
+def tech2tech(wildcards, output):
+    if "ont" in wildcards.tech:
+        return "ont"
+    else:
+        return "pb"
+
 rule miniasm:
     input:
         "scrubbing/{prefix}_{tech}.{scrubber}.fasta"
@@ -9,10 +15,13 @@ rule miniasm:
 
     benchmark:
         "benchmarks/{prefix}_{tech}.{scrubber}.miniasm.txt",
+
+    params:
+        tech=lambda wildcards, output: tech2tech(wildcards, output)
         
     shell:
         " && ".join([
-            "minimap2 -t 16 -x ava-{wildcards.tech} {input} {input} > {output.ovl}",
+            "minimap2 -t 16 -x ava-{params.tech} {input} {input} > {output.ovl}",
             "miniasm -f {input} {output.ovl} > {output.graph}",
             "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.graph} {output.asm}"
         ])
@@ -33,5 +42,5 @@ rule wdbtg2:
     shell:
         " && ".join([
             "/home/pierre.marijon/tools/wtdbg2/wtdbg2 -t 16 -g {params.genome_size} -x ont -i {input} -fo assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.wtdbg2",
-            "/home/pierre.marijon/tools/wtdbg2/wtpoa-cns -16 -x ont -i {output.layout} -fo {output.asm}"
+            "/home/pierre.marijon/tools/wtdbg2/wtpoa-cns -t 16 -i {output.layout} -fo {output.asm}"
         ])

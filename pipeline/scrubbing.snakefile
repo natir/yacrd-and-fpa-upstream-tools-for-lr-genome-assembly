@@ -72,7 +72,7 @@ rule dascrubber:
             "HPC.daligner -v -M16 -Palign_temp -T16 reads | csh",
             "rm -r align_temp",
 
-            "HPC.REPmask -v -c{params.coverage} reads reads.reads.las | csh",
+            "HPC.REPmask -v -g2 -c{params.coverage} reads reads.reads.las | csh",
 
             "mkdir align_temp",
             "datander -v -Palign_temp -T16 reads",

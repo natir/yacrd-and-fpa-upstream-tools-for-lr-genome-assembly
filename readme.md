@@ -2,29 +2,27 @@
 
 - Reference [E. coli CFT073](https://www.uniprot.org/taxonomy/199310)  5.231428 Mb
 - Reference D melanogaster 143.726002 Mb
-- Reference Homo sapiens GRCh38 248.956422 Mb
 - Reads:
   * [Pacbio](https://www.ebi.ac.uk/ena/data/view/SRX5299472)
   * [Oxford nanopore](https://www.ebi.ac.uk/ena/data/view/SRR8494940)
   * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
-  * [Oxford nanopore Homo sapiens](https://www.ebi.ac.uk/ena/data/view/PRJEB23027)
 
 
-|                   | Pacbio         | Nanopore       | Pacbio subsample     | Nanopore subsample   | D melanogaster | Homo sapiens   |
-| ----------------  | --------------:| --------------:| --------------------:| --------------------:| --------------:| --------------:|
-| # of sequences    | 207069         | 158590         | 37404         (18 %) | 25469        (16 %)  | 1327569		 | 1074043		  | 
-| Total length      | 1425.446392 Mb | 1621.000527 Mb | 257.882884 Mb (18 %) | 257.508441 Mb (16 %) | 9064.470438 Mb | 7120.880108 Mb | 
-| Longest sequence  | 41.631 Kb      | 164.088 Kb     | 38.331 Kb            | 137.142 Kb           | 446.05 kb	     | 49.971 kb	  | 
-| Shortest sequence | 35 b           | 88 b           | 35 b                 | 152 b                | 5 b			 | 30 b		      |
-| Mean Length       | 6.883 Kb       | 10.221 Kb      | 6.894 Kb             | 10.11 Kb             | 6.827 kb	     | 6.629 kb	      |
-| Median Length     | 6.679 Kb       | 5.591 Kb       | 6.672 Kb             | 5.515 Kb             | 4.568 kb	     | 5.076 kb	      |
-| N10               | 7467           | 2531           | 1354                 | 400                  | 29049		     | 25206		  |
-| N50               | 58081          | 23903          | 10502                | 3807                 | 243356		 | 224997		  |
-| N90               | 142591         | 86781          | 25787                | 13969                | 779045 		 | 654084 		  |
-| L10               | 15.631 Kb      | 50.77 Kb       | 15.591 Kb            | 51.316 Kb            | 25.964 kb	     | 22.211 kb	  |
-| L50               | 9.052 Kb       | 20.189 Kb      | 9.064 Kb             | 20.073 Kb            | 11.853 kb	     | 10.414 kb	  |
-| L90               | 4.191 Kb       | 4.763 Kb       | 4.218 Kb             | 4.701 Kb             | 3.533 kb       | 3.49 kb        |
-| Coverage          | 272x           | 309x           | 49x                  | 49x                  | 63x            | 28x            |
+|                   | Pacbio         | Nanopore       | Pacbio subsample     | Nanopore subsample   | D melanogaster |
+| ----------------  | --------------:| --------------:| --------------------:| --------------------:| --------------:|
+| # of sequences    | 207069         | 158590         | 37404         (18 %) | 25469        (16 %)  | 1327569		 | 
+| Total length      | 1425.446392 Mb | 1621.000527 Mb | 257.882884 Mb (18 %) | 257.508441 Mb (16 %) | 9064.470438 Mb | 
+| Longest sequence  | 41.631 Kb      | 164.088 Kb     | 38.331 Kb            | 137.142 Kb           | 446.05 kb	     | 
+| Shortest sequence | 35 b           | 88 b           | 35 b                 | 152 b                | 5 b			 |
+| Mean Length       | 6.883 Kb       | 10.221 Kb      | 6.894 Kb             | 10.11 Kb             | 6.827 kb	     |
+| Median Length     | 6.679 Kb       | 5.591 Kb       | 6.672 Kb             | 5.515 Kb             | 4.568 kb	     |
+| N10               | 7467           | 2531           | 1354                 | 400                  | 29049		     |
+| N50               | 58081          | 23903          | 10502                | 3807                 | 243356		 |
+| N90               | 142591         | 86781          | 25787                | 13969                | 779045 		 |
+| L10               | 15.631 Kb      | 50.77 Kb       | 15.591 Kb            | 51.316 Kb            | 25.964 kb	     |
+| L50               | 9.052 Kb       | 20.189 Kb      | 9.064 Kb             | 20.073 Kb            | 11.853 kb	     |
+| L90               | 4.191 Kb       | 4.763 Kb       | 4.218 Kb             | 4.701 Kb             | 3.533 kb       |
+| Coverage          | 272x           | 309x           | 49x                  | 49x                  | 63x            |
 
 # Tools
 
@@ -39,7 +37,7 @@ corrector:
 - [CONSENT](https://github.com/morispi/CONSENT) 1.1.1
 
 assembly tools:
-- canu 1.8
+- wtdbg2 2.4
 - miniasm 0.3-r179
 
 # Analysis
@@ -292,14 +290,10 @@ Not modified {intersection} {union} {jacard}:
 
 3. Run:
    - download data `snakemake --snakefile pipeline/download.snakefile all`
-   - run scrubbing `snakemake --snakefile pipeline/scrubbing.snakefile all`
-   - run correction `snakemake --snakefile pipeline/correction.snakefile all`
-   - run assembly `snakemake --snakefile pipeline/assembly.snakefile all`
+   - run yacrd analysis `snakemake --snakefile pipeline/uncorrected.snakefile --directory /home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly -j 999 --cluster-config config/cluster.json -c "sbatch --gres={cluster.gres} --mem={cluster.mem} --nodes={cluster.nodes} --mail-type={cluster.mail-type} --time={cluster.time} --ntasks-per-node={cluster.ntasks-per-node} --mail-user={cluster.mail-user}" -r -p all`
+   - run fpa analysis `snakemake --snakefile pipeline/fpa.snakefile --directory /home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly -j 999 --cluster-config config/cluster.json -c "sbatch --gres={cluster.gres} --mem={cluster.mem} --nodes={cluster.nodes} --mail-type={cluster.mail-type} --time={cluster.time} --ntasks-per-node={cluster.ntasks-per-node} --mail-user={cluster.mail-user}" -r -p all`
 
-4. Analysis:
-   - map scrubbed `snakemake --snakefile pipeline/post_operation.snakefile mapping_scrubbing `
-   - map corrected `snakemake --snakefile pipeline/post_operation.snakefile mapping_corrected`
-   - run quast on assembly `snakemake --snakefile pipeline/post_operation.snakefile quast`
+4. Get result:
    - summarize info `./script/get_info.py -t [ont|pb] -s (raw) (yacrd) (yacrd2) (dascrubber) (miniscrub) -c (canu) (consent) (mecat) -a (miniasm) (canu)`
 
-`snakemake --snakefile pipeline/uncorrected.snakefile --directory /home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly -j 999 --cluster-config config/cluster.json -c "sbatch --gres={cluster.gres} --mem={cluster.mem} --nodes={cluster.nodes} --mail-type={cluster.mail-type} --time={cluster.time} --ntasks-per-node={cluster.ntasks-per-node} --mail-user={cluster.mail-user}" -r -p all`
+

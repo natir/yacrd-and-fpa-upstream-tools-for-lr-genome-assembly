@@ -61,6 +61,7 @@ rule dascrubber:
 
     shell:
         " && ".join([
+            "rm -rf dascrubber/{wildcards.prefix}/",
             "mkdir -p dascrubber/{wildcards.prefix}/",
             "cd dascrubber/{wildcards.prefix}/",
 

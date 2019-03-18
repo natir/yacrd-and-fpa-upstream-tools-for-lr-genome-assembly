@@ -13,6 +13,7 @@ rule quast:
     shell:
         "quast -o quast/{wildcards.prefix}/ -r data/{params.ref} -t 16 {input.asm}"
 
+tech2tech_bwa = {"pb": "pacbio", "ont": "ont2d"}
 rule mapping:
     input:
         "scrubbing/{prefix}_{tech}.{suffix}.fasta"
@@ -22,7 +23,7 @@ rule mapping:
         
     params:
         ref=lambda wildcards, output: ref[wildcards.prefix],
-        tech=lambda wildcards, output: tech2tech(wildcards, output)
+        tech=lambda wildcards, output: tech2tech_bwa[wildcards.tech]
         
     shell:
         " && ".join([

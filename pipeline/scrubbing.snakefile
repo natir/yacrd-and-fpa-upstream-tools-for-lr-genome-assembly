@@ -83,6 +83,7 @@ rule dascrubber:
             "TANmask -v reads TAN.reads",
 
             "mkdir align_temp",
+            "rm reads.*.las",
             "HPC.daligner -v -Palign_temp -mrep -mtan -T16 reads | csh",
             "rm -r align_temp",
 

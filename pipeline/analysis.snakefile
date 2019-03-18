@@ -11,7 +11,7 @@ rule quast:
         ref=lambda wildcards, output: ref[wildcards.prefix]    
         
     shell:
-        "quast -o quast/{wildcards.prefix}/ -r data/{params.ref} -t 16 {input.asm}"
+        "quast -o quast/{wildcards.prefix}_{wildcards.tech}_{wildcards.scrubbing}_{wildcards.asm}/ -r data/{params.ref} -t 16 {input.asm}"
 
 tech2tech_bwa = {"pb": "pacbio", "ont": "ont2d"}
 rule mapping:

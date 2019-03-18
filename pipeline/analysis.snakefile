@@ -1,4 +1,5 @@
 ref = {"real_reads": "ref_e_coli_cft073.fasta", "d_melanogaster_reads": "d_melanogaster_ref.fasta"}
+
 rule quast:
     input:
         asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
@@ -10,7 +11,7 @@ rule quast:
         ref=lambda wildcards, output: ref[wildcards.prefix]    
         
     shell:
-        "quast -o quast/{wildcards.prefix}/ -r {params.ref} -t 16 {input.asm}"
+        "quast -o quast/{wildcards.prefix}/ -r data/{params.ref} -t 16 {input.asm}"
 
 rule mapping:
     input:

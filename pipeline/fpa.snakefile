@@ -37,7 +37,7 @@ rule miniasm:
         
     shell:
         " && ".join([
-            "minimasm -f {input.reads} {input.ovl} > {output.graph}",
+            "miniasm -f {input.reads} {input.ovl} > {output.graph}",
             "./script/gfaminiasm2fasta.py {output.graph} {output.contig}"
         ])
 

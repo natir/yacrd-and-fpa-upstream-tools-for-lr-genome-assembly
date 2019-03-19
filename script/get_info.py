@@ -24,11 +24,11 @@ def main(args=None):
 
     args = parser.parse_args(args)
 
-    if args.scrubbers is None and args.correctors is None and args.assemblys is None:
+    if args.scrubbers is None and args.assemblys is None:
         print("Noting to do", file=sys.stderr)
-    elif args.correctors is None and args.assemblys is None:
-        data = stat_scrubber(args.technologys, args.scrubbers)
-        show_scrubber(data)
+#    elif args.correctors is None and args.assemblys is None:
+#        data = stat_scrubber(args.technologys, args.scrubbers)
+#        show_scrubber(data)
     elif args.assemblys is None:
         data = stat_correction(args.technologys, args.scrubbers, args.correctors)
         show_scrubber(data)

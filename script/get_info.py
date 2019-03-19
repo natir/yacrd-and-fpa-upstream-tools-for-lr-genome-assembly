@@ -19,7 +19,7 @@ def main(args=None):
 
     parser.add_argument("-t", "--technologys", required=True, choices=['ont', 'pb'], nargs="*")
     parser.add_argument("-s", "--scrubbers", nargs="*")
-    parser.add_argument("-c", "--correctors", nargs="*")
+#    parser.add_argument("-c", "--correctors", nargs="*")
     parser.add_argument("-a", "--assemblys", nargs="*")
 
     args = parser.parse_args(args)
@@ -163,7 +163,7 @@ def __stat_correction(tech, scrub, corr, data):
     data["memory"].append(str(memory))
 
 
-def stat_assembly(techs, scrubs, corrs, asms):
+def stat_assembly(techs, scrubs, asms):
     data = {"name": list(), "# contig": list(), "# base": list(), "N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "genome fraction": list(), "unaligned length": list(), "misassemblies": list(), "misassembled contigs length": list(), "time": list(), "memory": list()}
     
 
@@ -176,10 +176,10 @@ def stat_assembly(techs, scrubs, corrs, asms):
     return data
 
 
-def __stat_assembly(tech, scrub, corr, asm, data):
-    contigs = "assembly/real_reads_{}.{}.{}.{}.fasta"
-    quast_report = "quast/real_reads_{}.{}.{}.{}/report.tsv"
-    benchmark_file = "benchmarks/real_reads_{}.{}.{}.{}.txt"
+def __stat_assembly(tech, scrub, asm, data):
+    contigs = "assembly/real_reads_{}.{}.{}.fasta"
+    quast_report = "quast/real_reads_{}.{}.{}/report.tsv"
+    benchmark_file = "benchmarks/real_reads_{}.{}.{}.txt"
 
     if not os.path.isfile(quast_report.format(tech, scrub, corr, asm)):
         return 

@@ -24,14 +24,14 @@ def main(args=None):
 
     args = parser.parse_args(args)
 
-    if args.scrubbers is None and args.correctors is None and args.assemblys is None:
+    if args.scrubbers is None and args.assemblys is None:
         print("Noting to do", file=sys.stderr)
-    elif args.correctors is None and args.assemblys is None:
+    elif args.assemblys is None:
         data = stat_scrubber(args.technologys, args.scrubbers)
         show_scrubber(data)
-    elif args.assemblys is None:
-        data = stat_correction(args.technologys, args.scrubbers, args.correctors)
-        show_scrubber(data)
+#    elif args.assemblys is None:
+#        data = stat_correction(args.technologys, args.scrubbers, args.correctors)
+#        show_scrubber(data)
     else:
         data = stat_assembly(args.technologys, args.scrubbers, args.correctors, args.assemblys)
         show_assembly(data)
@@ -50,7 +50,7 @@ def __stat_scrubber(tech, scrub, data):
     raw_reads      = "data/real_reads_{}.fasta"
     benchmark_file = "benchmarks/real_reads_{}.{}.txt"
     scrubbed_reads = "scrubbing/real_reads_{}.{}.fasta"
-    mapping_file   = "mapping/scrubbing/real_reads_{}.{}.bam"
+    mapping_file   = "mapping/real_reads_{}.{}.bam"
 
     s_nb_base, s_lengths = reads_stat(scrubbed_reads.format(tech, scrub))
 

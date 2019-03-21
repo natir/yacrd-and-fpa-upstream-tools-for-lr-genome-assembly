@@ -135,7 +135,7 @@ rule miniscrub_cpu:
         " && ".join([
             "mkdir -p miniscrub/{wildcards.prefix}_cpu/",
             "cd miniscrub/{wildcards.prefix}_cpu/",
-            "/home/pierre.marijon/tools/jgi-miniscrub/venv/bin/python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output ../../scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
+            "/home/pierre.marijon/tools/jgi-miniscrub/venv_cpu/bin/python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output ../../scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
             "sed -n '1~4s/^@/>/p;2~4p' ../../scrubbing/{wildcards.prefix}.miniscrub.cpu.fastq > {output}"
             ])
 

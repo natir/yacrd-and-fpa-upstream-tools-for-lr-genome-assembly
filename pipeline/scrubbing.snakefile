@@ -87,7 +87,7 @@ rule dascrubber:
             "HPC.daligner -v -Palign_temp -mrep -mtan -T16 reads | csh",
             "rm -r align_temp",
 
-            "for i in $(seq 1 $(grep 'blocks' reads.db | cut -d$'=' -f 2 | sed 's/\s*//')); do HPC.DAScover -v reads $i | csh; done;",
+            "for i in $(seq 1 $(($(grep 'blocks' reads.db | cut -d$'=' -f 2 | sed 's/\s*//')) - 1)); do HPC.DAScover -v reads $i | csh; done;",
 
             "DASqv -v -c{params.coverage} reads reads.reads.las",
 

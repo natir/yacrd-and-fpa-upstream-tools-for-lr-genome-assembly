@@ -2,10 +2,10 @@ read_type = {"ont": "ava-ont", "pb": "ava-pb"}
 
 rule raw:
     input:
-        "data/{file}.fasta"
+        "data/{file}_{techno}.fasta"
 
     output:
-        "scrubbing/{file}.raw.fasta"
+        "scrubbing/{file}_{techno}.raw.fasta"
 
     shell:
         "ln -s $(readlink -f {input}) {output}"
@@ -87,13 +87,13 @@ rule dascrubber:
             "HPC.daligner -v -Palign_temp -mrep -mtan -T16 reads | csh",
             "rm -r align_temp",
 
-            "for i in $(seq 1 $(($(grep 'blocks' reads.db | cut -d$'=' -f 2 | sed 's/\s*//')) - 1)); do HPC.DAScover -v reads $i | csh; done",
+            "for i in $(seq 0 $(($(grep 'blocks' reads.db | cut -d$'=' -f 2 | sed 's/\s*//') - 1)) ); do HPC.DAScover -v reads $i | csh; done",
 
-            "DASqv -v -c{params.coverage} reads reads.reads.las",
+            "DASqv -v -c{params.coverage} reads reads.*.las",
 
-            "DAStrim -v reads reads.reads.las",
+            "DAStrim -v reads reads.*.las",
 
-            "DASpatch -v reads reads.reads.las",
+            "DASpatch -v reads reads.*.las",
 
             "DASedit '-v' reads patched_reads",
 
@@ -117,25 +117,25 @@ rule miniscrub:
             "module load tensorflow/1.12.0/anaconda3",
             "mkdir -p miniscrub/{wildcards.prefix}/",
             "cd miniscrub/{wildcards.prefix}/"
-            "python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output ../../scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
-            "sed -n '1~4s/^@/>/p;2~4p' ../../scrubbing/{wildcards.prefix}.miniscrub.fastq > {output}"
+            "python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output ../../scrubbing/{wildcards.prefix}.miniscrub.fastq ../../{input}",
+            "sed -n '1~4s/^@/>/p;2~4p' ../../scrubbing/{wildcards.prefix}.miniscrub.fastq > ../../{output}"
             ])
 
 rule miniscrub_cpu:
     input:
-        "data/{prefix}.fastq",
+        "data/{prefix}_{techno}.fastq",
         
     output:
-        "scrubbing/{prefix}.miniscrub.cpu.fasta",
+        "scrubbing/{prefix}_{techno}.miniscrub.cpu.fasta",
         
     benchmark:
-        "benchmarks/{prefix}.miniscrub.cpu.txt",
+        "benchmarks/{prefix}_{techno}.miniscrub.cpu.txt",
         
     shell:
         " && ".join([
-            "mkdir -p miniscrub/{wildcards.prefix}_cpu/",
-            "cd miniscrub/{wildcards.prefix}_cpu/",
-            "/home/pierre.marijon/tools/jgi-miniscrub/venv_cpu/bin/python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output ../../scrubbing/{wildcards.prefix}.miniscrub.fastq {input}",
-            "sed -n '1~4s/^@/>/p;2~4p' ../../scrubbing/{wildcards.prefix}.miniscrub.cpu.fastq > {output}"
+            "mkdir -p miniscrub/{wildcards.prefix}_{wildcards.techno}_cpu/",
+            "cd miniscrub/{wildcards.prefix}_{wildcards.techno}_cpu/",
+            "/home/pierre.marijon/tools/jgi-miniscrub/venv_cpu/bin/python3 /home/pierre.marijon/tools/jgi-miniscrub/miniscrub.py --processes 16 --output ../../scrubbing/{wildcards.prefix}_{wildcards.techno}.miniscrub.cpu.fastq ../../{input}",
+            "sed -n '1~4s/^@/>/p;2~4p' ../../scrubbing/{wildcards.prefix}_{wildcards.techno}.miniscrub.cpu.fastq > ../../{output}"
             ])
 

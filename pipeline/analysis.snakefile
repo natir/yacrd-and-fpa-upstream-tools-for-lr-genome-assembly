@@ -11,13 +11,13 @@ rule quast:
         asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
 
     output:
-        "quast/{prefix}_{tech}_{scrubbing}_{asm}/report.txt"
+        "quast/{prefix}_{tech}.{scrubbing}.{asm}/report.txt"
 
     params:
         ref=lambda wildcards, output: ref[wildcards.prefix]    
         
     shell:
-        "quast -o quast/{wildcards.prefix}_{wildcards.tech}_{wildcards.scrubbing}_{wildcards.asm}/ -r data/{params.ref} -t 16 {input.asm}"
+        "quast -o quast/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ -r data/{params.ref} -t 16 {input.asm}"
 
 rule mapping:
     input:
@@ -36,3 +36,5 @@ rule mapping:
             "samtools index {output}"
         ])
 
+
+        

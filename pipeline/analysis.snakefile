@@ -11,7 +11,7 @@ rule quast:
         asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
 
     output:
-        "quast/{prefix}_{tech}.{scrubbing}.{asm}/report.txt"
+        "quast/{prefix}_{tech}_{scrubbing}_{asm}/report.txt"
 
     params:
         ref=lambda wildcards, output: ref[wildcards.prefix]    

@@ -73,8 +73,9 @@ rule dascrubber:
             "HPC.daligner -v -M16 -Palign_temp -T16 reads | csh",
             "rm -r align_temp",
 
-
-            "HPC.REPmask -v -g2 -c{params.coverage} reads 1-$(ls *.las | cut -d. -f2 | sort -rn | head -1) | csh",
+            "mkdir align_temp",
+            "HPC.REPmask -v -Palign_temp -g2 -c{params.coverage} reads 1-$(ls *.las | cut -d. -f2 | sort -rn | head -1) | csh",
+            "rm -r align_temp",
 
             "mkdir align_temp",
             "datander -v -Palign_temp -T16 reads",
@@ -87,13 +88,15 @@ rule dascrubber:
             "HPC.daligner -v -Palign_temp -mrep -mtan -T16 reads | csh",
             "rm -r align_temp",
 
-            "for i in $(seq 0 $(($(grep 'blocks' reads.db | cut -d$'=' -f 2 | sed 's/\s*//') - 1)) ); do HPC.DAScover -v reads $i | csh; done",
+            "LAmerge reads.las reads.*.las",
+            
+            "DAScover -v reads reads.las",
 
-            "DASqv -v -c{params.coverage} reads reads.*.las",
+            "DASqv -v -c{params.coverage} reads reads.las",
 
-            "DAStrim -v reads reads.*.las",
+            "DAStrim -v reads reads.las",
 
-            "DASpatch -v reads reads.*.las",
+            "DASpatch -v reads reads.las",
 
             "DASedit '-v' reads patched_reads",
 

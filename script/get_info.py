@@ -19,7 +19,6 @@ def main(args=None):
 
     parser.add_argument("-t", "--technologys", required=True, choices=['ont', 'pb'], nargs="*")
     parser.add_argument("-s", "--scrubbers", nargs="*")
-#    parser.add_argument("-c", "--correctors", nargs="*")
     parser.add_argument("-a", "--assemblys", nargs="*")
 
     args = parser.parse_args(args)
@@ -29,15 +28,12 @@ def main(args=None):
     elif args.assemblys is None:
         data = stat_scrubber(args.technologys, args.scrubbers)
         show_scrubber(data)
-#    elif args.assemblys is None:
-#        data = stat_correction(args.technologys, args.scrubbers, args.correctors)
-#        show_scrubber(data)
     else:
-        data = stat_assembly(args.technologys, args.scrubbers, args.correctors, args.assemblys)
+        data = stat_assembly(args.technologys, args.scrubbers, args.assemblys)
         show_assembly(data)
 
 def stat_scrubber(technologys, scrubbers):
-    data = {"name": list(), "# read": list(), "# base": list(), "coverage": list(),"N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# mismatch": list(), "time": list(), "memory": list()}
+    data = {"name": list(), "# read": list(), "# base": list(), "coverage": list(),"N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# matching base": list(), "# mismatch": list(), "time": list(), "memory": list()}
     
     for tech in technologys:
         for scrub in scrubbers:
@@ -63,8 +59,7 @@ def __stat_scrubber(tech, scrub, data):
     n50, l50 = get_N_L(s_lengths, 0.5)
     n90, l90 = get_N_L(s_lengths, 0.9)
 
-    nb_map, edit_distance_sum = parse_mapping(mapping_file.format(tech, scrub))
-    
+    nb_map, edit_distance_sum, mapping_length = parse_mapping(mapping_file.format(tech, scrub))
     
     if os.path.isfile(benchmark_file.format(tech, scrub)):
         time, memory = get_benchmark(benchmark_file.format(tech, scrub))
@@ -83,32 +78,34 @@ def __stat_scrubber(tech, scrub, data):
     data["L90"].append(str(l90))
     data["% base removed"].append("{:.2f}".format(percent_base))
     data["# mapped read"].append(str(nb_map))
+    data["# matching base"].append(str(mapping_length))
     data["# mismatch"].append(str(edit_distance_sum))
     data["time"].append(str(time))
     data["memory"].append(str(memory))
 
 
 def show_scrubber(data):
-    print("|                | " + " | ".join(data["name"]) + " |")
+    print("|                  | " + " | ".join(data["name"]) + " |")
     print("| - |" + " -:|" * len(data["name"]))
-    print("| \# of read     | " + " | ".join(data["# read"]) + " |")
-    print("| \# of base     | " + " | ".join(data["# base"]) + " |")
-    print("| coverage       | " + " | ".join(data["coverage"]) + " |")
-    print("| N10            | " + " | ".join(data["N10"]) + " |")
-    print("| L10            | " + " | ".join(data["L10"]) + " |")
-    print("| N50            | " + " | ".join(data["N50"]) + " |")
-    print("| L50            | " + " | ".join(data["L50"]) + " |")
-    print("| N90            | " + " | ".join(data["N90"]) + " |")
-    print("| L90            | " + " | ".join(data["L90"]) + " |")
-    print("| % base removed | " + " | ".join(data["% base removed"]) + " |")
-    print("| \# mapped read | " + " | ".join(data["# mapped read"]) + " |")
-    print("| \# mismatch    | " + " | ".join(data["# mismatch"]) + " |")
-    print("| time           | " + " | ".join(data["time"]) + " |")
-    print("| memory         | " + " | ".join(data["memory"]) + " |")
+    print("| \# of read       | " + " | ".join(data["# read"]) + " |")
+    print("| \# of base       | " + " | ".join(data["# base"]) + " |")
+    print("| coverage         | " + " | ".join(data["coverage"]) + " |")
+    print("| N10              | " + " | ".join(data["N10"]) + " |")
+    print("| L10              | " + " | ".join(data["L10"]) + " |")
+    print("| N50              | " + " | ".join(data["N50"]) + " |")
+    print("| L50              | " + " | ".join(data["L50"]) + " |")
+    print("| N90              | " + " | ".join(data["N90"]) + " |")
+    print("| L90              | " + " | ".join(data["L90"]) + " |")
+    print("| % base removed   | " + " | ".join(data["% base removed"]) + " |")
+    print("| \# mapped read   | " + " | ".join(data["# mapped read"]) + " |")
+    print("| \# matching base | " + " | ".join(data["# matching base"]) + " |")
+    print("| \# mismatch      | " + " | ".join(data["# mismatch"]) + " |")
+    print("| time             | " + " | ".join(data["time"]) + " |")
+    print("| memory           | " + " | ".join(data["memory"]) + " |")
     
     
 def stat_correction(techs, scrubs, corrs):
-    data = {"name": list(), "# read": list(), "# base": list(), "coverage": list(), "N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# mismatch": list(), "time": list(), "memory": list()}
+    data = {"name": list(), "# read": list(), "# base": list(), "coverage": list(), "N10": list(), "N50": list(), "N90": list(), "L10": list(), "L50": list(), "L90": list(), "% base removed": list(), "# mapped read": list(), "# matching base": list(), "# mismatch": list(), "time": list(), "memory": list()}
     
 
     for tech in techs:
@@ -144,7 +141,7 @@ def __stat_correction(tech, scrub, corr, data):
     else:
         time, memory = 0, 0
 
-    nb_map, edit_distance_sum = parse_mapping(mapping_file.format(tech, scrub, corr))
+    nb_map, edit_distance_sum, mapping_length = parse_mapping(mapping_file.format(tech, scrub, corr))
     
     data["name"].append(generate_column_name(tech, scrub, corr))
     data["# read"].append(str(len(s_lengths)))
@@ -158,6 +155,7 @@ def __stat_correction(tech, scrub, corr, data):
     data["L90"].append(str(l90))
     data["% base removed"].append("{:.2f}".format(percent_base))
     data["# mapped read"].append(str(nb_map))
+    data["# matching base"].append(mapping_length)
     data["# mismatch"].append(str(edit_distance_sum))
     data["time"].append(str(time))
     data["memory"].append(str(memory))
@@ -169,9 +167,8 @@ def stat_assembly(techs, scrubs, asms):
 
     for tech in techs:
         for scrub in scrubs:
-            for corr in corrs:
-                for asm in asms:
-                    __stat_assembly(tech, scrub, corr, asm, data)
+            for asm in asms:
+                __stat_assembly(tech, scrub, asm, data)
 
     return data
 
@@ -181,19 +178,19 @@ def __stat_assembly(tech, scrub, asm, data):
     quast_report = "quast/real_reads_{}.{}.{}/report.tsv"
     benchmark_file = "benchmarks/real_reads_{}.{}.{}.txt"
 
-    if not os.path.isfile(quast_report.format(tech, scrub, corr, asm)):
+    if not os.path.isfile(quast_report.format(tech, scrub, asm)):
         return 
 
-    if os.path.isfile(benchmark_file.format(tech, scrub, corr, asm)):
-        time, memory = get_benchmark(benchmark_file.format(tech, scrub, corr, asm))
+    if os.path.isfile(benchmark_file.format(tech, scrub, asm)):
+        time, memory = get_benchmark(benchmark_file.format(tech, scrub, asm))
     else:
         time, memory = 0, 0
     
-    data["name"].append(generate_column_name(tech, scrub, corr, asm))
+    data["name"].append(generate_column_name(tech, scrub, asm))
     data["time"].append(str(time))
     data["memory"].append(str(memory))
 
-    _, s_lengths = reads_stat(contigs.format(tech, scrub, corr, asm))
+    _, s_lengths = reads_stat(contigs.format(tech, scrub, asm))
 
     s_lengths.reverse()
     n10, l10 = get_N_L(s_lengths, 0.1)
@@ -208,7 +205,7 @@ def __stat_assembly(tech, scrub, asm, data):
     data["L90"].append(str(l90))    
     
     quast_data = dict()
-    with open(quast_report.format(tech, scrub, corr, asm)) as file_handler:
+    with open(quast_report.format(tech, scrub, asm)) as file_handler:
         reader = csv.reader(file_handler, delimiter='\t')
         for row in reader:
             quast_data[row[0]] = row[1]
@@ -257,17 +254,24 @@ def get_N_L(lengths, part):
     return index, lengths[index]
 
 def parse_mapping(mapping_file):
-    edit_distance = 0
     read_id = set()
-
-    print(mapping_file)
+    edit_distance = 0
+    mapping_length = 0
+    
+    if not os.path.isfile(mapping_file):
+        return -1, -1
+    
     mapping = pysam.AlignmentFile(mapping_file, "rb")
-    for m in mapping.fetch():
+    for m in mapping:
+        if m.query_length < 2000:
+            continue
+        
         if m.flag == 0 or m.flag == 16:
             read_id.add(m.query_name)
             edit_distance += m.get_tag("NM")
-        
-    return len(read_id), edit_distance
+            mapping_length += sum([count for (t, count) in m.cigartuples if t == 0])
+            
+    return len(read_id), edit_distance, mapping_length
         
 
 def get_benchmark(benchmark_file):
@@ -283,13 +287,16 @@ def generate_column_name(*name):
 def reads_stat(path):
     lengths = list()
     nb_base = 0
-    
+
     with open(path) as file_handler:
         for line in file_handler:
             if line.startswith(">"):
                 continue
 
             length = len(line.strip())
+
+            if length < 2000:
+                continue
             
             nb_base += length
             lengths.append(length)

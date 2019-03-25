@@ -9,8 +9,9 @@ import argparse
 from collections import defaultdict
 
 raw_path = "data/real_reads_{}.fasta"
-yacrd_path = "scrubbing/real_reads_{}.yacrd2"
-miniscrub_path = "scrubbing/real_reads_{}.miniscrub.fasta"
+yacrd_path = "scrubbing/real_reads_{}.4.4.yacrd"
+yacrd_prec_path = "scrubbing/real_reads_{}.4.4.yacrd"
+miniscrub_path = "scrubbing/real_reads_{}.miniscrub.cpu.fasta"
 dascrubber_path = "scrubbing/real_reads_{}.dascrubber.fasta"
 def main(args=None):
     if args is None:
@@ -23,15 +24,16 @@ def main(args=None):
     args = parser.parse_args(args)
 
     y_discard, y_splited, y_trimmed, y_nmodified = yacrd_analysis(yacrd_path.format(args.technology), raw_path.format(args.technology))
+    y_p_discard, y_p_splited, y_p_trimmed, y_p_nmodified = yacrd_analysis(yacrd_prec_path.format(args.technology), raw_path.format(args.technology))
     m_discard, m_splited, m_trimmed, m_nmodified = miniscrub_analysis(miniscrub_path.format(args.technology), raw_path.format(args.technology))
     d_discard, d_splited, d_trimmed, d_nmodified = dascrubber_analysis(dascrubber_path.format(args.technology), raw_path.format(args.technology))
 
-    print("|           | yacrd | dascrubber | miniscrub |")
-    print("| --------- | -----:| ----------:| ---------:|")
-    print("| discard   | {:5} | {:10} | {:9} |".format(len(y_discard), len(m_discard), len(d_discard)))
-    print("| splited   | {:5} | {:10} | {:9} |".format(len(y_splited), len(m_splited), len(d_splited)))
-    print("| trimmed   | {:5} | {:10} | {:9} |".format(len(y_trimmed), len(m_trimmed), len(d_trimmed)))
-    print("| nmodified | {:5} | {:10} | {:9} |".format(len(y_nmodified), len(m_nmodified), len(d_nmodified)))
+    print("|           | yacrd | yacrd prec | dascrubber | miniscrub |")
+    print("| --------- | -----:| ----------:| ----------:| ---------:|")
+    print("| discard   | {:5} | {:10} | {:10} | {:9} |".format(len(y_discard), len(y_p_discard), len(m_discard), len(d_discard)))
+    print("| splited   | {:5} | {:10} | {:10} | {:9} |".format(len(y_splited), len(y_p_splited), len(m_splited), len(d_splited)))
+    print("| trimmed   | {:5} | {:10} | {:10} | {:9} |".format(len(y_trimmed), len(y_p_splited), len(m_trimmed), len(d_trimmed)))
+    print("| nmodified | {:5} | {:10} | {:10} | {:9} |".format(len(y_nmodified), len(y_p_splited), len(m_nmodified), len(d_nmodified)))
 
 
     print("\ndiscard ")
@@ -77,7 +79,6 @@ def yacrd_analysis(filepath, rawpath):
                 trimmed.add(row[1])
             else:
                 pass
-                #print(row)
                 
     with open(rawpath) as fasta_file:
         for line in fasta_file:
@@ -125,6 +126,8 @@ def miniscrub_analysis(filepath, rawpath):
 
 
 def dascrubber_analysis(filepath, rawpath):
+    return set(), set(), set(), set()
+    
     discard, splited, trimmed, nmodified = set(), set(), set(), set()
 
     reads2length = dict()

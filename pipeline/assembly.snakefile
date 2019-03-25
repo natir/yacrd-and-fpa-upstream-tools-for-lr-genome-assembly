@@ -31,6 +31,9 @@ rule wdbtg2:
         asm="assembly/{prefix}_{tech}.{scrubber}.wtdbg2.fasta",
         layout="assembly/{prefix}_{tech}.{scrubber}.wtdbg2.ctg.lay.gz"
 
+    benchmark:
+        "benchmarks/{prefix}_{tech}.{scrubber}.wdbtg2.txt",
+
     params:
         genome_size=lambda wildcards, output: genome_size[wildcards.prefix] 
         

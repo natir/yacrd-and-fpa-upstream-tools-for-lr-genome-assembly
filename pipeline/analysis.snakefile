@@ -17,7 +17,7 @@ rule quast:
         ref=lambda wildcards, output: ref[wildcards.prefix]    
         
     shell:
-        "quast -o quast/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ -r data/{params.ref} -t 16 {input.asm}"
+        "quast -o quast/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r data/{params.ref} -t 16 {input.asm}"
 
 rule mapping:
     input:

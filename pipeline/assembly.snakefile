@@ -22,7 +22,7 @@ rule miniasm:
         ])
 
 
-genome_size={"real_reads": "5.2m", "d_melanogaster_reads": "143.7m"}
+genome_size={"real_reads": "5.2m", "d_melanogaster_reads": "143.7m", "c_elegans": "100.2m", "h_sapiens_chr1": "248.9m"}
 rule wdbtg2:
     input:
         "scrubbing/{prefix}_{tech}.{scrubber}.fasta"

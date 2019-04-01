@@ -45,7 +45,7 @@ rule yacrd_precision:
         ])
 
         
-coverage = {"real_reads_pb": "49", "real_reads_ont": "49", "d_melanogaster_reads_ont": "63"} 
+coverage = {"real_reads_pb": "49", "real_reads_ont": "49", "d_melanogaster_reads_ont": "63", "c_elegans_pb": "81", "h_sapiens_chr1_ont": "29"}
 rule dascrubber:
     input:
         "data/{prefix}.fasta",

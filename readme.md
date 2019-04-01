@@ -1,11 +1,17 @@
 # Dataset
 
-- Reference [E. coli CFT073](https://www.uniprot.org/taxonomy/199310)  5.231428 Mb
-- Reference D melanogaster 143.726002 Mb
+- Reference:
+  * [E. coli CFT073](https://www.uniprot.org/taxonomy/199310)  5.231428 Mb
+  * [D. melanogaster] 143.726002 Mb
+  * [C. elegans](ftp://ftp.ensembl.org/pub/release-95/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz) 100.2 Mb
+  * [H. sapiens chr1](ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz) 248.9 Mb
 - Reads:
-  * [Pacbio](https://www.ebi.ac.uk/ena/data/view/SRX5299472)
-  * [Oxford nanopore](https://www.ebi.ac.uk/ena/data/view/SRR8494940)
+  * E. coli:
+	+ [Pacbio](https://www.ebi.ac.uk/ena/data/view/SRX5299472)
+	+ [Oxford nanopore](https://www.ebi.ac.uk/ena/data/view/SRR8494940)
   * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
+  * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam)
+  * [Pacbio RS P6-C4 C elegans](http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html)
 
 
 |                   | Pacbio         | Nanopore       | Pacbio subsample     | Nanopore subsample   | D melanogaster |

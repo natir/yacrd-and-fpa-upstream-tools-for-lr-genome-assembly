@@ -8,147 +8,86 @@ include: "scrubbing.snakefile"
 include: "assembly.snakefile"
 include: "analysis.snakefile"
 
+scrubbing_suffix = ["raw", "4.4.yacrd", "4.4.precision.yacrd", "dascrubber", "miniscrub.cpu"]
+
+def generate_scrubb(prefix):
+    return ["scrubbing/{}.{}.fasta".format(prefix, suffix) for suffix in scrubbing_suffix]
+
+
+rule scrubb_worm:
+    input:
+        generate_scrubb("c_elegans_pb")
+
+
+rule scrubb_human:
+    input:
+        generate_scrubb("h_sapiens_chr1_ont")
+
+
 rule scrubb_droso:
     input:
-        "scrubbing/d_melanogaster_reads_ont.raw.fasta",
-        "scrubbing/d_melanogaster_reads_ont.4.4.yacrd.fasta",
-        "scrubbing/d_melanogaster_reads_ont.4.4.precision.yacrd.fasta",
-        "scrubbing/d_melanogaster_reads_ont.dascrubber.fasta",
-        "scrubbing/d_melanogaster_reads_ont.miniscrub.cpu.fasta",
-    
+        generate_scrubb("d_melanogaster_reads_ont")
+
+
 rule scrubb_ont:
     input:
-        "scrubbing/real_reads_ont.raw.fasta",
-        "scrubbing/real_reads_ont.4.4.yacrd.fasta",
-        "scrubbing/real_reads_ont.4.4.precision.yacrd.fasta",
-        "scrubbing/real_reads_ont.dascrubber.fasta",
-        "scrubbing/real_reads_ont.miniscrub.cpu.fasta",
-    
+        generate_scrubb("real_reads_ont")
+
+
 rule scrubb_pb:
     input:
-        "scrubbing/real_reads_pb.raw.fasta",
-        "scrubbing/real_reads_pb.4.4.yacrd.fasta",
-        "scrubbing/real_reads_pb.4.4.precision.yacrd.fasta",
-        "scrubbing/real_reads_pb.dascrubber.fasta",
-        "scrubbing/real_reads_pb.miniscrub.cpu.fasta",
+        generate_scrubb("real_reads_pb")
+
+
+
+assembly_suffix = ["miniasm", "wtdbg2"]
+
+def generate_assembly(prefix):
+    return ["scrubbing/{}.{}.{}.fasta".format(prefix, scrub, asm) for scrub in scrubbing_suffix for asm in assembly_suffix]
+
+
+rule asm_worm:
+    input:
+        generate_assembly("c_elegans_pb")
+
+
+rule asm_human:
+    input:
+        generate_assembly("h_sapiens_chr1_ont")
+
 
 rule asm_droso:
     input:
-        # miniasm
-        "assembly/d_melanogaster_reads_ont.raw.miniasm.fasta",
-        "assembly/d_melanogaster_reads_ont.4.4.yacrd.miniasm.fasta",
-        "assembly/d_melanogaster_reads_ont.4.4.precision.yacrd.miniasm.fasta",
-        "assembly/d_melanogaster_reads_ont.dascrubber.miniasm.fasta",
-        "assembly/d_melanogaster_reads_ont.miniscrub.cpu.miniasm.fasta",
-        
-        # wtdbg2
-        "assembly/d_melanogaster_reads_ont.raw.wtdbg2.fasta",
-        "assembly/d_melanogaster_reads_ont.4.4.yacrd.wtdbg2.fasta",
-        "assembly/d_melanogaster_reads_ont.4.4.precision.yacrd.wtdbg2.fasta",
-        "assembly/d_melanogaster_reads_ont.dascrubber.wtdbg2.fasta",
-        "assembly/d_melanogaster_reads_ont.miniscrub.cpu.wtdbg2.fasta",
+        generate_assembly("d_melanogaster_reads_ont")
 
-    
+
 rule asm_ont:
     input:
-        # miniasm
-        "assembly/real_reads_ont.raw.miniasm.fasta",
-        "assembly/real_reads_ont.4.4.yacrd.miniasm.fasta",
-        "assembly/real_reads_ont.4.4.precision.yacrd.miniasm.fasta",
-        "assembly/real_reads_ont.dascrubber.miniasm.fasta",
-        "assembly/real_reads_ont.miniscrub.cpu.miniasm.fasta",
+        generate_assembly("real_reads_ont")
 
-        # wtdbg2
-        "assembly/real_reads_ont.raw.wtdbg2.fasta",
-        "assembly/real_reads_ont.4.4.yacrd.wtdbg2.fasta",
-        "assembly/real_reads_ont.4.4.precision.yacrd.wtdbg2.fasta",
-        "assembly/real_reads_ont.dascrubber.wtdbg2.fasta",
-        "assembly/real_reads_ont.miniscrub.cpu.wtdbg2.fasta",
 
-    
 rule asm_pb:
     input:
-        # miniasm
-        "assembly/real_reads_pb.raw.miniasm.fasta",
-        "assembly/real_reads_pb.4.4.yacrd.miniasm.fasta",
-        "assembly/real_reads_pb.4.4.precision.yacrd.miniasm.fasta",
-        "assembly/real_reads_pb.dascrubber.miniasm.fasta",
-        "assembly/real_reads_pb.miniscrub.cpu.miniasm.fasta",
+        generate_assembly("real_reads_pb")
 
-        # wtdbg2
-        "assembly/real_reads_pb.raw.wtdbg2.fasta",
-        "assembly/real_reads_pb.4.4.yacrd.wtdbg2.fasta",
-        "assembly/real_reads_pb.4.4.precision.yacrd.wtdbg2.fasta",
-        "assembly/real_reads_pb.dascrubber.wtdbg2.fasta",
-        "assembly/real_reads_pb.miniscrub.cpu.wtdbg2.fasta",
+
+def generate_quast(prefix):
+    return ["quast/{}.{}.{}/report.txt".format(prefix, scrub, asm) for scrub in scrubbing_suffix for asm in assembly_suffix]
+
+def generate_mapping(prefix):
+    return ["mapping/{}.{}.bam".format(prefix, scrub) for scrub in scrubbing_suffix]
 
 rule all:
     input:
-        # quast
-        ## droso
-        ### miniasm
-        "quast/d_melanogaster_reads_ont.raw.miniasm/report.txt",
-        "quast/d_melanogaster_reads_ont.4.4.yacrd.miniasm/report.txt",
-        "quast/d_melanogaster_reads_ont.4.4.precision.yacrd.miniasm/report.txt",
-        "quast/d_melanogaster_reads_ont.dascrubber.miniasm/report.txt",
-        "quast/d_melanogaster_reads_ont.miniscrub.cpu.miniasm/report.txt",
-        
-        ### wtdbg2
-        "quast/d_melanogaster_reads_ont.raw.wtdbg2/report.txt",
-        "quast/d_melanogaster_reads_ont.4.4.yacrd.wtdbg2/report.txt",
-        "quast/d_melanogaster_reads_ont.4.4.precision.yacrd.wtdbg2/report.txt",
-        "quast/d_melanogaster_reads_ont.dascrubber.wtdbg2/report.txt",
-        "quast/d_melanogaster_reads_ont.miniscrub.cpu.wtdbg2/report.txt",
+        generate_quast("c_elegans_pb"),
+        generate_quast("h_sapiens_chr1_ont"),
+        generate_quast("d_melanogaster_reads_ont"),
+        generate_quast("real_reads_ont"),
+        generate_quast("real_reads_pb"),
 
-        ## ont
-        ### miniasm
-        "quast/real_reads_ont.raw.miniasm/report.txt",
-        "quast/real_reads_ont.4.4.yacrd.miniasm/report.txt",
-        "quast/real_reads_ont.4.4.precision.yacrd.miniasm/report.txt",
-        "quast/real_reads_ont.dascrubber.miniasm/report.txt",
-        "quast/real_reads_ont.miniscrub.cpu.miniasm/report.txt",
-
-        ### wtdbg2
-        "quast/real_reads_ont.raw.wtdbg2/report.txt",
-        "quast/real_reads_ont.4.4.yacrd.wtdbg2/report.txt",
-        "quast/real_reads_ont.4.4.precision.yacrd.wtdbg2/report.txt",
-        "quast/real_reads_ont.dascrubber.wtdbg2/report.txt",
-        "quast/real_reads_ont.miniscrub.cpu.wtdbg2/report.txt",
-
-        ## pb
-        ### miniasm
-        "quast/real_reads_pb.raw.miniasm/report.txt",
-        "quast/real_reads_pb.4.4.yacrd.miniasm/report.txt",
-        "quast/real_reads_pb.4.4.precision.yacrd.miniasm/report.txt",
-        "quast/real_reads_pb.dascrubber.miniasm/report.txt",
-        "quast/real_reads_pb.miniscrub.cpu.miniasm/report.txt",
-
-        ### wtdbg2
-        "quast/real_reads_pb.raw.wtdbg2/report.txt",
-        "quast/real_reads_pb.4.4.yacrd.wtdbg2/report.txt",
-        "quast/real_reads_pb.4.4.precision.yacrd.wtdbg2/report.txt",
-        "quast/real_reads_pb.dascrubber.wtdbg2/report.txt",
-        "quast/real_reads_pb.miniscrub.cpu.wtdbg2/report.txt",
-
-        # mapping
-        ## droso
-        "mapping/d_melanogaster_reads_ont.raw.bam",
-        "mapping/d_melanogaster_reads_ont.4.4.yacrd.bam",
-        "mapping/d_melanogaster_reads_ont.4.4.precision.yacrd.bam",
-        "mapping/d_melanogaster_reads_ont.dascrubber.bam",
-        "mapping/d_melanogaster_reads_ont.miniscrub.cpu.bam",
-    
-        ## ont
-        "mapping/real_reads_ont.raw.bam",
-        "mapping/real_reads_ont.4.4.yacrd.bam",
-        "mapping/real_reads_ont.4.4.precision.yacrd.bam",
-        "mapping/real_reads_ont.dascrubber.bam",
-        "mapping/real_reads_ont.miniscrub.cpu.bam",
-
-        ## pb
-        "mapping/real_reads_pb.raw.bam",
-        "mapping/real_reads_pb.4.4.yacrd.bam",
-        "mapping/real_reads_pb.4.4.precision.yacrd.bam",
-        "mapping/real_reads_pb.dascrubber.bam",
-        "mapping/real_reads_pb.miniscrub.cpu.bam",
+        generate_mapping("c_elegans_pb"),
+        generate_mapping("h_sapiens_chr1_ont"),
+        generate_mapping("d_melanogaster_reads_ont"),
+        generate_mapping("real_reads_ont"),
+        generate_mapping("real_reads_pb"),
         

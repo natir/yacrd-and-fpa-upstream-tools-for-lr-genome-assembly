@@ -77,12 +77,8 @@ rule dascrubber:
             "HPC.REPmask -v -Palign_temp -g2 -c{params.coverage} reads 1-$(ls *.las | cut -d. -f2 | sort -rn | head -1) | csh",
             "rm -r align_temp",
 
-            "mkdir align_temp",
-            "datander -v -Palign_temp -T16 reads",
-            "rm -r align_temp",
-
-            "TANmask -v reads TAN.reads",
-
+            "HPC.TANmask -v reads -Palign_temp |csh",
+            
             "mkdir align_temp",
             "rm reads.*.las",
             "HPC.daligner -v -Palign_temp -mrep -mtan -T16 reads | csh",

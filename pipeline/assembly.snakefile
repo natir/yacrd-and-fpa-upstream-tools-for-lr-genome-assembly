@@ -28,17 +28,17 @@ prefix_tech2tech={"real_reads_ont": "ont", "real_reads_pb": "sq", "c_elegans_pb"
 
 rule wdbtg2:
     input:
-        "scrubbing/{prefix}_{tech}.{scrubber}.fasta"
+        "scrubbing/{prefix}_{tech,[^\.]+}.{scrubber}.fasta"
 
     output:
-        asm="assembly/{prefix}_{tech}.{scrubber}.wtdbg2.fasta",
-        layout="assembly/{prefix}_{tech}.{scrubber}.wtdbg2.ctg.lay.gz"
+        asm="assembly/{prefix}_{tech,[^\.]+}.{scrubber}.wtdbg2.fasta",
+        layout="assembly/{prefix}_{tech,[^\.]+}.{scrubber}.wtdbg2.ctg.lay.gz"
 
     benchmark:
         "benchmarks/{prefix}_{tech}.{scrubber}.wdbtg2.txt",
 
     params:
-        genome_size=lambda wildcards, output: genome_size[wildcards.prefix] 
+        genome_size=lambda wildcards, output: genome_size[wildcards.prefix],
         tech=lambda wildcards, output: prefix_tech2tech[wildcards.prefix + "_" + wildcards.tech]
         
     shell:

@@ -24,6 +24,7 @@ def rename_reads_with_fake_pacbio_names(read_filein, read_fileout):
                     header = header[1:].strip()
                     assert len(header) > 0
                 except AssertionError:
+                    print(header)
                     sys.exit('Error: failed to parse read header')
 
                 header_parts = header.split(' ', 1)

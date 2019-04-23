@@ -33,6 +33,10 @@ def main(args=None):
     exp2metrics = defaultdict()
     
     for entry in os.scandir(args.directory):
+        search = re_scrub_asm.search(entry.name)
+        if search is None:
+            continue
+        
         dataset, suffix = re_scrub_asm.search(entry.name).groups()
 
         if "miniasm" not in suffix and "wdbtg2" not in suffix:

@@ -41,7 +41,7 @@ def get_quast_data(filename):
     return quast_data
 
 def clean_data(data):
-    keeped_key = {"# contigs", "Largest contig", "Total length", "Reference length", "NGA50", "Largest alignment", "# mismatches per 100 kbp", "# indels per 100 kbp"}
+    keeped_key = {"# contigs", "Largest contig", "Total length", "Reference length", "NGA50", "Largest alignment", "# mismatches per 100 kbp", "# indels per 100 kbp", "# misassemblies", "# misassembled contigs"}
 
     for key, value in data.items():
         if key in keeped_key:

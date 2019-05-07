@@ -10,30 +10,39 @@ import pysam
 
 from collections import defaultdict
 
+from Bio import SeqIO
+from Bio.Seq import Seq
+
 def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
-    name2chimera = dict()
-    for a in args:
-        name2chimera[a] = get_nb_chimera(a)
-        
-    print("name,nb_chimera")
-    for name, cpt in name2chimera.items():
-        print(name, cpt)
+    parser = argparse.ArgumentParser()
 
-def get_nb_chimera(filename):
-    read2poss = defaultdict(list)
+    parser.add_argument("mapping")
+    parser.add_argument("read")
+
+    args = parser.parse_args(args)
+
+    print("name,nb_chimera")
+    print("{},{}", args.mapping, get_nb_chimera(args.mapping, get_length(args.read)))
+
+def get_length(filename):
     read2len = defaultdict(int)
+
+    for read in SeqIO.parse(filename, "fasta"):
+        read2len[read.id] = len(read.seq)
+
+    return read2len
+        
+def get_nb_chimera(filename, read2len):
+    read2poss = defaultdict(list)
     chimera_cpt = 0
     
     mapping = pysam.AlignmentFile(filename, "r")
     for m in mapping:
         if len(m.query_sequence) < 2000:
             continue
-        
-        if m.infer_query_length() is not None and read2len[m.query_name] < m.infer_query_length():
-            read2len[m.query_name] = m.infer_query_length()
             
         read2poss[m.query_name].append((m.reference_name, m.reference_start, m.reference_end))
 

@@ -38,7 +38,7 @@ def main(args):
             write_read(read2.id, read2.seq, args["output"])
             break
 
-        insert = "".join(random.sample(['A', 'C', 'T', 'G']*13, 50))
+        insert = "".join(random.sample(['A', 'C', 'T', 'G']*13, 0))
         write_read("chimeric_"+read1.id+"_"+read2.id,
                    str(read1.seq) + insert + str(read2.seq),
                    args["output"])

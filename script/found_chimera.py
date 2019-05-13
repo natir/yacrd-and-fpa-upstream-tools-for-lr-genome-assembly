@@ -13,6 +13,33 @@ from collections import defaultdict
 from Bio import SeqIO
 from Bio.Seq import Seq
 
+class Mapping:
+    def __init__(self, reference, ref_beg, ref_end, que_beg, que_end):
+        self.reference = reference
+        self.ref_beg = ref_beg
+        self.ref_end = ref_end
+        self.que_beg = que_beg
+        self.que_end = que_end
+
+    def ovl_on_ref(self, other):
+        return Mapping.ovl((self.ref_beg, self.ref_end), (other.ref_beg, other.ref_end))
+
+    def ovl_on_que(self, other):
+        return Mapping.ovl((self.que_beg, self.que_end), (other.que_beg, other.que_end))
+
+    @staticmethod
+    def ovl(query, target):
+        if query[0] <= target[0] and target[0] <= query[1]:
+            return True
+        if query[0] <= target[1] and target[1] <= query[1]:
+            return True
+        if query[0] <= target[0] and target[1] <= query[1]:
+            return True
+        if target[0] <= query[0] and target[1] <= query[1]:
+            return True
+        
+        return False
+        
 def main(args=None):
     if args is None:
         args = sys.argv[1:]
@@ -20,68 +47,97 @@ def main(args=None):
     parser = argparse.ArgumentParser()
 
     parser.add_argument("mapping")
-    parser.add_argument("read")
 
     args = parser.parse_args(args)
 
     print("name,nb_chimera")
-    print("{},{}", args.mapping, get_nb_chimera(args.mapping, get_length(args.read)))
+    print("{},{}".format(args.mapping, get_nb_chimera(args.mapping)))
 
-def get_length(filename):
-    read2len = defaultdict(int)
-
-    for read in SeqIO.parse(filename, "fasta"):
-        read2len[read.id] = len(read.seq)
-
-    return read2len
-        
-def get_nb_chimera(filename, read2len):
-    read2poss = defaultdict(list)
-    chimera_cpt = 0
+def parse_mapping(filename):
+    read2length = defaultdict(int)
+    read2mapping = defaultdict(list)
     
-    mapping = pysam.AlignmentFile(filename, "r")
+    mapping = csv.reader(open(filename, "r"), delimiter='\t')
     for m in mapping:
-        if len(m.query_sequence) < 2000:
+        que_name = m[0]
+        read2length[que_name] = int(m[1])
+        
+        ref_nam = m[5]
+        ref_sta = int(m[7])
+        ref_end = int(m[8])
+
+        que_sta = int(m[2])
+        que_end = int(m[3])
+
+        read2mapping[que_name].append(Mapping(ref_nam, ref_sta, ref_end, que_sta, que_end))
+
+    return read2length, read2mapping
+
+def pos_on(pos):
+    pos.sort(key=lambda x: x[0])
+
+    end = list()
+    while len(pos) >= 1:
+        index = 0
+        p = pos.pop(0)
+
+        while len(pos) >= 1 and Mapping.ovl(p, pos[0]):
+            p = merge_pos(p, pos.pop(0))
+            index += 1
+
+        end.append(p)
+        
+    return end
+
+def pos_on_query(mapping):
+    pos = [[m.que_beg, m.que_end] for m in mapping]
+    
+    return pos_on(pos)
+
+def pos_on_ref(mapping):
+    pos = [[m.ref_beg, m.ref_end] for m in mapping]
+
+    return pos_on(pos)
+
+def merge_pos(first, second):
+    if second[0] < first[0]:
+        first[0] = second[0]
+    if second[1] > first[1]:
+        first[1] = second[1]
+        
+    return first
+
+def not_to_fare(len1, len2):
+    return max(len1, len2) / max(len1, len2) > 1.1
+
+
+def get_nb_chimera(filename):
+    read2length, read2mapping = parse_mapping(filename)
+    chimera = 0
+    
+    for read, mapping in read2mapping.items():
+        
+        if len(read2mapping[read]) < 2 and not_to_fare(mapping[0].que_end - mapping[0].que_end, read2length[read]):
+            if read.startswith("chimeric"):
+                print("less mapping", read)
             continue
-            
-        read2poss[m.query_name].append((m.reference_name, m.reference_start, m.reference_end))
-
-    for read, map_poss in read2poss.items():
-        if len(map_poss) < 2:
+        
+        pos = pos_on_query(mapping)
+        if len(pos) < 2:
+            if read.startswith("chimeric"):
+                print(pos[0][1] - pos[0][0], read2length[read])
+                print("less query mapping region", read)
             continue
-        
-        if len(set((m[0] for m in map_poss))) > 1:
-            print("read {} is a chimera {}".format(read, map_poss))
-            chimera_cpt += 1
-
-        ref_pos = merge_positions(map_poss)
-        if read2len[read]/(ref_pos[1] - ref_pos[0]) < 0.9:
-            print("read {} is a chimera {}".format(read, read2len[read]/(ref_pos[1] - ref_pos[0])))
-            chimera_cpt += 1
+    
+        if read.startswith("fake"):
+            print(read)
+            print([[m.que_beg, m.que_end] for m in read2mapping[read]])
+            print([[m.ref_beg, m.ref_end] for m in read2mapping[read]])
             
-    return chimera_cpt
+        chimera += 1
 
-def merge_positions(map_poss):
-    base = list(map_poss.pop(0)[1:])
+    return chimera
 
-    for (_, beg, end) in map_poss:
-        if beg < base[0]:
-            base[0] = beg
-        if end > base[1]:
-            base[1] = end
-        
-    return base
-
-import math
-def get_sequence_entropy(seq):
-    e = 0
-    for n in "ACTG":
-        x = seq.count(n)/len(seq)
-        if x > 0:
-            e -= x * math.log(x, 2)
-
-    return e
-
-        
+    
 if __name__ == "__main__":
     main(sys.argv[1:])

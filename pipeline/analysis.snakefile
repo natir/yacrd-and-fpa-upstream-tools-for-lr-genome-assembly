@@ -6,6 +6,12 @@ def tech2tech_bwa(wildcards, output):
     else:
         return "pacbio"
 
+def tech2tech_paf(wildcards, output):
+    if "ont" in wildcards.tech:
+        return "map-ont"
+    else:
+        return "map-pb"
+    
 rule quast:
     input:
         asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
@@ -36,5 +42,21 @@ rule mapping:
             "samtools index {output}"
         ])
 
+rule minimap2:
+    input:
+        "scrubbing/{prefix}_{tech}.{suffix}.fasta"
+        
+    output:
+        "mapping/{prefix}_{tech}.{suffix}.paf"
+        
+    params:
+        ref=lambda wildcards, output: ref[wildcards.prefix],
+        tech=lambda wildcards, output: tech2tech_paf(wildcards, output)
+        
+    shell:
+        "minimap2 -t 16 -x {params.tech} data/{params.ref} {input}"
 
+
+
+    
         

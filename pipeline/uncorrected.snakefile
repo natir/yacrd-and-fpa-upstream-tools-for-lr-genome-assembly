@@ -77,6 +77,9 @@ def generate_quast(prefix):
 def generate_mapping(prefix):
     return ["mapping/{}.{}.bam".format(prefix, scrub) for scrub in scrubbing_suffix]
 
+def generate_minimap2(prefix):
+    return ["mapping/{}.{}.paf".format(prefix, scrub) for scrub in scrubbing_suffix]
+
 rule all:
     input:
         generate_quast("c_elegans_pb"),
@@ -90,4 +93,9 @@ rule all:
         generate_mapping("d_melanogaster_reads_ont"),
         generate_mapping("real_reads_ont"),
         generate_mapping("real_reads_pb"),
-        
+
+        generate_minimap2("c_elegans_pb"),
+        generate_minimap2("h_sapiens_chr1_ont"),
+        generate_minimap2("d_melanogaster_reads_ont"),
+        generate_minimap2("real_reads_ont"),
+        generate_minimap2("real_reads_pb"),

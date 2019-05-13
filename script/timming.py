@@ -56,9 +56,6 @@ def main(args=None):
 
     for dataset in dataset2scrub2asm2metrics.keys():
         for scrub in dataset2scrub2asm2metrics[dataset].keys():
-            if scrub == "raw":
-                print(scrub)
-                print( dataset2scrub2asm2metrics[dataset][scrub])
             if len(dataset2scrub2asm2metrics[dataset][scrub]["no"]) != 0:            
                 result[dataset][scrub]["x"] = dataset2scrub2asm2metrics[dataset][scrub]["no"]["time"]
                 result[dataset][scrub]["y"] = dataset2scrub2asm2metrics[dataset][scrub]["no"]["memory"]
@@ -66,11 +63,10 @@ def main(args=None):
             for asm in dataset2scrub2asm2metrics[dataset][scrub].keys():
                 if asm == "no":
                     continue
-                
+
                 result[dataset][scrub+"_"+asm]["x"] = dataset2scrub2asm2metrics[dataset][scrub][asm]["time"] + dataset2scrub2asm2metrics[dataset][scrub]['no']["time"]
                 result[dataset][scrub+"_"+asm]["y"] = max(dataset2scrub2asm2metrics[dataset][scrub]["no"]["memory"], dataset2scrub2asm2metrics[dataset][scrub][asm]["memory"])
 
-    print(result["real_reads_pb"].keys())
     for dataset in result.keys():
         fig = plt.figure()
         ax = plt.axes()
@@ -82,11 +78,23 @@ def main(args=None):
             x_vals.append(result[dataset][analysis]["x"])
             y_vals.append(result[dataset][analysis]["y"])
 
-        ax.set_xlim(math.floor(min(x_vals)-0.1*min(x_vals)), math.ceil(max(x_vals)+0.1*max(x_vals)))
-        ax.set_ylim(math.floor(min(y_vals)-0.1*min(y_vals)), math.ceil(max(y_vals)+0.1*max(x_vals)))
+        min_x = math.floor(min(x_vals)-0.1*min(x_vals))
+        max_x = math.ceil(max(x_vals)+0.1*max(x_vals))
+        min_x = 1.1 if min_x < 1.1 else min_x
+        
+        min_y = math.floor(min(y_vals)-0.1*min(y_vals))
+        max_y = math.ceil(max(y_vals)+0.1*max(y_vals))
+        min_y = 1.1 if min_y < 1.1 else min_y
+
+        ax.set_xlim(min_x, max_x)
+        ax.set_ylim(min_y, max_y)
         plt.xscale("log")
         plt.yscale("log")
-        ax.legend()
+
+        plt.xlabel("log of time (in second)")
+        plt.ylabel("log of memory peak (in Mo)")
+
+        #ax.legend()
         plt.savefig(dataset+"_cpu_memory.png")
 
         
@@ -116,13 +124,13 @@ def analysis2label(analysis):
     
 def analysis2marker(analysis):
     if "4.4.yacrd" in analysis:
-        return "."
+        return "^"
     elif "4.4.precision.yacrd" in analysis:
         return "v"
     elif "dascrubber" in analysis:
-        return "^"
+        return "s"
     elif "miniscrub" in analysis:
-        return ">"
+        return "p"
     else:
         return "x"
 

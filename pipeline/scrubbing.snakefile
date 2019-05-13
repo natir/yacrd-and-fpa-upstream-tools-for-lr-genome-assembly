@@ -19,7 +19,7 @@ rule yacrd:
         "scrubbing/{prefix}_{techno}.{coverage}.{discard}.yacrd.fasta"
 
     benchmark:
-        "benchmarks/scrubbing/{prefix}_{techno}.{coverage}.{discard}.yacrd.txt"
+        "benchmarks/{prefix}_{techno}.{coverage}.{discard}.yacrd.txt"
         
     shell:
         " && ".join([
@@ -36,7 +36,7 @@ rule yacrd_precision:
         "scrubbing/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.fasta"
 
     benchmark:
-        "benchmarks/scrubbing/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.txt"
+        "benchmarks/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.txt"
         
     shell:
         " && ".join([

@@ -54,7 +54,7 @@ rule minimap2:
         tech=lambda wildcards, output: tech2tech_paf(wildcards, output)
         
     shell:
-        "minimap2 -t 16 -x {params.tech} data/{params.ref} {input}"
+        "minimap2 -t 16 -x {params.tech} data/{params.ref} {input} > {output}"
 
 
 

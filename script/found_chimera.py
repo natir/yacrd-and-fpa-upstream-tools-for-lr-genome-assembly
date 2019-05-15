@@ -6,12 +6,7 @@ import csv
 import sys
 import argparse
 
-import pysam
-
 from collections import defaultdict
-
-from Bio import SeqIO
-from Bio.Seq import Seq
 
 class Mapping:
     def __init__(self, reference, ref_beg, ref_end, que_beg, que_end):
@@ -47,11 +42,12 @@ def main(args=None):
     parser = argparse.ArgumentParser()
 
     parser.add_argument("mapping")
-
+    parser.add_argument("-c", "--circular", type=int, help="if a read map after this position it probably not be a chimera just a read map at the end and begin of genome", default=sys.maxsize)
+    
     args = parser.parse_args(args)
 
     print("name,nb_chimera")
-    print("{},{}".format(args.mapping, get_nb_chimera(args.mapping)))
+    print("{},{}".format(args.mapping, get_nb_chimera(args.mapping, args.circular)))
 
 def parse_mapping(filename):
     read2length = defaultdict(int)
@@ -111,29 +107,23 @@ def not_to_fare(len1, len2):
     return max(len1, len2) / max(len1, len2) > 1.1
 
 
-def get_nb_chimera(filename):
+def get_nb_chimera(filename, circular_limit):
     read2length, read2mapping = parse_mapping(filename)
     chimera = 0
     
     for read, mapping in read2mapping.items():
         
         if len(read2mapping[read]) < 2 and not_to_fare(mapping[0].que_end - mapping[0].que_end, read2length[read]):
-            if read.startswith("chimeric"):
-                print("less mapping", read)
             continue
         
         pos = pos_on_query(mapping)
         if len(pos) < 2:
-            if read.startswith("chimeric"):
-                print(pos[0][1] - pos[0][0], read2length[read])
-                print("less query mapping region", read)
             continue
-    
-        if read.startswith("fake"):
-            print(read)
-            print([[m.que_beg, m.que_end] for m in read2mapping[read]])
-            print([[m.ref_beg, m.ref_end] for m in read2mapping[read]])
-            
+
+        if any([elt > circular_limit for sublist in pos for elt in sublist]):
+            continue
+
+        print(read)
         chimera += 1
 
     return chimera

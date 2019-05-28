@@ -1,44 +1,55 @@
-ref = {"real_reads_ont": "ref_e_coli_cft073.fasta", "all_real_reads_ont": "ref_e_coli_cft073.fasta","d_melanogaster_reads_ont": "d_melanogaster_ref.fasta"}
+ref = {"real_reads_ont": "ref_e_coli_cft073.fasta", "real_reads_pb": "ref_e_coli_cft073.fasta","d_melanogaster_reads_ont": "d_melanogaster_ref.fasta", "c_elegans_pb": "c_elegans_ref.fasta", "h_sapiens_chr1_ont": "h_sapiens_chr1_ref.fasta"}
+
+def tech2tech(wildcards, output):
+    if "ont" in wildcards.tech:
+        return "ont"
+    else:
+        return "pb"
 
 rule all:
     input:
+        "fpa/quast/c_elegans_pb/report.txt",
+        "fpa/quast/fpa_c_elegans_pb/report.txt",
+        "fpa/quast/h_sapiens_chr1_ont/report.txt",
+        "fpa/quast/fpa_h_sapiens_chr1_ont/report.txt",
         "fpa/quast/d_melanogaster_reads_ont/report.txt",
-        "fpa/quast/d_melanogaster_reads_ont.fpa/report.txt",
+        "fpa/quast/fpa_d_melanogaster_reads_ont/report.txt",
+        "fpa/quast/real_reads_pb/report.txt",
+        "fpa/quast/fpa_real_reads_pb/report.txt",
         "fpa/quast/real_reads_ont/report.txt",
-        "fpa/quast/real_reads_ont.fpa/report.txt",
-        "fpa/quast/all_real_reads_ont/report.txt",
-        "fpa/quast/all_real_reads_ont.fpa/report.txt",
+        "fpa/quast/fpa_real_reads_ont/report.txt",
+
         
 rule quast:
     input:
-        asm="fpa/assembly/{prefix}{type}.fasta",
+        asm="fpa/assembly/{fpa}{prefix}.fasta",
 
     output:
-        "fpa/quast/{prefix,[^\.]+}{type,\.?.*}/report.txt",
+        "fpa/quast/{fpa,(fpa_)?}{prefix}/report.txt",
 
     params:
         ref=lambda wildcards, output: ref[wildcards.prefix]
         
     shell:
-        "quast -o fpa/quast/{wildcards.prefix}/ -r {params.ref} -t 8 {input.asm}"
+        "quast -o fpa/quast/{wildcards.fpa}{wildcards.prefix}/ -r {params.ref} -t 16 {input.asm}"
 
 
 rule miniasm:
     input:
-        reads="data/{prefix}.fasta",
-        ovl="fpa/overlap/{prefix}{type}.paf"
+        reads="data/{prefix}_{tech}.fasta",
+        ovl="fpa/overlap/{fpa}{prefix}_{tech}.paf",
 
     output:
-        graph="fpa/assembly/{prefix,[^\.]+}{type,\.?.*}.gfa",
-        contig="fpa/assembly/{prefix,[^\.]+}{type,\.?.*}.fasta"
+        asm="fpa/assembly/{fpa,(fpa_)?}{prefix}_{tech}.fasta",
+        graph="fpa/assembly/{fpa,(fpa_)?}{prefix}_{tech}.gfa",
 
     benchmark:
-        "fpa/benchmark/miniasm_{prefix}{type}.txt",
-        
+        "fpa/benchmarks/{fpa}{prefix}_{tech}_miniasm.txt",
+
     shell:
         " && ".join([
             "miniasm -f {input.reads} {input.ovl} > {output.graph}",
-            "./script/gfaminiasm2fasta.py {output.graph} {output.contig}"
+            "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.graph} {output.asm}"
         ])
 
         
@@ -47,7 +58,7 @@ rule minimap:
         "data/{prefix}.fasta",
 
     output:
-        "fpa/overlap/{prefix}.paf",
+        "fpa/overlap/{prefix,[^f]+}.paf",
 
     benchmark:
         "fpa/benchmark/overlap_{prefix}.txt",
@@ -61,10 +72,10 @@ rule minimap_fpa:
         "data/{prefix}.fasta",
 
     output:
-        "fpa/overlap/{prefix,[^\.]+}.fpa.paf"
+        "fpa/overlap/fpa_{prefix}.paf"
 
     benchmark:
-        "fpa/benchmark/overlap_{prefix}.fpa.txt"
+        "fpa/benchmark/overlap_{prefix}.txt"
         
     shell:
-        "minimap2 -t 16 -x ava-ont {input} {input} |  /home/pierre.marijon/tools/fpa/target/release/fpa -i -l 2000 > {output}"
+        "minimap2 -t 16 -x ava-ont {input} {input} | fpa drop -i -l 2000 > {output}"

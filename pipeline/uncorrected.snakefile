@@ -8,7 +8,7 @@ include: "scrubbing.snakefile"
 include: "assembly.snakefile"
 include: "analysis.snakefile"
 
-scrubbing_suffix = ["raw", "4.4.yacrd", "4.4.precision.yacrd", "dascrubber"]#, "miniscrub.cpu"]
+scrubbing_suffix = ["raw", "4.4.yacrd", "4.4.precision.yacrd", "dascrubber", "g500.c4.yacrd"]#, "miniscrub.cpu"]
 
 def generate_scrubb(prefix):
     return ["scrubbing/{}.{}.fasta".format(prefix, suffix) for suffix in scrubbing_suffix]

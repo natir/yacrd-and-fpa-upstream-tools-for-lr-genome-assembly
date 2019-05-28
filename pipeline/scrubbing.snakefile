@@ -16,7 +16,7 @@ rule yacrd:
         reads="data/{prefix}_{techno}.fasta"
         
     output:
-        "scrubbing/{prefix}_{techno}.{coverage}.{discard}.yacrd.fasta"
+        "scrubbing/{prefix}_{techno}.{coverage,\d+}.{discard,\d+}.yacrd.fasta"
 
     benchmark:
         "benchmarks/{prefix}_{techno}.{coverage}.{discard}.yacrd.txt"
@@ -44,6 +44,21 @@ rule yacrd_precision:
             "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output} -c {wildcards.coverage} -n 0.{wildcards.discard}",
         ])
 
+rule yacrd_gc:
+    input:
+        reads="data/{prefix}_{techno}.fasta"
+        
+    output:
+        "scrubbing/{prefix}_{techno}.g{dist}.c{coverage}.yacrd.fasta"
+
+    benchmark:
+        "benchmarks/{prefix}_{techno}.g{dist}.c{coverage}.yacrd.txt"
+        
+    shell:
+        " && ".join([
+            "minimap2 -t16 -x ava-{wildcards.techno} -g {wildcards.dist} {input.reads} {input.reads} > scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.paf",
+            "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.yacrd -S {output} -c {wildcards.coverage} -n 0.4",
+        ])
         
 coverage = {"real_reads_pb": "49", "real_reads_ont": "49", "d_melanogaster_reads_ont": "63", "c_elegans_pb": "81", "h_sapiens_chr1_ont": "29"}
 rule dascrubber:

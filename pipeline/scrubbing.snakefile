@@ -23,7 +23,7 @@ rule yacrd:
         
     shell:
         " && ".join([
-            "minimap2 -t 16 -x ava-{wildcards.techno} {input.reads} {input.reads} | /home/pierre.marijon/tools/fpa/target/release/fpa -i -l 2000 > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf",
+            "minimap2 -t 16 -x ava-{wildcards.techno} {input.reads} {input.reads} | fpa drop -i -l 2000 > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf",
             "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output} -c {wildcards.coverage} -n 0.{wildcards.discard}",
         ])
 

@@ -123,7 +123,6 @@ def get_nb_chimera(filename, circular_limit):
         if any([elt > circular_limit for sublist in pos for elt in sublist]):
             continue
 
-        print(read)
         chimera += 1
 
     return chimera

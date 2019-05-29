@@ -18,7 +18,7 @@ rule all:
         "fpa/quast/fpa_real_reads_pb/report.txt",
         "fpa/quast/real_reads_ont/report.txt",
         "fpa/quast/fpa_real_reads_ont/report.txt",
-
+        
         
 rule quast:
     input:
@@ -31,7 +31,7 @@ rule quast:
         ref=lambda wildcards, output: ref[wildcards.prefix]
         
     shell:
-        "quast -o fpa/quast/{wildcards.fpa}{wildcards.prefix}/ -r data/{params.ref} -t 16 {input.asm}"
+        "quast -o fpa/quast/{wildcards.fpa}{wildcards.prefix}/ -r data/{params.ref} -t 16 {input.asm}  --min-identity 80.0"
 
 
 rule miniasm:
@@ -61,7 +61,7 @@ rule minimap:
         "fpa/overlap/{prefix,[^f]+}.paf",
 
     benchmark:
-        "fpa/benchmark/overlap_{prefix}.txt",
+        "fpa/benchmarks/overlap_{prefix}.txt",
         
     shell:
         "minimap2 -t 16 -x ava-ont {input} {input} > {output}"
@@ -75,7 +75,7 @@ rule minimap_fpa:
         "fpa/overlap/fpa_{prefix}.paf"
 
     benchmark:
-        "fpa/benchmark/overlap_{prefix}.txt"
+        "fpa/benchmarks/overlap_fpa_{prefix}.txt"
         
     shell:
         "minimap2 -t 16 -x ava-ont {input} {input} | fpa drop -i -l 2000 > {output}"

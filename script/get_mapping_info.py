@@ -21,16 +21,16 @@ def main(args=None):
         n90, l90 = get_N_L(s_lengths, 0.9)
 
         filename2data[filename] = {
-            "nb read map": nb_map,
-            "edit distance": edit_distance_sum,
+            "nb read map": str(nb_map),
+            "edit distance": str(edit_distance_sum),
             "number of read": str(len(s_lengths)),
-            "mapping len": mapping_length,
-            "n10": n10,
-            "n50": n50,
-            "n90": n90,
-            "l10": l10,
-            "l50": l50,
-            "l90": l90,
+            "mapping len": str(mapping_length),
+            "n10": str(n10),
+            "n50": str(n50),
+            "n90": str(n90),
+            "l10": str(l10),
+            "l50": str(l50),
+            "l90": str(l90),
         }
 
         

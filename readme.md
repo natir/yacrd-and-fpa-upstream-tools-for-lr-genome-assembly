@@ -32,15 +32,12 @@
 
 # Tools
 
+- [fpa](https://gitlab.inria.fr/pmarijon/fpa)
+
 scrubber:
 - [yacrd](https://gitlab.inria.fr/pmarijon/yacrd)
 - [dascrubber](https://github.com/rrwick/DASCRUBBER-wrapper)
 - [miniscrub](https://bitbucket.org/berkeleylab/jgi-miniscrub)
-
-corrector:
-- canu 1.8
-- [MECAT](https://github.com/xiaochuanle/MECAT)
-- [CONSENT](https://github.com/morispi/CONSENT) 1.1.1
 
 assembly tools:
 - wtdbg2 2.4

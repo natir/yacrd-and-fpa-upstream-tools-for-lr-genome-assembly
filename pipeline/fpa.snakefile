@@ -31,7 +31,7 @@ rule quast:
         ref=lambda wildcards, output: ref[wildcards.prefix]
         
     shell:
-        "quast -o fpa/quast/{wildcards.fpa}{wildcards.prefix}/ -r {params.ref} -t 16 {input.asm}"
+        "quast -o fpa/quast/{wildcards.fpa}{wildcards.prefix}/ -r data/{params.ref} -t 16 {input.asm}"
 
 
 rule miniasm:

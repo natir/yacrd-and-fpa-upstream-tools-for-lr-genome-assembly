@@ -101,14 +101,16 @@ def generate_quast_mm(files):
 def generate_quast_ymfm(files):
     return generate_template("combo/quast/{}_ymfm/report.txt", files)
 
-def generate_quast_ymfm(files):
+def generate_quast_pymfm(files):
     return generate_template("combo/quast/{}_pymfm/report.txt", files)
 
 rule all:
     input:
         generate_asm_mm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
         generate_asm_ymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
+        generate_asm_pymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
         generate_quast_mm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
         generate_quast_ymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
+        generate_quast_pymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
 
         

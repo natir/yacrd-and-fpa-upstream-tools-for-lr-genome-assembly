@@ -18,7 +18,7 @@ rule miniasm:
         " && ".join([
             "minimap2 -t 16 -x ava-{params.tech} {input} {input} > {output.ovl}",
             "miniasm -f {input} {output.ovl} > {output.graph}",
-            "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.graph} {output.asm}"
+            "./script/gfaminiasm2fasta.py {output.graph} {output.asm}"
         ])
 
 

@@ -49,7 +49,7 @@ rule miniasm:
     shell:
         " && ".join([
             "miniasm -f {input.reads} {input.ovl} > {output.graph}",
-            "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.graph} {output.asm}"
+            "./script/gfaminiasm2fasta.py {output.graph} {output.asm}"
         ])
 
         

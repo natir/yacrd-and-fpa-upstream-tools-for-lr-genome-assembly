@@ -14,7 +14,7 @@ rule miniasm_pipeline:
         " && ".join([
             "minimap2 -t16 -x ava-{wildcards.tech} {input} {input} > {output.paf}",
             "miniasm -f {input} {output.paf} > {output.gfa}",
-            "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.gfa} {output.asm}"
+            "./script/gfaminiasm2fasta.py {output.gfa} {output.asm}"
             ])
 
 rule yacrd_minimap_fpa_miniasm_pipeline:
@@ -38,7 +38,7 @@ rule yacrd_minimap_fpa_miniasm_pipeline:
             "yacrd scrubbing -m {output.paf_yacrd} -s {input} -r {output.yacrd} -S {output.scrubbed_read} -c 4 -n 0.4",
             "minimap2 -t16 -x ava-{wildcards.tech} {output.scrubbed_read} {output.scrubbed_read} | fpa drop -l 2000 -i  > {output.paf}",
             "miniasm -f {output.scrubbed_read} {output.paf} > {output.gfa}",
-            "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.gfa} {output.asm}"
+            "./script/gfaminiasm2fasta.py {output.gfa} {output.asm}"
         ])
         
         
@@ -68,7 +68,7 @@ rule precision_yacrd_minimap_fpa_miniasm_pipeline:
             "yacrd scrubbing -m {output.paf_yacrd} -s {input} -r {output.yacrd} -S {output.scrubbed_read} -c {params.c} -n 0.4",
             "minimap2 -t16 -x ava-{wildcards.tech} {output.scrubbed_read} {output.scrubbed_read} | fpa drop -l 2000 -i  > {output.paf}",
             "miniasm -f {output.scrubbed_read} {output.paf} > {output.gfa}",
-            "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.gfa} {output.asm}"
+            "./script/gfaminiasm2fasta.py {output.gfa} {output.asm}"
         ])
         
         

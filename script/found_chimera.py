@@ -46,7 +46,6 @@ def main(args=None):
     
     args = parser.parse_args(args)
 
-    print("name,nb_chimera")
     print("{},{}".format(args.mapping, get_nb_chimera(args.mapping, args.circular)))
 
 def parse_mapping(filename):

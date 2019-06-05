@@ -54,14 +54,18 @@ rule precision_yacrd_minimap_fpa_miniasm_pipeline:
         paf="combo/{file}_{tech}_pymfm.paf",
         gfa="combo/{file}_{tech}_pymfm.gfa",
         asm="combo/{file}_{tech}_pymfm.fasta",
+
+    params:
+        g=lambda wildcards, output: 500 if wildcards.tech == "ont" else 500,
+        c=lambda wildcards, output: 4 if wildcards.tech == "ont" else 4
         
     benchmark:
         "benchmarks/combo/{file}_{tech}_pymfm.txt"
         
     shell:
         " && ".join([
-            "minimap2 -t16 -x ava-{wildcards.tech} -g 500 -n 3 {input} {input} > {output.paf_yacrd}",
-            "yacrd scrubbing -m {output.paf_yacrd} -s {input} -r {output.yacrd} -S {output.scrubbed_read} -c 4 -n 0.4",
+            "minimap2 -t16 -x ava-{wildcards.tech} -g {params.g} {input} {input} > {output.paf_yacrd}",
+            "yacrd scrubbing -m {output.paf_yacrd} -s {input} -r {output.yacrd} -S {output.scrubbed_read} -c {params.c} -n 0.4",
             "minimap2 -t16 -x ava-{wildcards.tech} {output.scrubbed_read} {output.scrubbed_read} | fpa drop -l 2000 -i  > {output.paf}",
             "miniasm -f {output.scrubbed_read} {output.paf} > {output.gfa}",
             "/home/pierre.marijon/data/optimizing-early-steps-of-lr-assembly/script/gfaminiasm2fasta.py {output.gfa} {output.asm}"
@@ -89,17 +93,11 @@ def generate_template(template, files):
 def generate_asm_mm(files):
     return generate_template("combo/{}_mm.fasta", files)
 
-def generate_asm_ymfm(files):
-    return generate_template("combo/{}_ymfm.fasta", files)
-
 def generate_asm_pymfm(files):
     return generate_template("combo/{}_pymfm.fasta", files)
 
 def generate_quast_mm(files):
     return generate_template("combo/quast/{}_mm/report.txt", files)
-
-def generate_quast_ymfm(files):
-    return generate_template("combo/quast/{}_ymfm/report.txt", files)
 
 def generate_quast_pymfm(files):
     return generate_template("combo/quast/{}_pymfm/report.txt", files)
@@ -107,10 +105,8 @@ def generate_quast_pymfm(files):
 rule all:
     input:
         generate_asm_mm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
-        generate_asm_ymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
         generate_asm_pymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
         generate_quast_mm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
-        generate_quast_ymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
         generate_quast_pymfm(("c_elegans_pb", "d_melanogaster_reads_ont", "h_sapiens_chr1_ont", "real_reads_ont", "real_reads_pb")),
 
         

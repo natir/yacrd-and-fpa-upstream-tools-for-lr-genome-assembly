@@ -31,7 +31,9 @@
 Download all data and build a data script like this:
 ```
 all_real_reads_ont.fasta         -> E. coli Nanopore reads 
+all_real_reads_ont.fastq         -> fastq of previous reads
 all_real_reads_pb.fasta          -> E. coli Pacbio reads
+all_real_reads_pb.fastq          -> fastq of previous reads
 c_elegans_pb.fasta               -> C. elegans reads
 d_melanogaster_reads_ont.fasta   -> D. melanogaster reads
 h_sapiens_chr1_ont.fasta         -> H. Sapiens maps against chromosomes 1 reads 
@@ -45,7 +47,9 @@ ref_e_coli_cft073.fasta          -> E. coli reference
 Run :
 ```
 seqtk -s 42 data/all_real_reads_ont.fasta 0.1618 > data/real_reads_ont.fasta
+seqtk -s 42 data/all_real_reads_ont.fastq 0.1618 > data/real_reads_ont.fastq
 seqtk -s 42 data/all_real_reads_pb.fasta 0.1838 > data/real_reads_pb.fasta
+seqtk -s 42 data/all_real_reads_pb.fastq 0.1838 > data/real_reads_pb.fastq
 ```
 
 # Rerun analysis

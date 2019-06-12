@@ -22,21 +22,13 @@ rule c_elegans:
         #"quast/c_elegans_pb.miniscrub.cpu.wtdbg2/report.txt",
 
         "mapping/c_elegans_pb.raw.bam",
-        "mapping/c_elegans_pb.raw.bam",
-        "mapping/c_elegans_pb.g800.c4.yacrd.bam",
         "mapping/c_elegans_pb.g800.c4.yacrd.bam",
         "mapping/c_elegans_pb.dascrubber.bam",
-        "mapping/c_elegans_pb.dascrubber.bam",
-        #"mapping/c_elegans_pb.miniscrub.cpu.bam",
         #"mapping/c_elegans_pb.miniscrub.cpu.bam",
 
         "mapping/c_elegans_pb.raw.paf",
-        "mapping/c_elegans_pb.raw.paf",
-        "mapping/c_elegans_pb.g800.c4.yacrd.paf",
         "mapping/c_elegans_pb.g800.c4.yacrd.paf",
         "mapping/c_elegans_pb.dascrubber.paf",
-        "mapping/c_elegans_pb.dascrubber.paf",
-        #"mapping/c_elegans_pb.miniscrub.cpu.paf",
         #"mapping/c_elegans_pb.miniscrub.cpu.paf",
     
 rule h_sapiens:
@@ -51,21 +43,13 @@ rule h_sapiens:
         #"quast/h_sapiens_chr1_ont.miniscrub.cpu.wtdbg2/report.txt",
 
         "mapping/h_sapiens_chr1_ont.raw.bam",
-        "mapping/h_sapiens_chr1_ont.raw.bam",
-        "mapping/h_sapiens_chr1_ont.g500.c4.yacrd.bam",
         "mapping/h_sapiens_chr1_ont.g500.c4.yacrd.bam",
         "mapping/h_sapiens_chr1_ont.dascrubber.bam",
-        "mapping/h_sapiens_chr1_ont.dascrubber.bam",
-        #"mapping/h_sapiens_chr1_ont.miniscrub.cpu.bam",
         #"mapping/h_sapiens_chr1_ont.miniscrub.cpu.bam",
 
         "mapping/h_sapiens_chr1_ont.raw.paf",
-        "mapping/h_sapiens_chr1_ont.raw.paf",
-        "mapping/h_sapiens_chr1_ont.g500.c4.yacrd.paf",
         "mapping/h_sapiens_chr1_ont.g500.c4.yacrd.paf",
         "mapping/h_sapiens_chr1_ont.dascrubber.paf",
-        "mapping/h_sapiens_chr1_ont.dascrubber.paf",
-        #"mapping/h_sapiens_chr1_ont.miniscrub.cpu.paf",
         #"mapping/h_sapiens_chr1_ont.miniscrub.cpu.paf",
     
 rule d_melanogaster:
@@ -80,21 +64,13 @@ rule d_melanogaster:
         #"quast/d_melanogaster_reads_ont.miniscrub.cpu.wtdbg2/report.txt",
 
         "mapping/d_melanogaster_reads_ont.raw.bam",
-        "mapping/d_melanogaster_reads_ont.raw.bam",
-        "mapping/d_melanogaster_reads_ont.g500.c4.yacrd.bam",
         "mapping/d_melanogaster_reads_ont.g500.c4.yacrd.bam",
         "mapping/d_melanogaster_reads_ont.dascrubber.bam",
-        "mapping/d_melanogaster_reads_ont.dascrubber.bam",
-        #"mapping/d_melanogaster_reads_ont.miniscrub.cpu.bam",
         #"mapping/d_melanogaster_reads_ont.miniscrub.cpu.bam",
 
         "mapping/d_melanogaster_reads_ont.raw.paf",
-        "mapping/d_melanogaster_reads_ont.raw.paf",
-        "mapping/d_melanogaster_reads_ont.g500.c4.yacrd.paf",
         "mapping/d_melanogaster_reads_ont.g500.c4.yacrd.paf",
         "mapping/d_melanogaster_reads_ont.dascrubber.paf",
-        "mapping/d_melanogaster_reads_ont.dascrubber.paf",
-        #"mapping/d_melanogaster_reads_ont.miniscrub.cpu.paf",
         #"mapping/d_melanogaster_reads_ont.miniscrub.cpu.paf",
     
 rule e_coli:
@@ -109,21 +85,13 @@ rule e_coli:
         "quast/real_reads_ont.miniscrub.cpu.wtdbg2/report.txt",
 
         "mapping/real_reads_ont.raw.bam",
-        "mapping/real_reads_ont.raw.bam",
-        "mapping/real_reads_ont.g500.c4.yacrd.bam",
         "mapping/real_reads_ont.g500.c4.yacrd.bam",
         "mapping/real_reads_ont.dascrubber.bam",
-        "mapping/real_reads_ont.dascrubber.bam",
-        "mapping/real_reads_ont.miniscrub.cpu.bam",
         "mapping/real_reads_ont.miniscrub.cpu.bam",
 
         "mapping/real_reads_ont.raw.paf",
-        "mapping/real_reads_ont.raw.paf",
-        "mapping/real_reads_ont.g500.c4.yacrd.paf",
         "mapping/real_reads_ont.g500.c4.yacrd.paf",
         "mapping/real_reads_ont.dascrubber.paf",
-        "mapping/real_reads_ont.dascrubber.paf",
-        "mapping/real_reads_ont.miniscrub.cpu.paf",
         "mapping/real_reads_ont.miniscrub.cpu.paf",
 
         "quast/real_reads_pb.raw.miniasm/report.txt",
@@ -136,21 +104,13 @@ rule e_coli:
         "quast/real_reads_pb.miniscrub.cpu.wtdbg2/report.txt",
 
         "mapping/real_reads_pb.raw.bam",
-        "mapping/real_reads_pb.raw.bam",
-        "mapping/real_reads_pb.g5000.c3.yacrd.bam",
         "mapping/real_reads_pb.g5000.c3.yacrd.bam",
         "mapping/real_reads_pb.dascrubber.bam",
-        "mapping/real_reads_pb.dascrubber.bam",
-        "mapping/real_reads_pb.miniscrub.cpu.bam",
         "mapping/real_reads_pb.miniscrub.cpu.bam",
         
         "mapping/real_reads_pb.raw.paf",
-        "mapping/real_reads_pb.raw.paf",
-        "mapping/real_reads_pb.g5000.c3.yacrd.paf",
         "mapping/real_reads_pb.g5000.c3.yacrd.paf",
         "mapping/real_reads_pb.dascrubber.paf",
-        "mapping/real_reads_pb.dascrubber.paf",
-        "mapping/real_reads_pb.miniscrub.cpu.paf",
         "mapping/real_reads_pb.miniscrub.cpu.paf",
     
 rule all:

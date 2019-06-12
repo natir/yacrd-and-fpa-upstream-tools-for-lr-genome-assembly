@@ -43,6 +43,6 @@ rule wdbtg2:
         
     shell:
         " && ".join([
-            "/home/pierre.marijon/tools/wtdbg2/wtdbg2 -t 16 -g {params.genome_size} -x {params.tech} -i {input} -fo assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.wtdbg2",
-            "/home/pierre.marijon/tools/wtdbg2/wtpoa-cns -t 16 -i {output.layout} -fo {output.asm}"
+            "wtdbg2 -t 16 -g {params.genome_size} -x {params.tech} -i {input} -fo assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.wtdbg2",
+            "wtpoa-cns -t 16 -i {output.layout} -fo {output.asm}"
         ])

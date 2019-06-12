@@ -1,10 +1,23 @@
+# How to test yacrd and fpa
+
+If you want run yacrd and fpa speedly you can run :
+
+```
+./script/small_test.sh
+```
+
+This script download the *E. coli* Nanopore dataset run a subsampling on it and run yacrd, fpa and a combination of this tools on this dataset.
+
 # Requirements
+
+- [miniscrub](https://bitbucket.org/berkeleylab/jgi-miniscrub) commit 3d11d3e
+
+This tools need to be avaible in your path :
 
 - [seqtk](https://github.com/lh3/seqtk) 1.3-r106
 - [fpa](https://gitlab.inria.fr/pmarijon/fpa) 0.5
 - [yacrd](https://gitlab.inria.fr/pmarijon/yacrd) 0.5.1
 - [dascrubber](https://github.com/thegenemyers/DASCRUBBER/) commit 0e90524 you can follow [dascrubber-wrapper](https://github.com/rrwick/DASCRUBBER-wrapper) instruction to install all dascrubber requirements
-- [miniscrub](https://bitbucket.org/berkeleylab/jgi-miniscrub) commit 3d11d3e
 - [snakemake](https://snakemake.readthedocs.io/en/stable/) 5.4.3
 - [wtdbg2](https://github.com/ruanjue/wtdbg2) commit 8908a31
 - [miniasm](https://github.com/lh3/miniasm) 3d11d3e

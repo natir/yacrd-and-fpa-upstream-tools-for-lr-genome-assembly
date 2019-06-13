@@ -43,14 +43,14 @@ rule yacrd_minimap_fpa_miniasm_pipeline:
         
         
 def get_g(wildcards):
-    if wildcards.file == "real_reads":
+    if wildcards.file == "real_reads" and wildcards.tech == "pb":
         return 5000
     if wildcards.tech == "ont":
         return 500
     else:
         return 800
 
-def get_g(wildcards):
+def get_c(wildcards):
     if wildcards.file == "real_reads_pb":
         return 3
     else:
@@ -69,8 +69,8 @@ rule precision_yacrd_minimap_fpa_miniasm_pipeline:
         asm="combo/{file}_{tech}_pymfm.fasta",
 
     params:
-        g=lambda wildcards, output: 500 if wildcards.tech == "ont" else 800,
-        c=lambda wildcards, output: 4 if wildcards.tech == "ont" else 4
+        g=lambda wildcards, output: get_g(wildcards),
+        c=lambda wildcards, output: get_c(wildcards),
         
     benchmark:
         "benchmarks/combo/{file}_{tech}_pymfm.txt"

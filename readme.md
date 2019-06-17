@@ -83,7 +83,7 @@ do
 done
 ```
 
-Get information one read mapped on reference:
+Get information one read mapped on reference (this script require pysam): 
 ```
 ./script/get_mapping_info.py mapping/*.bam
 ```

@@ -31,6 +31,7 @@ def main(args=None):
             "l10": str(l10),
             "l50": str(l50),
             "l90": str(l90),
+            "error_rate": str(int(edit_distance_sum)/int(mapping_length) * 100)
         }
 
         

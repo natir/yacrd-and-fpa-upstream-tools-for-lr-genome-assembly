@@ -60,6 +60,8 @@ rule h_sapiens:
         "mapping/h_sapiens_chr1_ont.dascrubber.paf",
         #"mapping/h_sapiens_chr1_ont.miniscrub.cpu.paf",
 
+        "porechop/h_sapiens_chr1_ont.raw.out",
+        "porechop/h_sapiens_chr1_ont.g500.c4.yacrd.out",
         "porechop/h_sapiens_chr1_ont.dascrubber.out",
 
         
@@ -88,8 +90,11 @@ rule d_melanogaster:
         "mapping/d_melanogaster_reads_ont.dascrubber.paf",
         #"mapping/d_melanogaster_reads_ont.miniscrub.cpu.paf",
 
+        "porechop/d_melanogaster_reads_ont.raw.out",
+        "porechop/d_melanogaster_reads_ont.g500.c4.yacrd.out",
         "porechop/d_melanogaster_reads_ont.dascrubber.out",
-    
+
+        
 rule e_coli:
     input:
         "quast/real_reads_ont.raw.miniasm/report.txt",
@@ -115,6 +120,8 @@ rule e_coli:
         "mapping/real_reads_ont.dascrubber.paf",
         "mapping/real_reads_ont.miniscrub.cpu.paf",
 
+        "porechop/real_reads_ont.raw.out",
+        "porechop/real_reads_ont.g500.c4.yacrd.out",
         "porechop/real_reads_ont.dascrubber.out",
         
 

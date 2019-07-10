@@ -20,7 +20,7 @@ This tools need to be avaible in your path :
 - [dascrubber](https://github.com/thegenemyers/DASCRUBBER/) commit 0e90524 you can follow [dascrubber-wrapper](https://github.com/rrwick/DASCRUBBER-wrapper) instruction to install all dascrubber requirements
 - [snakemake](https://snakemake.readthedocs.io/en/stable/) 5.4.3
 - [wtdbg2](https://github.com/ruanjue/wtdbg2) commit 8908a31
-- [miniasm](https://github.com/lh3/miniasm) 3d11d3e
+- [miniasm](https://github.com/lh3/miniasm) 0.3-r179
 - [quast](http://bioinf.spbau.ru/quast) v5.0.2
 
 # Dataset

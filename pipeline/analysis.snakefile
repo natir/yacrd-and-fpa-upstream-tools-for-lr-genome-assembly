@@ -57,6 +57,14 @@ rule minimap2:
         "minimap2 -t 16 -x {params.tech} data/{params.ref} {input} > {output}"
 
 
-
+rule porechop:
+    input:
+        "scrubbing/{prefix}_{tech}.{suffix}.fasta"
+        
+    output:
+        "porechop/{prefix}_{tech}.{suffix}.out"
+        
+    shell:
+        "/home/pierre.marijon/tools/Porechop/porechop-runner.py -i {input} -o /dev/null --discard_middle > {output}"
     
         

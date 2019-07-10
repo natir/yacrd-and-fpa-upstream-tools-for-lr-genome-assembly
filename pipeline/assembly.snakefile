@@ -46,3 +46,23 @@ rule wdbtg2:
             "wtdbg2 -t 16 -g {params.genome_size} -x {params.tech} -i {input} -fo assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.wtdbg2",
             "wtpoa-cns -t 16 -i {output.layout} -fo {output.asm}"
         ])
+
+rule ra:
+    input:
+        "scrubbing/{prefix}_{tech,[^\.]+}.{scrubber}.fasta"
+
+    output:
+        "assembly/{prefix}_{tech,[^\.]+}.{scrubber}.ra.fasta"
+
+    benchmark:
+        "benchmarks/{prefix}_{tech}.{scrubber}.ra.txt"
+
+    params:
+        tech=lambda wildcards, output: prefix_tech2tech[wildcards.prefix + "_" + wildcards.tech]
+
+    shell:
+        " && ".join([
+            "mkdir -p ra/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}/",
+            "/home/pierre.marijon/tools/ra/build/bin/ra -t 12 -x {params.tech} {input} > {output}"
+        ])
+        

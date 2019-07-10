@@ -63,6 +63,6 @@ rule ra:
     shell:
         " && ".join([
             "mkdir -p ra/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}/",
-            "~/tools/ra/build/bin/ra -t 12 -x {params.tech} {input} > {output}"
+            "/home/pierre.marijon/tools/ra/build/bin/ra -t 12 -x {params.tech} {input} > {output}"
         ])
         

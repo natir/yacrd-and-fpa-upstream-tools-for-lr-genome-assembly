@@ -65,6 +65,6 @@ rule porechop:
         "porechop/{prefix}_{tech}.{suffix}.out"
         
     shell:
-        "/home/pierre.marijon/tools/Porechop/porechop-runner.py -i {input} -o /dev/null --discard_middle > {output}"
+        "/home/pierre.marijon/tools/Porechop/porechop-runner.py -i {input} -o /dev/null > {output}"
     
         

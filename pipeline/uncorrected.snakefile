@@ -123,6 +123,7 @@ rule e_coli:
         "porechop/real_reads_ont.raw.out",
         "porechop/real_reads_ont.g500.c4.yacrd.out",
         "porechop/real_reads_ont.dascrubber.out",
+        "porechop/real_reads_ont.miniscrub.cpu.out",
         
 
         "quast/real_reads_pb.raw.miniasm/report.txt",

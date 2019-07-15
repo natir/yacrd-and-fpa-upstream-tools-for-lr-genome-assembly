@@ -24,7 +24,9 @@ rule miniasm:
 
 genome_size={"real_reads": "5.2m", "d_melanogaster_reads": "143.7m", "c_elegans": "100.2m", "h_sapiens_chr1": "248.9m"}
 
-prefix_tech2tech={"real_reads_ont": "ont", "real_reads_pb": "sq", "c_elegans_pb": "rs", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
+prefix_tech2tech_wdbtg2={"real_reads_ont": "ont", "real_reads_pb": "sq", "c_elegans_pb": "rs", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
+
+prefix_tech2tech_ra={"real_reads_ont": "ont", "real_reads_pb": "pb", "c_elegans_pb": "pb", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
 
 rule wdbtg2:
     input:
@@ -39,7 +41,7 @@ rule wdbtg2:
 
     params:
         genome_size=lambda wildcards, output: genome_size[wildcards.prefix],
-        tech=lambda wildcards, output: prefix_tech2tech[wildcards.prefix + "_" + wildcards.tech]
+        tech=lambda wildcards, output: prefix_tech2tech_wdbtg2[wildcards.prefix + "_" + wildcards.tech]
         
     shell:
         " && ".join([
@@ -58,7 +60,7 @@ rule ra:
         "benchmarks/{prefix}_{tech}.{scrubber}.ra.txt"
 
     params:
-        tech=lambda wildcards, output: prefix_tech2tech[wildcards.prefix + "_" + wildcards.tech]
+        tech=lambda wildcards, output: prefix_tech2tech_ra[wildcards.prefix + "_" + wildcards.tech]
 
     shell:
         " && ".join([

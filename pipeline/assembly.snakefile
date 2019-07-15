@@ -65,7 +65,7 @@ rule ra:
     shell:
         " && ".join([
             "mkdir -p ra/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}/",
-            "cp ra/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}/",
-            "/home/pierre.marijon/tools/ra/build/bin/ra -t 16 -x {params.tech} {input} > {output}"
+            "cd ra/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}/",
+            "/home/pierre.marijon/tools/ra/build/bin/ra -t 16 -x {params.tech} ../../{input} > ../../{output}"
         ])
         

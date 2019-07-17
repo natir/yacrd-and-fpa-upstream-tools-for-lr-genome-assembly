@@ -19,8 +19,9 @@ This tools need to be avaible in your path :
 - [yacrd](https://gitlab.inria.fr/pmarijon/yacrd) 0.5.1
 - [dascrubber](https://github.com/thegenemyers/DASCRUBBER/) commit 0e90524 you can follow [dascrubber-wrapper](https://github.com/rrwick/DASCRUBBER-wrapper) instruction to install all dascrubber requirements
 - [snakemake](https://snakemake.readthedocs.io/en/stable/) 5.4.3
-- [wtdbg2](https://github.com/ruanjue/wtdbg2) commit 8908a31
+- [wtdbg2](https://github.com/ruanjue/wtdbg2) 2.3
 - [miniasm](https://github.com/lh3/miniasm) 0.3-r179
+- [ra](https://github.com/lbcb-sci/ra) commit 07364a1 
 - [quast](http://bioinf.spbau.ru/quast) v5.0.2
 
 # Dataset
@@ -67,7 +68,8 @@ seqtk -s 42 data/all_real_reads_pb.fastq 0.1838 > data/real_reads_pb.fastq
 
 # Rerun analysis
 
-Update miniscrub path in file `pipeline/scrubbing.snakefile` line 136 for miniscrub in gpu mode and line 154 for miniscrub in cpu mode
+Update miniscrub path in file `pipeline/scrubbing.snakefile` line 136 for miniscrub in gpu mode and line 154 for miniscrub in cpu mode.
+Update ra path in file `pipeline/assembly.snakefile` line 69.
 
 - Run scrubbing+assembly+analysis `snakemake --snakefile pipeline/uncorrected.snakefile all`
 - Run fpa+assembly+analysis `snakemake --snakefile pipeline/fpa.snakefile all`

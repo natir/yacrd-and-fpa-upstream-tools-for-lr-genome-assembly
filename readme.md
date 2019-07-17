@@ -10,8 +10,6 @@ This script download the *E. coli* Nanopore dataset run a subsampling on it and 
 
 # Requirements
 
-- [miniscrub](https://bitbucket.org/berkeleylab/jgi-miniscrub) commit 3d11d3e
-
 This tools need to be avaible in your path :
 
 - [seqtk](https://github.com/lh3/seqtk) 1.3-r106
@@ -21,8 +19,18 @@ This tools need to be avaible in your path :
 - [snakemake](https://snakemake.readthedocs.io/en/stable/) 5.4.3
 - [wtdbg2](https://github.com/ruanjue/wtdbg2) 2.3
 - [miniasm](https://github.com/lh3/miniasm) 0.3-r179
-- [ra](https://github.com/lbcb-sci/ra) commit 07364a1 
 - [quast](http://bioinf.spbau.ru/quast) v5.0.2
+
+You need change path of this tools in snakemake pipeline file:
+
+- [miniscrub](https://bitbucket.org/berkeleylab/jgi-miniscrub) commit 3d11d3e
+- [ra](https://github.com/lbcb-sci/ra) commit 07364a1 
+- [porechop](https://github.com/rrwick/Porechop/) v0.2.3-C++11
+
+Update miniscrub path in file `pipeline/scrubbing.snakefile` line 136.
+Update ra path in file `pipeline/assembly.snakefile` line 69.
+Update porechop path in `pipeline/analysis.snakefile` line 68.
+
 
 # Dataset
 
@@ -67,9 +75,6 @@ seqtk -s 42 data/all_real_reads_pb.fastq 0.1838 > data/real_reads_pb.fastq
 ```
 
 # Rerun analysis
-
-Update miniscrub path in file `pipeline/scrubbing.snakefile` line 136 for miniscrub in gpu mode and line 154 for miniscrub in cpu mode.
-Update ra path in file `pipeline/assembly.snakefile` line 69.
 
 - Run scrubbing+assembly+analysis `snakemake --snakefile pipeline/uncorrected.snakefile all`
 - Run fpa+assembly+analysis `snakemake --snakefile pipeline/fpa.snakefile all`

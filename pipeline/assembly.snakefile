@@ -69,3 +69,21 @@ rule ra:
             "/home/pierre.marijon/tools/ra/build/bin/ra -t 16 -x {params.tech} ../../{input} > ../../{output}"
         ])
         
+rule shasta:
+    input:
+        "scrubbing/{prefix}_{tech,[^\.]+}.{scrubber}.fasta"
+
+    output:
+        "assembly/{prefix}_{tech,[^\.]+}.{scrubber}.shasta.fasta"
+
+    benchmark:
+        "benchmarks/{prefix}_{tech}.{scrubber}.shasta.txt"
+
+    shell:
+        " && ".join([
+            "rm -rf assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.shasta/",
+            "rm -rf assembly/real_reads_pb.miniscrub.cpu.shasta.fasta",
+            "/home/pierre.marijon/tools/shasta/shasta --memoryMode anonymous --memoryBacking 4K --input {input} --output assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.shasta/",
+            "ln -s $(readlink -f assembly/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubber}.shasta/Assembly.fasta) {output}"
+        ])
+        

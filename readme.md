@@ -26,9 +26,11 @@ You need change path of this tools in snakemake pipeline file:
 - [miniscrub](https://bitbucket.org/berkeleylab/jgi-miniscrub) commit 3d11d3e
 - [ra](https://github.com/lbcb-sci/ra) commit 07364a1 
 - [porechop](https://github.com/rrwick/Porechop/) v0.2.3-C++11
+- [shasta](https://github.com/chanzuckerberg/shasta/) 0.1.0
 
 Update miniscrub path in file `pipeline/scrubbing.snakefile` line 136.
 Update ra path in file `pipeline/assembly.snakefile` line 69.
+Update shasta path in `pipeline/assembly.snakefile` line 85.
 Update porechop path in `pipeline/analysis.snakefile` line 68.
 
 

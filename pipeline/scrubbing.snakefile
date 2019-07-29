@@ -115,7 +115,7 @@ rule dascrubber:
 
             "mv renamed_reads.fasta temp.fasta",
             "DB2fasta -vU patched_reads",
-            "mv renamed_reads.fasta ../../{output}"
+            "awk '/^>/ { print (NR==1 ? \"\" : RS) $0; next } { printf \"%s\", $0 } END { printf RS }' renamed_reads.fasta > ../../{output}"
         ])
         
 rule miniscrub:

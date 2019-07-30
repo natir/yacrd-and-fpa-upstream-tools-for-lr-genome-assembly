@@ -66,5 +66,19 @@ rule porechop:
         
     shell:
         "/home/pierre.marijon/tools/Porechop/porechop-runner.py -i {input} -o /dev/null > {output}"
-    
+
+
+rule nucmer:
+    input:
+        asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
+
+    output:
+        "nucmer/{prefix}_{tech}.{scrubbing}.{asm}.delta"
+
+    params:
+        ref=lambda wildcards, output: ref[wildcards.prefix]    
         
+    shell:
+        "nucmer -prefix nucmer/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm} -maxmatch data/{params.ref} {input.asm}"
+
+    

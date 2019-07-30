@@ -8,166 +8,85 @@ include: "scrubbing.snakefile"
 include: "assembly.snakefile"
 include: "analysis.snakefile"
 
+bwa_str = "mapping/{dataset}.{scrubber}.bam"
+minimap_str = "mapping/{dataset}.{scrubber}.paf"        
+porechop_str = "porechop/{dataset}.{scrubber}.out"
+
+quast_str = "quast/{dataset}.{scrubber}.{assembly}/report.txt"
+nucmer_str = "nucmer/{dataset}.{scrubber}.{assembly}.delta"
+
+def c_elegans_out():
+    d = "c_elegans_pb"
+    for s in ["raw", "g800.c4.yacrd", "dascrubber"]:
+        yield bwa_str.format(dataset=d, scrubber=s)
+        yield minimap_str.format(dataset=d, scrubber=s)
+        yield porechop_str.format(dataset=d, scrubber=s)        
+
+        for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
+            yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
 
 rule c_elegans:
     input:
-        "quast/c_elegans_pb.raw.miniasm/report.txt",
-        "quast/c_elegans_pb.raw.wtdbg2/report.txt",
-        "quast/c_elegans_pb.raw.ra/report.txt",
-        "quast/c_elegans_pb.raw.shasta/report.txt",
-        "quast/c_elegans_pb.g800.c4.yacrd.miniasm/report.txt",
-        "quast/c_elegans_pb.g800.c4.yacrd.wtdbg2/report.txt",
-        "quast/c_elegans_pb.g800.c4.yacrd.ra/report.txt",
-        "quast/c_elegans_pb.g800.c4.yacrd.shasta/report.txt",
-        "quast/c_elegans_pb.dascrubber.miniasm/report.txt",
-        "quast/c_elegans_pb.dascrubber.wtdbg2/report.txt",
-        "quast/c_elegans_pb.dascrubber.ra/report.txt",
-        "quast/c_elegans_pb.dascrubber.shasta/report.txt",
-        #"quast/c_elegans_pb.miniscrub.cpu.miniasm/report.txt",
-        #"quast/c_elegans_pb.miniscrub.cpu.wtdbg2/report.txt",
-        #"quast/c_elegans_pb.miniscrub.cpu.ra/report.txt",
-        #"quast/c_elegans_pb.miniscrub.cpu.shasta/report.txt",
+        c_elegans_out()
+
+def h_sapiens_out():
+    d = "h_sapiens_chr1_ont"
+    for s in ["raw", "g500.c4.yacrd", "dascrubber"]:
+        yield bwa_str.format(dataset=d, scrubber=s)
+        yield minimap_str.format(dataset=d, scrubber=s)
+        yield porechop_str.format(dataset=d, scrubber=s)        
         
-        "mapping/c_elegans_pb.raw.bam",
-        "mapping/c_elegans_pb.g800.c4.yacrd.bam",
-        "mapping/c_elegans_pb.dascrubber.bam",
-        #"mapping/c_elegans_pb.miniscrub.cpu.bam",
-
-        "mapping/c_elegans_pb.raw.paf",
-        "mapping/c_elegans_pb.g800.c4.yacrd.paf",
-        "mapping/c_elegans_pb.dascrubber.paf",
-        #"mapping/c_elegans_pb.miniscrub.cpu.paf",
-
-    
+        for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
+            yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
+        
 rule h_sapiens:
     input:
-        "quast/h_sapiens_chr1_ont.raw.miniasm/report.txt",
-        "quast/h_sapiens_chr1_ont.raw.wtdbg2/report.txt",
-        "quast/h_sapiens_chr1_ont.raw.ra/report.txt",
-        "quast/h_sapiens_chr1_ont.raw.shasta/report.txt",
-        "quast/h_sapiens_chr1_ont.g500.c4.yacrd.miniasm/report.txt",
-        "quast/h_sapiens_chr1_ont.g500.c4.yacrd.wtdbg2/report.txt",
-        "quast/h_sapiens_chr1_ont.g500.c4.yacrd.ra/report.txt",
-        "quast/h_sapiens_chr1_ont.g500.c4.yacrd.shasta/report.txt",
-        "quast/h_sapiens_chr1_ont.dascrubber.miniasm/report.txt",
-        "quast/h_sapiens_chr1_ont.dascrubber.wtdbg2/report.txt",
-        "quast/h_sapiens_chr1_ont.dascrubber.ra/report.txt",
-        "quast/h_sapiens_chr1_ont.dascrubber.shasta/report.txt",
-        #"quast/h_sapiens_chr1_ont.miniscrub.cpu.miniasm/report.txt",
-        #"quast/h_sapiens_chr1_ont.miniscrub.cpu.wtdbg2/report.txt",
-        #"quast/h_sapiens_chr1_ont.miniscrub.cpu.ra/report.txt",
-        #"quast/h_sapiens_chr1_ont.miniscrub.cpu.shasta/report.txt",
+        h_sapiens_out()
+
+def d_melanogaster_out():
+    d = "d_melanogaster_reads_ont"
+    for s in ["raw", "g500.c4.yacrd", "dascrubber"]:
+        yield bwa_str.format(dataset=d, scrubber=s)
+        yield minimap_str.format(dataset=d, scrubber=s)
+        yield porechop_str.format(dataset=d, scrubber=s)        
         
-        "mapping/h_sapiens_chr1_ont.raw.bam",
-        "mapping/h_sapiens_chr1_ont.g500.c4.yacrd.bam",
-        "mapping/h_sapiens_chr1_ont.dascrubber.bam",
-        #"mapping/h_sapiens_chr1_ont.miniscrub.cpu.bam",
-
-        "mapping/h_sapiens_chr1_ont.raw.paf",
-        "mapping/h_sapiens_chr1_ont.g500.c4.yacrd.paf",
-        "mapping/h_sapiens_chr1_ont.dascrubber.paf",
-        #"mapping/h_sapiens_chr1_ont.miniscrub.cpu.paf",
-
-        "porechop/h_sapiens_chr1_ont.raw.out",
-        "porechop/h_sapiens_chr1_ont.g500.c4.yacrd.out",
-        "porechop/h_sapiens_chr1_ont.dascrubber.out",
-
+        for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
+            yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
         
 rule d_melanogaster:
     input:
-        "quast/d_melanogaster_reads_ont.raw.miniasm/report.txt",
-        "quast/d_melanogaster_reads_ont.raw.wtdbg2/report.txt",
-        "quast/d_melanogaster_reads_ont.raw.ra/report.txt",
-        "quast/d_melanogaster_reads_ont.raw.shasta/report.txt",
-        "quast/d_melanogaster_reads_ont.g500.c4.yacrd.miniasm/report.txt",
-        "quast/d_melanogaster_reads_ont.g500.c4.yacrd.wtdbg2/report.txt",
-        "quast/d_melanogaster_reads_ont.g500.c4.yacrd.ra/report.txt",
-        "quast/d_melanogaster_reads_ont.g500.c4.yacrd.shasta/report.txt",
-        "quast/d_melanogaster_reads_ont.dascrubber.miniasm/report.txt",
-        "quast/d_melanogaster_reads_ont.dascrubber.wtdbg2/report.txt",
-        "quast/d_melanogaster_reads_ont.dascrubber.ra/report.txt",
-        "quast/d_melanogaster_reads_ont.dascrubber.shasta/report.txt",
-        #"quast/d_melanogaster_reads_ont.miniscrub.cpu.miniasm/report.txt",
-        #"quast/d_melanogaster_reads_ont.miniscrub.cpu.wtdbg2/report.txt",
-        #"quast/d_melanogaster_reads_ont.miniscrub.cpu.ra/report.txt",
-        #"quast/d_melanogaster_reads_ont.miniscrub.cpu.shasta/report.txt",
+        d_melanogaster_out()
 
-        "mapping/d_melanogaster_reads_ont.raw.bam",
-        "mapping/d_melanogaster_reads_ont.g500.c4.yacrd.bam",
-        "mapping/d_melanogaster_reads_ont.dascrubber.bam",
-        #"mapping/d_melanogaster_reads_ont.miniscrub.cpu.bam",
 
-        "mapping/d_melanogaster_reads_ont.raw.paf",
-        "mapping/d_melanogaster_reads_ont.g500.c4.yacrd.paf",
-        "mapping/d_melanogaster_reads_ont.dascrubber.paf",
-        #"mapping/d_melanogaster_reads_ont.miniscrub.cpu.paf",
-
-        "porechop/d_melanogaster_reads_ont.raw.out",
-        "porechop/d_melanogaster_reads_ont.g500.c4.yacrd.out",
-        "porechop/d_melanogaster_reads_ont.dascrubber.out",
-
+def e_coli_ont_out():
+    d = "real_reads_ont"
+    for s in ["raw", "g500.c4.yacrd", "dascrubber", "miniscrub.cpu"]:
+        yield bwa_str.format(dataset=d, scrubber=s)
+        yield minimap_str.format(dataset=d, scrubber=s)
+        yield porechop_str.format(dataset=d, scrubber=s)        
         
+        for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
+            yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
+        
+def e_coli_pb_out():
+    d = "real_reads_ont"
+    for s in ["raw", "g5000.c3.yacrd", "dascrubber", "miniscrub.cpu"]:
+        yield bwa_str.format(dataset=d, scrubber=s)
+        yield minimap_str.format(dataset=d, scrubber=s)
+        yield porechop_str.format(dataset=d, scrubber=s)        
+        
+        for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
+            yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
+            
 rule e_coli:
     input:
-        "quast/real_reads_ont.raw.miniasm/report.txt",
-        "quast/real_reads_ont.raw.wtdbg2/report.txt",
-        "quast/real_reads_ont.raw.ra/report.txt",
-        "quast/real_reads_ont.raw.shasta/report.txt",
-        "quast/real_reads_ont.g500.c4.yacrd.miniasm/report.txt",
-        "quast/real_reads_ont.g500.c4.yacrd.wtdbg2/report.txt",
-        "quast/real_reads_ont.g500.c4.yacrd.ra/report.txt",
-        "quast/real_reads_ont.g500.c4.yacrd.shasta/report.txt",
-        "quast/real_reads_ont.dascrubber.miniasm/report.txt",
-        "quast/real_reads_ont.dascrubber.wtdbg2/report.txt",
-        "quast/real_reads_ont.dascrubber.ra/report.txt",
-        "quast/real_reads_ont.dascrubber.shasta/report.txt",
-        "quast/real_reads_ont.miniscrub.cpu.miniasm/report.txt",
-        "quast/real_reads_ont.miniscrub.cpu.wtdbg2/report.txt",
-        "quast/real_reads_ont.miniscrub.cpu.ra/report.txt",
-        "quast/real_reads_ont.miniscrub.cpu.shasta/report.txt",
-
-        "mapping/real_reads_ont.raw.bam",
-        "mapping/real_reads_ont.g500.c4.yacrd.bam",
-        "mapping/real_reads_ont.dascrubber.bam",
-        "mapping/real_reads_ont.miniscrub.cpu.bam",
-
-        "mapping/real_reads_ont.raw.paf",
-        "mapping/real_reads_ont.g500.c4.yacrd.paf",
-        "mapping/real_reads_ont.dascrubber.paf",
-        "mapping/real_reads_ont.miniscrub.cpu.paf",
-
-        "porechop/real_reads_ont.raw.out",
-        "porechop/real_reads_ont.g500.c4.yacrd.out",
-        "porechop/real_reads_ont.dascrubber.out",
-        "porechop/real_reads_ont.miniscrub.cpu.out",
-        
-
-        "quast/real_reads_pb.raw.miniasm/report.txt",
-        "quast/real_reads_pb.raw.wtdbg2/report.txt",
-        "quast/real_reads_pb.raw.ra/report.txt",
-        "quast/real_reads_pb.raw.shasta/report.txt",
-        "quast/real_reads_pb.g5000.c3.yacrd.miniasm/report.txt",
-        "quast/real_reads_pb.g5000.c3.yacrd.wtdbg2/report.txt",
-        "quast/real_reads_pb.g5000.c3.yacrd.ra/report.txt",
-        "quast/real_reads_pb.g5000.c3.yacrd.shasta/report.txt",
-        "quast/real_reads_pb.dascrubber.miniasm/report.txt",
-        "quast/real_reads_pb.dascrubber.wtdbg2/report.txt",
-        "quast/real_reads_pb.dascrubber.ra/report.txt",
-        "quast/real_reads_pb.dascrubber.shasta/report.txt",
-        "quast/real_reads_pb.miniscrub.cpu.miniasm/report.txt",
-        "quast/real_reads_pb.miniscrub.cpu.wtdbg2/report.txt",
-        "quast/real_reads_pb.miniscrub.cpu.ra/report.txt",
-        "quast/real_reads_pb.miniscrub.cpu.shasta/report.txt",
-
-        "mapping/real_reads_pb.raw.bam",
-        "mapping/real_reads_pb.g5000.c3.yacrd.bam",
-        "mapping/real_reads_pb.dascrubber.bam",
-        "mapping/real_reads_pb.miniscrub.cpu.bam",
-        
-        "mapping/real_reads_pb.raw.paf",
-        "mapping/real_reads_pb.g5000.c3.yacrd.paf",
-        "mapping/real_reads_pb.dascrubber.paf",
-        "mapping/real_reads_pb.miniscrub.cpu.paf",
+        e_coli_ont_out(),
+        e_coli_pb_out()
     
 rule all:
     input:

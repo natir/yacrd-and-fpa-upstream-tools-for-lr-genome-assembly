@@ -20,6 +20,7 @@ This tools need to be avaible in your path :
 - [wtdbg2](https://github.com/ruanjue/wtdbg2) 2.3
 - [miniasm](https://github.com/lh3/miniasm) 0.3-r179
 - [quast](http://bioinf.spbau.ru/quast) v5.0.2
+- [nucmer](http://mummer.sourceforge.net/) 3.1
 
 You need change path of this tools in snakemake pipeline file:
 

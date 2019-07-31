@@ -21,6 +21,8 @@ This tools need to be avaible in your path :
 - [miniasm](https://github.com/lh3/miniasm) 0.3-r179
 - [quast](http://bioinf.spbau.ru/quast) v5.0.2
 - [nucmer](http://mummer.sourceforge.net/) 3.1
+- [bwa mem](http://bio-bwa.sourceforge.net/bwa.shtml) 0.7.17
+- [samtools](https://samtools.github.io/) 1.9
 
 You need change path of this tools in snakemake pipeline file:
 

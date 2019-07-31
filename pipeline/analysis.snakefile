@@ -79,6 +79,6 @@ rule nucmer:
         ref=lambda wildcards, output: ref[wildcards.prefix]    
         
     shell:
-        "nucmer -prefix nucmer/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm} -maxmatch -l 100 -c 500 data/{params.ref} {input.asm}"
+        "nucmer -prefix nucmer/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm} -maxmatch -l 20 -c 500 data/{params.ref} {input.asm}"
 
     

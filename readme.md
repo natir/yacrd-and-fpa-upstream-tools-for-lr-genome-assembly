@@ -36,6 +36,7 @@ Update ra path in file `pipeline/assembly.snakefile` line 69.
 Update shasta path in `pipeline/assembly.snakefile` line 85.
 Update porechop path in `pipeline/analysis.snakefile` line 68.
 
+If you execute `conda env create -f conda_env.yml` conda create environment `yacrd_fpa` with all dependency except dascrubber, miniscrub, ra, porechop and shasta.
 
 # Dataset
 

@@ -73,7 +73,7 @@ def e_coli_ont_out():
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
         
 def e_coli_pb_out():
-    d = "real_reads_ont"
+    d = "real_reads_pb"
     for s in ["raw", "g5000.c3.yacrd", "dascrubber", "miniscrub.cpu"]:
         yield bwa_str.format(dataset=d, scrubber=s)
         yield minimap_str.format(dataset=d, scrubber=s)

@@ -14,6 +14,7 @@ porechop_str = "porechop/{dataset}.{scrubber}.out"
 
 quast_str = "quast/{dataset}.{scrubber}.{assembly}/report.txt"
 nucmer_str = "nucmer/{dataset}.{scrubber}.{assembly}.delta"
+quast_lr_str = "quast_lr/{dataset}.{scrubber}.{assembly}/report.txt"
 
 def c_elegans_out():
     d = "c_elegans_pb"
@@ -25,7 +26,8 @@ def c_elegans_out():
         for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-
+            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
+            
 rule c_elegans:
     input:
         c_elegans_out()
@@ -40,7 +42,8 @@ def h_sapiens_out():
         for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-        
+            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
+                    
 rule h_sapiens:
     input:
         h_sapiens_out()
@@ -55,7 +58,8 @@ def d_melanogaster_out():
         for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-        
+            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
+            
 rule d_melanogaster:
     input:
         d_melanogaster_out()
@@ -71,7 +75,8 @@ def e_coli_ont_out():
         for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-        
+            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
+            
 def e_coli_pb_out():
     d = "real_reads_pb"
     for s in ["raw", "g5000.c3.yacrd", "dascrubber", "miniscrub.cpu"]:
@@ -82,6 +87,7 @@ def e_coli_pb_out():
         for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
+            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
             
 rule e_coli:
     input:

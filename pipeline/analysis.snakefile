@@ -25,6 +25,20 @@ rule quast:
     shell:
         "quast -o quast/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r data/{params.ref} -t 16 {input.asm}"
 
+rule quast_lr:
+    input:
+        asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
+
+    output:
+        "quast_lr/{prefix}_{tech}.{scrubbing}.{asm}/report.txt"
+
+    params:
+        ref=lambda wildcards, output: ref[wildcards.prefix]    
+        
+    shell:
+        "quast -o quast_lr/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r data/{params.ref} -t 16 {input.asm} --extensive-mis-size 10000"
+
+        
 rule mapping:
     input:
         "scrubbing/{prefix}_{tech}.{suffix}.fasta"

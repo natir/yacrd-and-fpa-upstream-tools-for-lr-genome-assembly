@@ -24,9 +24,9 @@ rule miniasm:
 
 genome_size={"real_reads": "5.2m", "d_melanogaster_reads": "143.7m", "c_elegans": "100.2m", "h_sapiens_chr1": "248.9m"}
 
-prefix_tech2tech_wdbtg2={"real_reads_ont": "ont", "real_reads_pb": "sq", "c_elegans_pb": "rs", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
+prefix_tech2tech_wdbtg2={"real_reads_ont": "ont", "real_reads_pb": "sq", "c_elegans_pb": "rs", "c_elegans_ont": "ont", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
 
-prefix_tech2tech_ra={"real_reads_ont": "ont", "real_reads_pb": "pb", "c_elegans_pb": "pb", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
+prefix_tech2tech_ra={"real_reads_ont": "ont", "real_reads_pb": "pb", "c_elegans_pb": "pb", "c_elegans_ont": "ont", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
 
 rule wdbtg2:
     input:

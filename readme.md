@@ -53,6 +53,7 @@ If you execute `conda env create -f conda_env.yml` conda create environment `yac
   * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
   * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam)
   * [Pacbio RS P6-C4 C elegans](http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html)
+  * [Oxford nanopore C elegans](https://www.ebi.ac.uk/ena/data/view/SRX5511154)
 
 ## Build data directory
 
@@ -62,7 +63,8 @@ all_real_reads_ont.fasta         -> E. coli Nanopore reads
 all_real_reads_ont.fastq         -> fastq of previous reads
 all_real_reads_pb.fasta          -> E. coli Pacbio reads
 all_real_reads_pb.fastq          -> fastq of previous reads
-c_elegans_pb.fasta               -> C. elegans reads
+c_elegans_pb.fasta               -> C. elegans pacbio reads
+c_elegans_ont.fasta               -> C. elegans nanopore reads
 d_melanogaster_reads_ont.fasta   -> D. melanogaster reads
 h_sapiens_chr1_ont.fasta         -> H. Sapiens maps against chromosomes 1 reads 
 

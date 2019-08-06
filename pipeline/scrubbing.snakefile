@@ -60,7 +60,7 @@ rule yacrd_gc:
             "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.yacrd -S {output} -c {wildcards.coverage} -n 0.4",
         ])
         
-coverage = {"real_reads_pb": "49", "real_reads_ont": "49", "d_melanogaster_reads_ont": "63", "c_elegans_pb": "81", "h_sapiens_chr1_ont": "29"}
+coverage = {"real_reads_pb": "49", "real_reads_ont": "49", "d_melanogaster_reads_ont": "63", "c_elegans_pb": "81", "h_sapiens_chr1_ont": "29", "c_elegans_ont": "33"}
 rule dascrubber:
     input:
         "data/{prefix}.fasta",
@@ -115,7 +115,7 @@ rule dascrubber:
 
             "mv renamed_reads.fasta temp.fasta",
             "DB2fasta -vU patched_reads",
-            "awk '/^>/ { print (NR==1 ? \"\" : RS) $0; next } { printf \"%s\", $0 } END { printf RS }' renamed_reads.fasta > ../../{output}"
+            "seqtk seq renamed_reads.fasta > ../../{output}"
         ])
         
 rule miniscrub:

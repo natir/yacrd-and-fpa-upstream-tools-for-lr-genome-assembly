@@ -31,23 +31,6 @@ def c_elegans_out():
 rule c_elegans:
     input:
         c_elegans_out()
-
-def c_elegans_ont_out():
-    d = "c_elegans_ont"
-    for s in ["raw", "g500.c4.yacrd", "dascrubber"]:
-        yield bwa_str.format(dataset=d, scrubber=s)
-        yield minimap_str.format(dataset=d, scrubber=s)
-        yield porechop_str.format(dataset=d, scrubber=s)        
-
-        for a in ["miniasm", "wtdbg2", "ra", "shasta"]:
-            yield quast_str.format(dataset=d, scrubber=s, assembly=a)
-            yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
-            
-rule c_elegans_ont:
-    input:
-        c_elegans_ont_out()
-
         
 def h_sapiens_out():
     d = "h_sapiens_chr1_ont"
@@ -114,7 +97,6 @@ rule e_coli:
 rule all:
     input:
         rules.c_elegans.input,
-        rules.c_elegans_ont.input,
         rules.h_sapiens.input,
         rules.d_melanogaster.input,
         rules.e_coli.input,

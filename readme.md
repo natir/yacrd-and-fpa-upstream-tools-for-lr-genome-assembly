@@ -53,7 +53,6 @@ If you execute `conda env create -f conda_env.yml` conda create environment `yac
   * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
   * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam)
   * [Pacbio RS P6-C4 C elegans](http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html)
-  * [Oxford nanopore C elegans](https://www.ebi.ac.uk/ena/data/view/SRX5511154)
 
 ## Build data directory
 

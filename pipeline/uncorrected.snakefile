@@ -121,7 +121,6 @@ def NCTC():
         "ERR2632359_pb",
         "ERR2651535_pb",
         "ERR2651536_pb",
-        "ERR2651537_pb",
         "ERR2672424_pb",
         "ERR2672425_pb",
         "ERR2681660_pb",
@@ -143,7 +142,6 @@ def NCTC():
         "ERR3253089_pb",
         "ERR3253090_pb",
         "ERR3253091_pb",
-        "ERR3253092_pb",
         "ERR3253093_pb",
         "ERR3253094_pb",
         "ERR3253095_pb",
@@ -152,13 +150,10 @@ def NCTC():
         "ERR3253098_pb",
         "ERR3253099_pb",
         "ERR3253100_pb",
-        "ERR3253101_pb",
         "ERR3253102_pb",
         "ERR3253103_pb",
         "ERR3253104_pb",            
-        "ERR3253105_pb",
         "ERR3500074_pb",
-        "ERR3500075_pb",
     ]
     for d in dataset:
         for s in scrubber_list + yacrd_p6c4:

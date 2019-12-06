@@ -44,10 +44,23 @@ rule yacrd_precision:
             "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output} -c {wildcards.coverage} -n 0.{wildcards.discard}",
         ])
 
-rule yacrd_gc:
+rule minimap_yacrd_gc:
     input:
         reads="data/{prefix}_{techno}.fasta"
         
+    output:
+        "scrubbing/{prefix}_{techno}.g{dist}.paf"
+
+    benchmark:
+        "benchmarks/{prefix}_{techno}.g{dist}.minimap.yacrd.txt"
+        
+    shell:
+        "minimap2 -t16 -x ava-{wildcards.techno} -g {wildcards.dist} {input.reads} {input.reads} > {output}"
+        
+rule yacrd_gc:
+    input:
+        reads="data/{prefix}_{techno}.fasta",
+        overlap="scrubbing/{prefix}_{techno}.g{dist}.paf"
     output:
         "scrubbing/{prefix}_{techno}.g{dist}.c{coverage}.yacrd.fasta"
 
@@ -55,10 +68,8 @@ rule yacrd_gc:
         "benchmarks/{prefix}_{techno}.g{dist}.c{coverage}.yacrd.txt"
         
     shell:
-        " && ".join([
-            "minimap2 -t16 -x ava-{wildcards.techno} -g {wildcards.dist} {input.reads} {input.reads} > scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.paf",
-            "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.yacrd -S {output} -c {wildcards.coverage} -n 0.4",
-        ])
+        "yacrd scrubbing -m {input.overlap} -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.yacrd -S {output} -c {wildcards.coverage} -n 0.4"
+        
         
 rule dascrubber:
     input:
@@ -68,7 +79,7 @@ rule dascrubber:
         "scrubbing/{prefix}.dascrubber.fasta",
 
     params:
-        coverage=lambda wildcards, output: coverage[wildcards.prefix]
+        coverage=lambda wildcards, output: config["coverage"][wildcards.prefix]
         
     benchmark:
         "benchmarks/{prefix}.dascrubber.txt",        

@@ -2,9 +2,7 @@ rule all:
     input:
         "data/ref_e_coli_cft073.fasta",
         "data/real_reads_pb.fasta",
-        "data/real_reads_pb.fastq",
         "data/real_reads_ont.fasta",
-        "data/real_reads_ont.fastq",
 
 rule dl_reference:
     output:

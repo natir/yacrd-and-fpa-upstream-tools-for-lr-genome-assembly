@@ -20,14 +20,7 @@ rule miniasm:
             "miniasm -f {input} {output.ovl} > {output.graph}",
             "./script/gfaminiasm2fasta.py {output.graph} {output.asm}"
         ])
-
-
-genome_size={"real_reads": "5.2m", "d_melanogaster_reads": "143.7m", "c_elegans": "100.2m", "h_sapiens_chr1": "248.9m"}
-
-prefix_tech2tech_wdbtg2={"real_reads_ont": "ont", "real_reads_pb": "sq", "c_elegans_pb": "rs", "c_elegans_ont": "ont", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
-
-prefix_tech2tech_ra={"real_reads_ont": "ont", "real_reads_pb": "pb", "c_elegans_pb": "pb", "c_elegans_ont": "ont", "h_sapiens_chr1_ont": "ont", "d_melanogaster_reads_ont": "ont"}
-
+        
 rule wdbtg2:
     input:
         "scrubbing/{prefix}_{tech,[^\.]+}.{scrubber}.fasta"
@@ -40,8 +33,8 @@ rule wdbtg2:
         "benchmarks/{prefix}_{tech}.{scrubber}.wdbtg2.txt",
 
     params:
-        genome_size=lambda wildcards, output: genome_size[wildcards.prefix],
-        tech=lambda wildcards, output: prefix_tech2tech_wdbtg2[wildcards.prefix + "_" + wildcards.tech]
+        genome_size=lambda wildcards, output: config["genome_size"][wildcards.prefix],
+        tech=lambda wildcards, output: config["prefix_tech2tech_wtdbg2"][wildcards.prefix + "_" + wildcards.tech]
         
     shell:
         " && ".join([
@@ -60,7 +53,7 @@ rule ra:
         "benchmarks/{prefix}_{tech}.{scrubber}.ra.txt"
 
     params:
-        tech=lambda wildcards, output: prefix_tech2tech_ra[wildcards.prefix + "_" + wildcards.tech]
+        tech=lambda wildcards, output: config["prefix_tech2tech_ra"][wildcards.prefix + "_" + wildcards.tech]
 
     shell:
         " && ".join([

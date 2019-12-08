@@ -1,4 +1,5 @@
 {
+    "porechop_path": "~/tools/Porechop/porecho-runner.py"
     "genome_size": {
 	"real_reads": "5.2m",
 	"d_melanogaster_reads": "143.7m",

@@ -79,7 +79,7 @@ rule porechop:
         "porechop/{prefix}_{tech}.{suffix}.out"
         
     shell:
-        "/home/pierre.marijon/tools/Porechop/porechop-runner.py -i {input} -o /dev/null > {output}"
+        "{config['porechop']} -i {input} -o /dev/null > {output}"
 
 
 rule nucmer:

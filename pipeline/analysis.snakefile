@@ -90,7 +90,7 @@ rule porechop:
         "porechop/{prefix}_{tech}.{suffix}.out"
         
     shell:
-        "{config['porechop']} -i {input} -o /dev/null > {output}"
+        {config['porechop']} + " -i {input} -o /dev/null > {output}"
 
 
 rule nucmer:

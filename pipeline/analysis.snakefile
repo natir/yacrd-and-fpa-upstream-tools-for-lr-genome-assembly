@@ -52,7 +52,7 @@ rule indexing:
 rule mapping:
     input:
         reads="scrubbing/{prefix}_{tech}.{suffix}.fasta",
-        ref=expand("data/{ref}.bwt", ref=ref[wildcards.prefix])
+        ref=lambda wildcards: f"data/{ref[wildcards.prefix]}.bwt"
 
     output:
         "mapping/{prefix}_{tech}.{suffix}.bam"
@@ -90,7 +90,7 @@ rule porechop:
         "porechop/{prefix}_{tech}.{suffix}.out"
         
     shell:
-        {config['porechop']} + " -i {input} -o /dev/null > {output}"
+        config['porechop_path'] + " -i {input} -o /dev/null > {output}"
 
 
 rule nucmer:

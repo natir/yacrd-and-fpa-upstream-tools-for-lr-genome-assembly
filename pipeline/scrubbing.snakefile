@@ -99,16 +99,16 @@ rule dascrubber:
             "rm -r align_temp",
 
             "mkdir align_temp",
-            "HPC.REPmask -v -Palign_temp -g2 -c{params.coverage} reads 1-$(ls *.las | cut -d. -f2 | sort -rn | head -1) | csh",
+            "HPC.REPmask -v -Palign_temp -g2 -T16 -c{params.coverage} reads 1-$(ls *.las | cut -d. -f2 | sort -rn | head -1) | csh",
             "rm -r align_temp",
 
             "mkdir align_temp",
-            "HPC.TANmask -v reads -Palign_temp |csh",
+            "HPC.TANmask -v reads -T16 -Palign_temp |csh",
             "rm -r align_temp",
        
             "mkdir align_temp",
             "rm reads.*.las",
-            "HPC.daligner -v -Palign_temp -mrep -mtan -T16 reads | csh",
+            "HPC.daligner -v -Palign_temp -T16 -mrep -mtan -T16 reads | csh",
             "rm -r align_temp",
 
             "LAmerge reads.las reads.*.las",

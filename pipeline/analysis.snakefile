@@ -38,11 +38,22 @@ rule quast_lr:
     shell:
         "quast -o quast_lr/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r data/{params.ref} -t 16 {input.asm} --extensive-mis-size 10000"
 
+
+rule indexing:
+    input:
+        "data/{ref}.fasta",
+
+    output:
+        "data/{ref}.fasta.bwt"
+        
+    shell:
+        "bwa index {input}"
         
 rule mapping:
     input:
-        "scrubbing/{prefix}_{tech}.{suffix}.fasta"
-        
+        reads="scrubbing/{prefix}_{tech}.{suffix}.fasta",
+        ref=expand("data/{ref}.bwt", ref=ref[wildcards.prefix])
+
     output:
         "mapping/{prefix}_{tech}.{suffix}.bam"
         
@@ -52,7 +63,7 @@ rule mapping:
         
     shell:
         " && ".join([
-            "bwa mem -t 16 -x {params.tech} data/{params.ref} {input} | samtools sort > {output}",
+            "bwa mem -t 16 -x {params.tech} data/{input.ref} {input.reads} | samtools sort > {output}",
             "samtools index {output}"
         ])
 

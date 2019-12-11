@@ -91,38 +91,59 @@ rule dascrubber:
             "cd dascrubber/{wildcards.prefix}/",
 
             "./../../script/rename_with_fake_pacbio.py ../../{input} renamed_reads.fasta",
+
+            "echo '---------- fasta2DB ----------'",
             "fasta2DB reads.db renamed_reads.fasta",
+
+            "echo '---------- DBsplit ----------'",
             "DBsplit -s200 -x100 reads",
 
+            "NB_BLOCK=$(cat reads.db | grep 'blocks' | cut -d' ' -f 3- | sed 's/\s//g')",
+
+            "echo '---------- HPC.daligner ----------'",
             "mkdir align_temp",
             "HPC.daligner -v -M16 -Palign_temp -T16 reads | csh",
             "rm -r align_temp",
 
+            "echo '---------- Maybe LAmerge ----------'",
+            "if [ ${{NB_BLOCK}} != 1 ]; then LAmerge reads.las reads.*.las; fi",
+
+            "echo '---------- HPC.REPmask ----------'",
+            "if [ ${{NB_BLOCK}} = 1 ]; then BLOCK=1; else BLOCK=2; fi",
             "mkdir align_temp",
-            "HPC.REPmask -v -Palign_temp -g2 -T16 -c{params.coverage} reads 1-$(ls *.las | cut -d. -f2 | sort -rn | head -1) | csh",
+            "HPC.REPmask -v -Palign_temp -g${{BLOCK}} -T16 -c{params.coverage} reads 1-${{NB_BLOCK}} | csh",
             "rm -r align_temp",
 
+            "echo '---------- HPC.TANmask ----------'",
             "mkdir align_temp",
-            "HPC.TANmask -v reads -T16 -Palign_temp |csh",
+            "HPC.TANmask -v reads -T16 -Palign_temp | csh",
             "rm -r align_temp",
-       
+
+            "echo '---------- HPC.daligner ----------'",
             "mkdir align_temp",
-            "rm reads.*.las",
+            "rm reads.*las",
             "HPC.daligner -v -Palign_temp -T16 -mrep -mtan -T16 reads | csh",
             "rm -r align_temp",
 
-            "LAmerge reads.las reads.*.las",
-            
+            "echo '---------- Maybe LAmerge ----------'",
+            "if [ ${{NB_BLOCK}} != 1 ]; then LAmerge reads.las reads.*.las; fi",
+
+            "echo '---------- DAScover ----------'",
             "DAScover -v reads reads.las",
 
+            "echo '---------- DASqv ----------'",
             "DASqv -v -c{params.coverage} reads reads.las",
 
+            "echo '---------- DAStrim ----------'",
             "DAStrim -v reads reads.las",
 
+            "echo '---------- DASpatch ----------'",
             "DASpatch -v reads reads.las",
 
-            "DASedit '-v' reads patched_reads",
+            "echo '---------- DASedit ----------'",
+            "DASedit -v reads patched_reads",
 
+            "echo '---------- DB2fasta ----------'",
             "mv renamed_reads.fasta temp.fasta",
             "DB2fasta -vU patched_reads",
             "seqtk seq renamed_reads.fasta > ../../{output}"

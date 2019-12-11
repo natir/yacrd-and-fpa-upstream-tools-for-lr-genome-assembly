@@ -156,7 +156,7 @@ def NCTC():
         "ERR3500074_pb",
     ]
     for d in dataset:
-        for s in scrubber_list + yacrd_p6c4:
+        for s in scrubber_list + yacrd_sequel:
             #yield bwa_str.format(dataset=d, scrubber=s)
             #yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)

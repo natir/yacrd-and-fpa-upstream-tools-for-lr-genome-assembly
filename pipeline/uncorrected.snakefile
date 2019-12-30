@@ -158,6 +158,7 @@ def NCTC():
 
     dascrubber_skip = [
         "ERR2695058_pb",
+        "ERR2531095_pb",
     ]
     for d in dataset:
         for s in scrubber_list + yacrd_sequel:

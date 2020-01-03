@@ -160,6 +160,7 @@ def NCTC():
         "ERR2695058_pb",
         "ERR2531095_pb",
         "ERR2695057_pb",
+        "ERR2672425_pb",
     ]
     for d in dataset:
         for s in scrubber_list + yacrd_sequel:

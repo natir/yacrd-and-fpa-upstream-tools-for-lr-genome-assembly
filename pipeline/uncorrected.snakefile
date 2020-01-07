@@ -176,7 +176,7 @@ def NCTC():
 rule NCTC:
     input:
         NCTC(),
-            
+   
 def nanopore2pacbio():
     dataset = [
         "SRR8494915_ont",
@@ -200,8 +200,14 @@ def nanopore2pacbio():
         "SRR8494943_ont",
         "SRR8494944_ont",
     ]
+
+    dascrubber_skip = [
+        "SRR8494919_ont",
+    ]
     for d in dataset:
         for s in scrubber_list + yacrd_nanopore:
+            if s == "dascrubber" and d in dascrubber_skip:
+                continue
             #yield bwa_str.format(dataset=d, scrubber=s)
             #yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)

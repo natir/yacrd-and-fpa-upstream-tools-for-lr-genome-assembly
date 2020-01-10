@@ -13,40 +13,6 @@ rule raw:
     shell:
         "ln -s $(readlink -f {input}) {output}"
 
-
-rule yacrd:
-    input:
-        reads="data/{prefix}_{techno}.fasta"
-        
-    output:
-        "scrubbing/{prefix}_{techno}.{coverage,\d+}.{discard,\d+}.yacrd.fasta"
-
-    benchmark:
-        "benchmarks/{prefix}_{techno}.{coverage}.{discard}.yacrd.txt"
-        
-    shell:
-        " && ".join([
-            "minimap2 -t 16 -x ava-{wildcards.techno} {input.reads} {input.reads} | fpa drop -i -l 2000 > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf",
-            "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output} -c {wildcards.coverage} -n 0.{wildcards.discard}",
-        ])
-
-        
-rule yacrd_precision:
-    input:
-        reads="data/{prefix}_{techno}.fasta"
-        
-    output:
-        "scrubbing/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.fasta"
-
-    benchmark:
-        "benchmarks/{prefix}_{techno}.{coverage}.{discard}.precision.yacrd.txt"
-        
-    shell:
-        " && ".join([
-            "minimap2 -t16 -x ava-{wildcards.techno} -g 1000 -n 3 {input.reads} {input.reads} > scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf",
-            "yacrd scrubbing -m scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.precision.paf -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.{wildcards.coverage}.{wildcards.discard}.yacrd -S {output} -c {wildcards.coverage} -n 0.{wildcards.discard}",
-        ])
-
 rule minimap_yacrd_gc:
     input:
         reads="data/{prefix}_{techno}.fasta"
@@ -65,13 +31,13 @@ rule yacrd_gc:
         reads="data/{prefix}_{techno}.fasta",
         overlap="scrubbing/{prefix}_{techno}.g{dist}.paf"
     output:
-        "scrubbing/{prefix}_{techno}.g{dist}.c{coverage}.yacrd.fasta"
-
+        reads="scrubbing/{prefix}_{techno}.g{dist}.c{coverage}.yacrd.fasta",
+        report="scrubbing/{prefix}_{techno}.g{dist}.c{coverage}.yacrd"
     benchmark:
         "benchmarks/{prefix}_{techno}.g{dist}.c{coverage}.yacrd.txt"
         
     shell:
-        "yacrd scrubbing -m {input.overlap} -s {input.reads} -r scrubbing/{wildcards.prefix}_{wildcards.techno}.g{wildcards.dist}.c{wildcards.coverage}.yacrd -S {output} -c {wildcards.coverage} -n 0.4"
+        "yacrd -i {input.overlap} -o {output.report} -c {wildcards.coverage} -n 0.4 scrubb -i {input.reads} -o {output.reads}"
         
         
 rule dascrubber:

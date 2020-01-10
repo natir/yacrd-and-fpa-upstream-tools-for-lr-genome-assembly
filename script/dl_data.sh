@@ -3,16 +3,18 @@
 # reference
 
 ## E. coli CFT073
-curl "https://www.ebi.ac.uk/ena/data/view/AE014075&display=fasta" | seqtk seq -A - > data/ref_e_coli_cft073.fasta
+curl "https://www.ebi.ac.uk/ena/data/view/AE014075&display=fasta" | seqtk seq -A - > references/SRR8494940_ont.fasta
+ln -s references/SRR8494940_ont.fasta references/SRR8494911_pb.fasta
+ln -s references/SRR8494940_ont.fasta references/ref_e_coli_cft073.fasta
 
 ## H. sapiens chr1
-curl ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz | seqtk seq -A - > data/h_sapiens_chr1_ref.fasta
+curl ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz | seqtk seq -A - > references/h_sapiens_chr1_ref.fasta
 
 ## D. melanogaster
-curl "https://www.ebi.ac.uk/ena/data/view/AE014298.5,AE014134.6,AE013599.5,AE014296.5,AE014297.3,AE014135.4,CP007106.1,KJ947872.2&display=fasta" | seqtk seq -A - > data/d_melanogaster_ref.fasta
+curl "https://www.ebi.ac.uk/ena/data/view/AE014298.5,AE014134.6,AE013599.5,AE014296.5,AE014297.3,AE014135.4,CP007106.1,KJ947872.2&display=fasta" | seqtk seq -A - > references/d_melanogaster_reads_ont_ref.fasta
 
 ## C. elegans
-curl "https://www.ebi.ac.uk/ena/data/view/BX284601.5,BX284602.5,BX284603.4,BX284604.4,BX284605.5,BX284606.5&display=fasta" | seqtk seq -A - > data/c_elegans_ref.fasta
+curl "https://www.ebi.ac.uk/ena/data/view/BX284601.5,BX284602.5,BX284603.4,BX284604.4,BX284605.5,BX284606.5&display=fasta" | seqtk seq -A - > references/c_elegans_pb_ref.fasta
 
 # reads
 

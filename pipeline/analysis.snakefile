@@ -1,5 +1,3 @@
-ref = {"real_reads": "ref_e_coli_cft073.fasta", "d_melanogaster_reads": "d_melanogaster_ref.fasta", "c_elegans": "c_elegans_ref.fasta", "h_sapiens_chr1": "h_sapiens_chr1_ref.fasta"}
-
 def tech2tech_bwa(wildcards, output):
     if "ont" in wildcards.tech:
         return "ont2d"
@@ -18,6 +16,8 @@ rule referenceseeker:
         database = "referenceseeker/bacteria/"
     output:
         result = "referenceseeker/{prefix}_possible_ref.csv",
+    wildcard_constraints:
+        prefix="[^\.]*"
     threads:
         16
     shell:
@@ -28,6 +28,8 @@ rule dl_reference:
         result = "referenceseeker/{prefix}_possible_ref.csv",
     output:
         ref = "references/{prefix}_ref.fasta",
+    wildcard_constraints:
+        prefix="[^\.]*"
     shell:
         " && ".join([
             "REF=$(cut -d$'\t' -f 1 {input.result} | head -n 2 | tail -n 1)",
@@ -38,36 +40,20 @@ rule dl_reference:
 rule quast:
     input:
         asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
-
+        ref="references/{prefix}_{tech}_ref.fasta"
     output:
         "quast/{prefix}_{tech}.{scrubbing}.{asm}/report.txt"
-
-    params:
-        ref=lambda wildcards, output: ref[wildcards.prefix]    
-        
+    wildcard_constraints:
+        tech="[^\.]*"
     shell:
-        "quast -o quast/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r data/{params.ref} -t 16 {input.asm}"
-
-rule quast_lr:
-    input:
-        asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
-
-    output:
-        "quast_lr/{prefix}_{tech}.{scrubbing}.{asm}/report.txt"
-
-    params:
-        ref=lambda wildcards, output: ref[wildcards.prefix]    
-        
-    shell:
-        "quast -o quast_lr/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r data/{params.ref} -t 16 {input.asm} --extensive-mis-size 10000"
-
+        "quast -o quast/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r {input.ref} -t 16 {input.asm}"
 
 rule indexing:
     input:
-        "data/{ref}.fasta",
+        "references/{ref}.fasta",
 
     output:
-        "data/{ref}.fasta.bwt"
+        "references/{ref}.fasta.bwt"
         
     shell:
         "bwa index {input}"
@@ -75,13 +61,13 @@ rule indexing:
 rule mapping:
     input:
         reads="scrubbing/{prefix}_{tech}.{suffix}.fasta",
-        ref=lambda wildcards: f"data/{ref[wildcards.prefix]}.bwt"
-
+        ref="references/{prefix}_{tech}_ref.fasta.bwt"
+    wildcard_constraints:
+        tech="[^\.]+"
     output:
         "mapping/{prefix}_{tech}.{suffix}.bam"
         
     params:
-        ref=lambda wildcards, output: ref[wildcards.prefix],
         tech=lambda wildcards, output: tech2tech_bwa(wildcards, output)
         
     shell:
@@ -92,17 +78,17 @@ rule mapping:
 
 rule minimap2:
     input:
-        "scrubbing/{prefix}_{tech}.{suffix}.fasta"
-        
+        reads="scrubbing/{prefix}_{tech}.{suffix}.fasta",
+        ref="references/{prefix}_{tech}_ref.fasta"
     output:
         "mapping/{prefix}_{tech}.{suffix}.paf"
-        
+    wildcard_constraints:
+        tech="[^\.]*"
     params:
-        ref=lambda wildcards, output: ref[wildcards.prefix],
         tech=lambda wildcards, output: tech2tech_paf(wildcards, output)
         
     shell:
-        "minimap2 -t 16 -x {params.tech} data/{params.ref} {input} > {output}"
+        "minimap2 -t 16 -x {params.tech} {input.ref} {input.reads} > {output}"
 
 
 rule porechop:
@@ -119,14 +105,12 @@ rule porechop:
 rule nucmer:
     input:
         asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
-
+        ref="references/{prefix}_{tech}_ref.fasta"
     output:
         "nucmer/{prefix}_{tech}.{scrubbing}.{asm}.delta"
-
-    params:
-        ref=lambda wildcards, output: ref[wildcards.prefix]    
-        
+    wildcard_constraints:
+        tech="[^\.]*"
     shell:
-        "nucmer -t 16 --prefix nucmer/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm} --maxmatch -l 20 -c 500 data/{params.ref} {input.asm}"
+        "nucmer -t 16 --prefix nucmer/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm} --maxmatch -l 20 -c 500 {input.ref} {input.asm}"
 
     

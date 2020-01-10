@@ -7,6 +7,9 @@ rule raw:
     output:
         "scrubbing/{file}_{techno}.raw.fasta"
 
+    wildcard_constraints:
+        techno="[^\.]+"
+        
     shell:
         "ln -s $(readlink -f {input}) {output}"
 

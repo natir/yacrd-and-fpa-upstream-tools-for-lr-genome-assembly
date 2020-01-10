@@ -17,7 +17,6 @@ miniasm_str = "assembly/{dataset}.{scrubber}.miniasm.fasta"
 
 quast_str = "quast/{dataset}.{scrubber}.{assembly}/report.txt"
 nucmer_str = "nucmer/{dataset}.{scrubber}.{assembly}.delta"
-quast_lr_str = "quast_lr/{dataset}.{scrubber}.{assembly}/report.txt"
 
 assembly_list = [
     "miniasm",
@@ -40,12 +39,10 @@ def c_elegans_out():
     for s in scrubber_list + yacrd_p6c4:
         yield bwa_str.format(dataset=d, scrubber=s)
         yield minimap_str.format(dataset=d, scrubber=s)
-        yield porechop_str.format(dataset=d, scrubber=s)        
-
+        yield porechop_str.format(dataset=d, scrubber=s)
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
             
 rule c_elegans:
     input:
@@ -61,7 +58,6 @@ def h_sapiens_out():
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
                     
 rule h_sapiens:
     input:
@@ -77,7 +73,6 @@ def d_melanogaster_out():
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
             
 rule d_melanogaster:
     input:
@@ -93,7 +88,6 @@ def e_coli_ont_out():
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
             
 def e_coli_pb_out():
     d = "real_reads_pb"
@@ -105,7 +99,6 @@ def e_coli_pb_out():
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
-            yield quast_lr_str.format(dataset=d, scrubber=s, assembly=a)
             
 def NCTC():
     dataset = [
@@ -167,8 +160,8 @@ def NCTC():
         for s in scrubber_list + yacrd_sequel:
             if s == "dascrubber" and d in dascrubber_skip:
                 continue
-            #yield bwa_str.format(dataset=d, scrubber=s)
-            #yield minimap_str.format(dataset=d, scrubber=s)
+            yield bwa_str.format(dataset=d, scrubber=s)
+            yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)
 
             yield wtdbg2_str.format(dataset=d, scrubber=s)
@@ -209,8 +202,8 @@ def nanopore2pacbio():
         for s in scrubber_list + yacrd_nanopore:
             if s == "dascrubber" and d in dascrubber_skip:
                 continue
-            #yield bwa_str.format(dataset=d, scrubber=s)
-            #yield minimap_str.format(dataset=d, scrubber=s)
+            yield bwa_str.format(dataset=d, scrubber=s)
+            yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)
 
             yield wtdbg2_str.format(dataset=d, scrubber=s)
@@ -240,8 +233,8 @@ def nanopore2pacbio():
     ]
     for d in dataset:
         for s in scrubber_list + yacrd_p6c4:
-            #yield bwa_str.format(dataset=d, scrubber=s)
-            #yield minimap_str.format(dataset=d, scrubber=s)
+            yield bwa_str.format(dataset=d, scrubber=s)
+            yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)
 
             yield wtdbg2_str.format(dataset=d, scrubber=s)

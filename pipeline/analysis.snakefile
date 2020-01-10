@@ -11,7 +11,30 @@ def tech2tech_paf(wildcards, output):
         return "map-ont"
     else:
         return "map-pb"
-    
+
+rule referenceseeker:
+    input:
+        asm = "assembly/{prefix}.raw.wtdbg2.fasta",
+        database = "referenceseeker/bacteria/"
+    output:
+        result = "referenceseeker/{prefix}_possible_ref.csv",
+    threads:
+        16
+    shell:
+        "referenceseeker --unfiltered -t 16 -c 10 {input.database} {input.asm} > {output.result} --crg 10"
+
+rule dl_reference:
+    input:
+        result = "referenceseeker/{prefix}_possible_ref.csv",
+    output:
+        ref = "references/{prefix}_ref.fasta",
+    shell:
+        " && ".join([
+            "REF=$(cut -d$'\t' -f 1 {input.result} | head -n 2 | tail -n 1)",
+            "URL=$(esearch -db nuccore -query $REF | elink -db assembly -target assembly | esummary | xtract -pattern DocumentSummary -element FtpPath_RefSeq)",
+            "curl $(echo $URL | sed \"s|/\([^/]*\)$|/\\1/\\1_genomic.fna.gz|g\") | seqtk seq -A - > {output.ref}"
+        ])
+        
 rule quast:
     input:
         asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",

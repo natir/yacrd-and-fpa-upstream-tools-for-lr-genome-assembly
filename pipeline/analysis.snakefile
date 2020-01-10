@@ -99,7 +99,7 @@ rule porechop:
         "porechop/{prefix}_{tech}.{suffix}.out"
         
     shell:
-        config['porechop_path'] + " -i {input} -o /dev/null > {output}"
+        config['porechop_path'] + " -i {input} -o /dev/null --discard_middle > {output}"
 
 
 rule nucmer:

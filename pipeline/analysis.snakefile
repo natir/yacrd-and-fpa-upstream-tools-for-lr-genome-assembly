@@ -72,7 +72,7 @@ rule mapping:
         
     shell:
         " && ".join([
-            "bwa mem -t 16 -x {params.tech} data/{input.ref} {input.reads} | samtools sort > {output}",
+            "bwa mem -t 16 -x {params.tech} references/{wildcards.prefix}_{wildcards.tech}_ref.fasta {input.reads} | samtools sort > {output}",
             "samtools index {output}"
         ])
 

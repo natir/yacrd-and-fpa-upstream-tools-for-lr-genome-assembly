@@ -111,14 +111,12 @@ def NCTC():
         "ERR2603033_pb",
         "ERR2615933_pb",
         "ERR2615934_pb",
-        "ERR2632359_pb",
         "ERR2651535_pb",
         "ERR2651536_pb",
-        "ERR2672424_pb",
-        "ERR2672425_pb",
+        "ERR2632359_pb",
         "ERR2681660_pb",
-        "ERR2695057_pb",
-        "ERR2695058_pb",
+        "ERR2672424_pb",
+        "ERR2672425_pb", 
         "ERR3253076_pb",
         "ERR3253077_pb",
         "ERR3253078_pb",
@@ -147,14 +145,19 @@ def NCTC():
         "ERR3253103_pb",
         "ERR3253104_pb",            
         "ERR3500074_pb",
+
+        "ERR2695058_pb",
+        "ERR2695057_pb",
     ]
 
     dascrubber_skip = [
-        "ERR2695058_pb",
         "ERR2531095_pb",
-        "ERR2695057_pb",
-        "ERR2672425_pb",
         "ERR2615934_pb",
+        "ERR2672425_pb",
+        "ERR2695058_pb",
+        "ERR2695057_pb",
+        "ERR2632359_pb",
+        "ERR2672424_pb",
     ]
     for d in dataset:
         for s in scrubber_list + yacrd_sequel:

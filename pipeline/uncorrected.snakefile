@@ -167,8 +167,9 @@ def NCTC():
             yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)
 
-            yield wtdbg2_str.format(dataset=d, scrubber=s)
-            yield miniasm_str.format(dataset=d, scrubber=s)
+            for a in assembly_list:
+                yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+                yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
 
 rule NCTC:
     input:
@@ -209,8 +210,9 @@ def nanopore2pacbio():
             yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)
 
-            yield wtdbg2_str.format(dataset=d, scrubber=s)
-            yield miniasm_str.format(dataset=d, scrubber=s)
+            for a in assembly_list:
+                yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+                yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
 
     dataset = [
         "SRR8494905_pb",
@@ -239,9 +241,10 @@ def nanopore2pacbio():
             yield bwa_str.format(dataset=d, scrubber=s)
             yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)
-
-            yield wtdbg2_str.format(dataset=d, scrubber=s)
-            yield miniasm_str.format(dataset=d, scrubber=s)
+            
+            for a in assembly_list:
+                yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+                yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
 
 rule nanopore2pacbio:
     input:

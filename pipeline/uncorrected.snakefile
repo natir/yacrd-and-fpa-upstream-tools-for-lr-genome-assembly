@@ -16,6 +16,7 @@ wtdbg2_str = "assembly/{dataset}.{scrubber}.wtdbg2.fasta"
 miniasm_str = "assembly/{dataset}.{scrubber}.miniasm.fasta"
 
 quast_str = "quast/{dataset}.{scrubber}.{assembly}/report.txt"
+quast_mis_size_str = "quast_mis_size_10000/{dataset}.{scrubber}.{assembly}/report.txt"
 nucmer_str = "nucmer/{dataset}.{scrubber}.{assembly}.delta"
 
 assembly_list = [
@@ -40,8 +41,10 @@ def c_elegans_out():
         yield bwa_str.format(dataset=d, scrubber=s)
         yield minimap_str.format(dataset=d, scrubber=s)
         yield porechop_str.format(dataset=d, scrubber=s)
+        
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
             
 rule c_elegans:
@@ -57,6 +60,7 @@ def h_sapiens_out():
         
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
                     
 rule h_sapiens:
@@ -72,6 +76,7 @@ def d_melanogaster_out():
         
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
             
 rule d_melanogaster:
@@ -98,6 +103,7 @@ def e_coli_pb_out():
         
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
             
 def NCTC():
@@ -163,12 +169,14 @@ def NCTC():
         for s in scrubber_list + yacrd_sequel:
             if s == "dascrubber" and d in dascrubber_skip:
                 continue
+
             yield bwa_str.format(dataset=d, scrubber=s)
             yield minimap_str.format(dataset=d, scrubber=s)
             yield porechop_str.format(dataset=d, scrubber=s)
 
             for a in assembly_list:
                 yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+                yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
                 yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
 
 rule NCTC:
@@ -212,6 +220,7 @@ def nanopore2pacbio():
 
             for a in assembly_list:
                 yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+                yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
                 yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
 
     dataset = [
@@ -244,6 +253,7 @@ def nanopore2pacbio():
             
             for a in assembly_list:
                 yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+                yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
                 yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
 
 rule nanopore2pacbio:

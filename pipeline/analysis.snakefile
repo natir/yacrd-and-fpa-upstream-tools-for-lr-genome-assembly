@@ -48,6 +48,21 @@ rule quast:
     shell:
         "quast -o quast/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r {input.ref} -t 16 {input.asm}"
 
+rule quast_mis_size:
+    input:
+        quast="quast/{prefix}_{tech}.{scrubbing}.{asm}/report.txt",
+        asm="assembly/{prefix}_{tech}.{scrubbing}.{asm}.fasta",
+        ref="references/{prefix}_{tech}_ref.fasta"
+    output:
+        "quast_mis_size_{mis_size}/{prefix}_{tech}.{scrubbing}.{asm}/report.txt"
+    wildcard_constraints:
+        tech="[^\.]*"
+    shell:
+        " && ".join([
+            "cp -R {input.quast} quast_mis_size_{wildcards.mis_size}/",
+            "quast -o quast_mis_size_{wildcards.mis_size}/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r {input.ref} -t 16 --extensive_mis_size {wildcards.mis_size} {input.asm}"
+        ])
+        
 rule indexing:
     input:
         "references/{ref}.fasta",

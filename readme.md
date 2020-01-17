@@ -14,7 +14,7 @@ This tools need to be avaible in your path :
 
 - [seqtk](https://github.com/lh3/seqtk) 1.3-r106
 - [fpa](https://gitlab.inria.fr/pmarijon/fpa) 0.5
-- [yacrd](https://gitlab.inria.fr/pmarijon/yacrd) 0.5.1
+- [yacrd](https://gitlab.inria.fr/pmarijon/yacrd) 0.6
 - [dascrubber](https://github.com/thegenemyers/DASCRUBBER/) commit 0e90524 you can follow [dascrubber-wrapper](https://github.com/rrwick/DASCRUBBER-wrapper) instruction to install all dascrubber requirements
 - [snakemake](https://snakemake.readthedocs.io/en/stable/) 5.4.3
 - [wtdbg2](https://github.com/ruanjue/wtdbg2) 2.3
@@ -32,8 +32,6 @@ You need change path of this tools in snakemake pipeline file:
 - [shasta](https://github.com/chanzuckerberg/shasta/) 0.1.0
 
 Update miniscrub path in file `pipeline/scrubbing.snakefile` line 136.
-Update ra path in file `pipeline/assembly.snakefile` line 69.
-Update shasta path in `pipeline/assembly.snakefile` line 85.
 Update porechop path in `pipeline/analysis.snakefile` line 68.
 
 If you execute `conda env create -f conda_env.yml` conda create environment `yacrd_fpa` with all dependency except dascrubber, miniscrub, ra, porechop and shasta.

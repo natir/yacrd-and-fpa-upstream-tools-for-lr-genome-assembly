@@ -60,7 +60,7 @@ rule quast_mis_size:
     shell:
         " && ".join([
             "cp -R {input.quast} quast_mis_size_{wildcards.mis_size}/",
-            "quast -o quast_mis_size_{wildcards.mis_size}/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r {input.ref} -t 16 --extensive_mis_size {wildcards.mis_size} {input.asm}"
+            "quast -o quast_mis_size_{wildcards.mis_size}/{wildcards.prefix}_{wildcards.tech}.{wildcards.scrubbing}.{wildcards.asm}/ --min-identity 80.0 -r {input.ref} -t 16 --extensive-mis-size {wildcards.mis_size} {input.asm}"
         ])
         
 rule indexing:

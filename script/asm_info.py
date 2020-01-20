@@ -77,11 +77,12 @@ def main(args=None):
     for key, item in group_dataset_asm:
         group = item.index.values[0][3]
 
-        if (key[0], "yacrd", key[1], group) in df_ratio.index:
+        if (key[0], "dascrubber", key[1], group) in item.index:
+            df_ratio.loc[(key[0], "dascrubber", key[1], group),:] = (item.loc[(key[0], "dascrubber",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
+        
+        if (key[0], "yacrd", key[1], group) in item.index:
             df_ratio.loc[(key[0], "yacrd", key[1], group),:] = (item.loc[(key[0], "yacrd",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
 
-        if (key[0], "dascrubber", key[1], group) in df_ratio.index:
-            df_ratio.loc[(key[0], "dascrubber", key[1], group),:] = (item.loc[(key[0], "dascrubber",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
 
     if len(args) == 1 and args[0] == "latex":
         print(df.reset_index(level=3, drop=True).to_latex())

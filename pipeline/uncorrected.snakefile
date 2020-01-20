@@ -92,11 +92,12 @@ def e_coli_ont_out():
         
         for a in assembly_list:
             yield quast_str.format(dataset=d, scrubber=s, assembly=a)
+            yield quast_mis_size_str.format(dataset=d, scrubber=s, assembly=a)
             yield nucmer_str.format(dataset=d, scrubber=s, assembly=a)
             
 def e_coli_pb_out():
     d = "real_reads_pb"
-    for s in scrubber_list + yacrd_sequel:
+    for s in scrubber_list + yacrd_p6c4:
         yield bwa_str.format(dataset=d, scrubber=s)
         yield minimap_str.format(dataset=d, scrubber=s)
         yield porechop_str.format(dataset=d, scrubber=s)        

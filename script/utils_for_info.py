@@ -3,10 +3,9 @@
 dataset2yacrdparam = {
 	"c_elegans_pb": "g800.c4.yacrd",
     "h_sapiens_chr1_ont": "g500.c4.yacrd",
-	"d_melanogaster_reads_ont": "g500.c4.yacrd",
+    "d_melanogaster_reads_ont": "g500.c4.yacrd",
     "real_reads_pb": "g800.c4.yacrd",
     "real_reads_ont": "g500.c4.yacrd",
-
 	"ERR2531093_pb": "g5000.c3.yacrd",
 	"ERR2531094_pb": "g5000.c3.yacrd",
 	"ERR2531095_pb": "g5000.c3.yacrd",
@@ -52,7 +51,6 @@ dataset2yacrdparam = {
 	"ERR3253103_pb": "g5000.c3.yacrd",
 	"ERR3253104_pb": "g5000.c3.yacrd",            
 	"ERR3500074_pb": "g5000.c3.yacrd",
-
 	"SRR8494915_ont": "g500.c4.yacrd",
 	"SRR8494916_ont": "g500.c4.yacrd",
 	"SRR8494917_ont": "g500.c4.yacrd",
@@ -101,7 +99,6 @@ dataset2group = {
 	"d_melanogaster_reads_ont": "eukaryota",
     "real_reads_pb": "bacteria_rsII",
     "real_reads_ont": "bacteria_ont",
-
 	"ERR2531093_pb": "bacteria_sequel",
 	"ERR2531094_pb": "bacteria_sequel",
 	"ERR2531095_pb": "bacteria_sequel",
@@ -147,7 +144,6 @@ dataset2group = {
 	"ERR3253103_pb": "bacteria_sequel",
 	"ERR3253104_pb": "bacteria_sequel",            
 	"ERR3500074_pb": "bacteria_sequel",
-
 	"SRR8494915_ont": "bacteria_ont",
 	"SRR8494916_ont": "bacteria_ont",
 	"SRR8494917_ont": "bacteria_ont",

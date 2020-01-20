@@ -16,8 +16,9 @@ def main(args=None):
         args = sys.argv[1:]
 
     index = pandas.MultiIndex(levels=[[],[], []], codes=[[],[], []], names=["dataset", "scrubber", "group"])
-        
-    df = pandas.DataFrame(index=index, columns=["# reads mapped", "error rate", "total length", "# chimera"])
+    columns = ["# reads mapped", "error rate", "total length", "# chimera"]
+    
+    df = pandas.DataFrame(index=index, columns=columns)
     
     for dataset in dataset2group.keys():
         for scrubber in ["raw", "dascrubber", "yacrd"]:
@@ -30,14 +31,34 @@ def main(args=None):
                 continue
                 
             map_info = get_mapping_info(dataset, scrubber_param)
-            df.loc[(clean_name(dataset), scrubber, dataset2group[dataset]),:] = [map_info["reads mapped:"], map_info["error rate:"], map_info["total length:"], get_chimera_info(dataset, scrubber_param)]
+            df.loc[(clean_name(dataset), scrubber, dataset2group[dataset]),:] = [
+                                                                                 map_info["reads mapped:"],
+                                                                                 map_info["error rate:"],
+                                                                                 map_info["total length:"],
+                                                                                 get_chimera_info(dataset, scrubber_param)
+                                                                                 ]
 
+
+    group_dataset_asm = df.groupby(level=[0])
+    df_ratio = pandas.DataFrame(index=index, columns=columns)
+
+    for key, item in group_dataset_asm:
+        group = item.index.values[0][2]
+        if (key, "dascrubber", group) in item.index:
+            df_ratio.loc[(key, "dascrubber", group),:] = (item.loc[(key, "dascrubber"),] / item.loc[(key, "raw"),]).loc[group,].tolist()
+        
+        if (key, "yacrd", group) in item.index:
+            df_ratio.loc[(key, "yacrd", group),:] = (item.loc[(key, "yacrd"),] / item.loc[(key, "raw"),]).loc[group,].tolist()
+
+            
     if len(args) == 1 and args[0] == "latex":
         print(df.reset_index(level=2, drop=True).to_latex())
-        print(df.groupby(level=[1, 2]).mean().to_latex())
+        print(df_ratio.reset_index(level=2, drop=True).to_latex())
+        print(df.groupby(level=[0, 2]).mean().to_latex())
     else:
         print(df.reset_index(level=2, drop=True).to_csv())
-        print(df.groupby(level=[1, 2]).mean().to_csv())
+        print(df_ratio.reset_index(level=2, drop=True).to_csv())
+        print(df.groupby(level=[0, 2]).mean().to_csv())
 
 def clean_name(dataset_name):
     return "_".join(dataset_name.split("_")[:-1])

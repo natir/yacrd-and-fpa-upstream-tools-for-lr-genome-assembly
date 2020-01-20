@@ -88,12 +88,10 @@ def main(args=None):
         print(df.reset_index(level=3, drop=True).to_latex())
         print(df_ratio.reset_index(level=3, drop=True).to_latex())
         print(df.groupby(level=[1, 2, 3]).mean().to_latex())
-        print(df_ratio.groupby(level=[1, 2, 3]).mean().to_latex())
     else:
         print(df.reset_index(level=3, drop=True).to_csv())
         print(df_ratio.reset_index(level=3, drop=True).to_csv())
         print(df.groupby(level=[1, 2, 3]).mean().to_csv())
-        print(df_ratio.groupby(level=[1, 2, 3]).mean().to_csv())
         
     
 def clean_name(dataset_name):

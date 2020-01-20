@@ -25,6 +25,9 @@ def main(args=None):
                 scrubber_param = dataset2yacrdparam[dataset]
             else:
                 scrubber_param = scrubber
+
+            if scrubber == "dascrubber" and dataset in dascrubber_skip:
+                continue
                 
             map_info = get_mapping_info(dataset, scrubber_param)
             df.loc[(clean_name(dataset), scrubber, dataset2group[dataset]),:] = [map_info["reads mapped:"], map_info["error rate:"], map_info["total length:"], get_chimera_info(dataset, scrubber_param)]

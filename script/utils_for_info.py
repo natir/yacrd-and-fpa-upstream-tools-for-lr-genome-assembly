@@ -40,7 +40,6 @@ dataset2yacrdparam = {
 	"ERR3253089_pb": "g5000.c3.yacrd",
 	"ERR3253090_pb": "g5000.c3.yacrd",
 	"ERR3253091_pb": "g5000.c3.yacrd",
-	"ERR3253092_pb": "g5000.c3.yacrd",
 	"ERR3253093_pb": "g5000.c3.yacrd",
 	"ERR3253094_pb": "g5000.c3.yacrd",
 	"ERR3253095_pb": "g5000.c3.yacrd",
@@ -136,7 +135,6 @@ dataset2group = {
 	"ERR3253089_pb": "bacteria_sequel",
 	"ERR3253090_pb": "bacteria_sequel",
 	"ERR3253091_pb": "bacteria_sequel",
-	"ERR3253092_pb": "bacteria_sequel",
 	"ERR3253093_pb": "bacteria_sequel",
 	"ERR3253094_pb": "bacteria_sequel",
 	"ERR3253095_pb": "bacteria_sequel",
@@ -190,4 +188,19 @@ dataset2group = {
 	"SRR8494932_pb": "bacteria_rsII",
 	"SRR8494933_pb": "bacteria_rsII",
 	"SRR8494934_pb": "bacteria_rsII",
+}
+
+dascrubber_skip = {
+    "ERR2531095_pb",
+    "ERR2615934_pb",
+    "ERR2672425_pb",
+    "ERR2695058_pb",
+    "ERR2695057_pb",
+    "ERR2632359_pb",
+    "ERR2672424_pb",
+    "SRR8494919_ont",
+}
+
+quast_skip = {
+    "ERR2651535_pb",
 }

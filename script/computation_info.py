@@ -20,6 +20,9 @@ def main(args=None):
 
     for dataset in dataset2group.keys():
         for scrubber in ["raw", "dascrubber", "yacrd"]:
+            if scrubber == "dascrubber" and dataset in dascrubber_skip:
+                continue
+            
             if scrubber == "yacrd":
                 minimap_param = dataset2yacrdparam[dataset].split(".")[0]
                 minimap_values = get_values_from_file(f"benchmarks/{dataset}.{minimap_param}.minimap.yacrd.txt")

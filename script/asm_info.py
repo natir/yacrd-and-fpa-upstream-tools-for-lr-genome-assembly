@@ -204,19 +204,20 @@ def main(args=None):
     index = pandas.MultiIndex(levels=[[],[], [], []], codes=[[], [], [], []], names=["dataset", "scrubber", "assembly", "group"])
 
     columns = [
-        "#contigs",
-        "NGA50",
-        "NGA50 10kb",
-        "Largest contig",
-        "Largest alignment",
-        "Total length",
-        "Reference length",
-        "Asm/Ref",
-        "Indels per 100kb",
-        "Mismatches per 100kb",
-        "#relocations",
-        "#translocations",
-        "#inversions",
+               "#contigs",
+               "NGA50",
+               "NGA50 10kb",
+               "Largest contig",
+               "Largest alignment",
+               "Total length",
+               "Reference length",
+               "Asm/Ref",
+               "Indels per 100kb",
+               "Mismatches per 100kb",
+               "#relocations",
+               "#translocations",
+               "#inversions",
+               "cumulative len of relocations",
         ]
 
     df = pandas.DataFrame(index=index, columns=columns)
@@ -234,21 +235,22 @@ def main(args=None):
                 mis_assembly = get_mis_assembly_info("quast_mis_size_10000", dataset, scrubber_param, assembly)
 
                 df.loc[(clean_name(dataset), scrubber, assembly, dataset2group[dataset]),:] = [
-                    default["# contigs"],
-                    default["NGA50"],
-                    large_mis_assembly["NGA50"],
-                    default["Largest contig"],
-                    default["Largest alignment"],
-                    default["Total length"],
-                    default["Reference length"],
-                    default["Total length"] / default["Reference length"],
-                    default["# indels per 100 kbp"],
-                    default["# mismatches per 100 kbp"],
-                    mis_assembly["# c. relocations"],
-                    mis_assembly["# c. translocations"],
-                    mis_assembly["# c. inversions"]
+                                                                                               default["# contigs"],
+                                                                                               default["NGA50"],
+                                                                                               large_mis_assembly["NGA50"],
+                                                                                               default["Largest contig"],
+                                                                                               default["Largest alignment"],
+                                                                                               default["Total length"],
+                                                                                               default["Reference length"],
+                                                                                               default["Total length"] / default["Reference length"],
+                                                                                               default["# indels per 100 kbp"],
+                                                                                               default["# mismatches per 100 kbp"],
+                                                                                               mis_assembly["# c. relocations"],
+                                                                                               mis_assembly["# c. translocations"],
+                                                                                               mis_assembly["# c. inversions"],
+                                                                                               get_cumulative_len_of_relocation("quast", dataset, scrubber_param, assembly),
                 ]
-
+                
     if len(args) == 1 and args[0] == "latex":
         print(df.reset_index(level=3, drop=True).to_latex())
         print(df.groupby(level=[1, 2, 3]).mean().to_latex())
@@ -256,6 +258,7 @@ def main(args=None):
         print(df.reset_index(level=3, drop=True).to_csv())
         print(df.groupby(level=[1, 2, 3]).mean().to_csv())
 
+        
 def clean_name(dataset_name):
     return "_".join(dataset_name.split("_")[:-1])
         
@@ -311,6 +314,22 @@ def get_mis_assembly_info(prefix, dataset, scrubber, assembly):
         print(f"Error can't open mis assembly file {filename}", file=sys.stderr)
 
     return data
+
+def get_cumulative_len_of_relocation(prefix, dataset, scrubber, assembly):
+    filename = f"{prefix}/{dataset}.{scrubber}.{assembly}/contigs_reports/all_alignments_{dataset}-{scrubber.replace('.', '-')}-{assembly}.tsv"
+
+    try:
+        cum_relocation_len = 0
+        with open(filename) as file_handler:
+            for line in file_handler:
+                if line.startswith("relocation"):
+                    relocation_len = line.split("=")[1].strip().split(" ")[0].strip()
+                    cum_relocation_len += abs(int(relocation_len))
+
+            return cum_relocation_len
+    except FileNotFoundError:
+        print(f"Error can't open misassembly report {filename}", file=sys.stderr)
+        return numpy.nan
 
 if __name__ == "__main__":
     main(sys.argv[1:])

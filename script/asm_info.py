@@ -32,6 +32,7 @@ def main(args=None):
                "#translocations",
                "#inversions",
                "cumulative len of relocations",
+               "referenceseeker ANI",
         ]
 
     df = pandas.DataFrame(index=index, columns=columns)
@@ -69,20 +70,20 @@ def main(args=None):
                                                                                                mis_assembly["# c. translocations"],
                                                                                                mis_assembly["# c. inversions"],
                                                                                                get_cumulative_len_of_relocation("quast", dataset, scrubber_param, assembly),
+                                                                                               get_refseeker_dist(dataset)
                 ]
-                
-    group_dataset_asm = df.groupby(level=[0, 2])
-    df_ratio = pandas.DataFrame(index=index, columns=columns)
+
+    group_dataset_asm = df.loc[:, df.columns != 'referenceseeker ANI'].groupby(level=[0, 2])
+    df_ratio = pandas.DataFrame(index=index, columns=columns[:-1])
 
     for key, item in group_dataset_asm:
         group = item.index.values[0][3]
-
+        
         if (key[0], "dascrubber", key[1], group) in item.index:
             df_ratio.loc[(key[0], "dascrubber", key[1], group),:] = (item.loc[(key[0], "dascrubber",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
         
         if (key[0], "yacrd", key[1], group) in item.index:
             df_ratio.loc[(key[0], "yacrd", key[1], group),:] = (item.loc[(key[0], "yacrd",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
-
 
     if len(args) == 1 and args[0] == "latex":
         print(df.reset_index(level=3, drop=True).to_latex())
@@ -95,6 +96,9 @@ def main(args=None):
         
     
 def clean_name(dataset_name):
+    if dataset_name.startswith("real_reads"):
+        return dataset_name
+
     return "_".join(dataset_name.split("_")[:-1])
         
 def get_asm_info(prefix, dataset, scrubber, assembly):
@@ -166,5 +170,18 @@ def get_cumulative_len_of_relocation(prefix, dataset, scrubber, assembly):
         print(f"Error can't open misassembly report {filename}", file=sys.stderr)
         return numpy.nan
 
+def get_refseeker_dist(dataset):
+    filename = f"referenceseeker/{dataset}_possible_ref.csv"
+
+    try:
+        with open(filename) as file_handler:
+            next(file_handler)
+            line = next(file_handler)
+            return float(line.split("\t")[2])
+            
+    except FileNotFoundError:
+        print(f"Error can't open referenceseeker report {filename}", file=sys.stderr)
+        return numpy.nan
+    
 if __name__ == "__main__":
     main(sys.argv[1:])

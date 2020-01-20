@@ -251,14 +251,26 @@ def main(args=None):
                                                                                                get_cumulative_len_of_relocation("quast", dataset, scrubber_param, assembly),
                 ]
                 
+    group_dataset_asm = df.groupby(level=[0, 2])
+    df_ratio = pandas.DataFrame(index=index, columns=columns)
+
+    for key, item in group_dataset_asm:
+        group = item.index.values[0][3]
+        df_ratio.loc[(key[0], "yacrd", key[1], group),:] = (item.loc[(key[0], "yacrd",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
+        df_ratio.loc[(key[0], "dascrubber", key[1], group),:] = (item.loc[(key[0], "dascrubber",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
+
     if len(args) == 1 and args[0] == "latex":
         print(df.reset_index(level=3, drop=True).to_latex())
+        print(df_ratio.reset_index(level=3, drop=True).to_latex())
         print(df.groupby(level=[1, 2, 3]).mean().to_latex())
+        print(df_ratio.groupby(level=[1, 2, 3]).mean().to_latex())
     else:
         print(df.reset_index(level=3, drop=True).to_csv())
+        print(df_ratio.reset_index(level=3, drop=True).to_csv())
         print(df.groupby(level=[1, 2, 3]).mean().to_csv())
-
+        print(df_ratio.groupby(level=[1, 2, 3]).mean().to_csv())
         
+    
 def clean_name(dataset_name):
     return "_".join(dataset_name.split("_")[:-1])
         

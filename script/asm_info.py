@@ -33,6 +33,7 @@ def main(args=None):
                "#inversions",
                "cumulative len of relocations",
                "referenceseeker ANI",
+               "coverage",
         ]
 
     df = pandas.DataFrame(index=index, columns=columns)
@@ -70,7 +71,8 @@ def main(args=None):
                                                                                                mis_assembly["# c. translocations"],
                                                                                                mis_assembly["# c. inversions"],
                                                                                                get_cumulative_len_of_relocation("quast", dataset, scrubber_param, assembly),
-                                                                                               get_refseeker_dist(dataset)
+                                                                                               get_refseeker_dist(dataset),
+                                                                                               coverage[dataset]
                 ]
 
     group_dataset_asm = df.loc[:, df.columns != 'referenceseeker ANI'].groupby(level=[0, 2])

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+mkdir -p references
+mkdir -p data
+
 # reference
 
 ## E. coli CFT073

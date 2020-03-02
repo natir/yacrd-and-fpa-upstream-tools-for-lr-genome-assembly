@@ -87,14 +87,20 @@ def main(args=None):
         if (key[0], "yacrd", key[1], group) in item.index:
             df_ratio.loc[(key[0], "yacrd", key[1], group),:] = (item.loc[(key[0], "yacrd",)] / item.loc[(key[0], "raw",)]).loc[(key[1], group),].tolist()
 
-    if len(args) == 1 and args[0] == "latex":
-        print(df.reset_index(level=3, drop=True).to_latex())
-        print(df_ratio.reset_index(level=3, drop=True).to_latex())
-        print(df.groupby(level=[1, 2, 3]).mean().to_latex())
-    else:
-        print(df.reset_index(level=3, drop=True).to_csv())
-        print(df_ratio.reset_index(level=3, drop=True).to_csv())
-        print(df.groupby(level=[1, 2, 3]).mean().to_csv())
+    df_reindex = df.reset_index()
+    remove_dataset = set(df_reindex[df_reindex["referenceseeker ANI"] < 95]["dataset"])
+    remove_dataset = remove_dataset | set(df_reindex[df_reindex["Asm/Ref"] > 2]["dataset"])
+    remove_dataset = remove_dataset | set(df_reindex[df_reindex["Asm/Ref"] < 0.5]["dataset"])
+
+    df_ratio_filter = df_ratio[[v not in remove_dataset for v in df_ratio.index.get_level_values(0)]]
+    
+    print(df.reset_index(level=3, drop=True).to_csv())
+    #print(df_ratio.reset_index(level=3, drop=True).to_csv())
+    #print(df.groupby(level=[1, 2, 3]).mean().to_csv())
+    #print("group,NGA50,NGA50_cpt,Largest alignment,Largest alignment_cpt,relocation,relocation_cpt")
+    #for (group, dfgroup) in df_ratio_filter.groupby(level=[1, 2, 3]):
+        #print(group, dfgroup["NGA50"].mean(), (dfgroup["NGA50"] > 1).sum(), dfgroup["Largest alignment"].mean(), (dfgroup["Largest alignment"] > 1).sum(), dfgroup["cumulative len of relocations"].mean(), (dfgroup["cumulative len of relocations"] < 1).sum(), len(dfgroup))
+
         
     
 def clean_name(dataset_name):
@@ -159,6 +165,9 @@ def get_mis_assembly_info(prefix, dataset, scrubber, assembly):
 def get_cumulative_len_of_relocation(prefix, dataset, scrubber, assembly):
     filename = f"{prefix}/{dataset}.{scrubber}.{assembly}/contigs_reports/all_alignments_{dataset}-{scrubber.replace('.', '-')}-{assembly}.tsv"
 
+    return get_cumulative_len_of_relocation_from_filename(filename)
+    
+def get_cumulative_len_of_relocation_from_filename(filename):
     try:
         cum_relocation_len = 0
         with open(filename) as file_handler:
@@ -172,6 +181,7 @@ def get_cumulative_len_of_relocation(prefix, dataset, scrubber, assembly):
         print(f"Error can't open misassembly report {filename}", file=sys.stderr)
         return numpy.nan
 
+    
 def get_refseeker_dist(dataset):
     filename = f"referenceseeker/{dataset}_possible_ref.csv"
 

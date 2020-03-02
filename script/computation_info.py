@@ -65,10 +65,10 @@ def main(args=None):
 
     if len(args) == 1 and args[0] == "latex":
         print(df.reset_index(level=3, drop=True).to_latex())
-        print(df.groupby(level=[1, 2, 3]).mean().to_latex())
+#        print(df.groupby(level=[1, 2, 3]).mean().to_latex())
     else:
         print(df.reset_index(level=3, drop=True).to_csv())
-        print(df.groupby(level=[1, 2, 3]).mean().to_csv())
+ #       print(df.groupby(level=[1, 2, 3]).mean().to_csv())
 
                 
 def clean_name(dataset_name):

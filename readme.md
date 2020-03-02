@@ -23,6 +23,7 @@ This tools need to be avaible in your path :
 - [nucmer](http://mummer.sourceforge.net/) 4.0.0beta2
 - [bwa mem](http://bio-bwa.sourceforge.net/bwa.shtml) 0.7.17
 - [samtools](https://samtools.github.io/) 1.9
+- [reference seeker](https://github.com/oschwengers/referenceseeker) 1.2
 
 You need change path of this tools in snakemake pipeline file:
 
@@ -45,39 +46,18 @@ If you execute `conda env create -f conda_env.yml` conda create environment `yac
   * [H. sapiens chr1](ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz) 248.9 Mb
   
 - Reads:
-  * E. coli:
+  * E. coli CFT073:
 	+ [Pacbio](https://www.ebi.ac.uk/ena/data/view/SRX5299472)
 	+ [Oxford nanopore](https://www.ebi.ac.uk/ena/data/view/SRR8494940)
   * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
   * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam)
   * [Pacbio RS P6-C4 C elegans](http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html)
+  * NCTC Sequel dataset
+  * Pacbio RSII and Nanopore data from publication [https://doi.org/10.1099/mgen.0.000294](https://doi.org/10.1099/mgen.0.000294)
 
 ## Build data directory
 
-Download all data and build a data script like this:
-```
-all_real_reads_ont.fasta         -> E. coli Nanopore reads 
-all_real_reads_ont.fastq         -> fastq of previous reads
-all_real_reads_pb.fasta          -> E. coli Pacbio reads
-all_real_reads_pb.fastq          -> fastq of previous reads
-c_elegans_pb.fasta               -> C. elegans pacbio reads
-c_elegans_ont.fasta               -> C. elegans nanopore reads
-d_melanogaster_reads_ont.fasta   -> D. melanogaster reads
-h_sapiens_chr1_ont.fasta         -> H. Sapiens maps against chromosomes 1 reads 
-
-c_elegans_ref.fasta              -> C. elegans reference
-d_melanogaster_ref.fasta         -> D. melanogaster reference
-h_sapiens_chr1_ref.fasta         -> H. sapiens reference
-ref_e_coli_cft073.fasta          -> E. coli reference
-```
-
-Run :
-```
-seqtk -s 42 data/all_real_reads_ont.fasta 0.1618 > data/real_reads_ont.fasta
-seqtk -s 42 data/all_real_reads_ont.fastq 0.1618 > data/real_reads_ont.fastq
-seqtk -s 42 data/all_real_reads_pb.fasta 0.1838 > data/real_reads_pb.fasta
-seqtk -s 42 data/all_real_reads_pb.fastq 0.1838 > data/real_reads_pb.fastq
-```
+run script `script/dl_data.sh`, warning this script can take many time it's download more than 65 dataset.
 
 # Rerun analysis
 
@@ -87,22 +67,18 @@ seqtk -s 42 data/all_real_reads_pb.fastq 0.1838 > data/real_reads_pb.fastq
 
 ## Analysis script
 
-Get number of chimera per file in csv format:
+Get information about reads (it could be very long):
 ```
-for i in \$(ls mapping/*.paf)
-do
-./script/found_chimera.py \$i
-done
+./script/read_info.py
 ```
 
-Get information one read mapped on reference (this script required pysam): 
+Get information about assembly:
 ```
-./script/get_mapping_info.py mapping/*.bam
+./script/asm_info.py
 ```
 
-Get information about assembly in csv format:
+Get information about runing time and memory usage of scrubbing and assembly:
 ```
-./script/simplify_quast_result.py quast/*/report.tsv       # assembly stats of scrubbed read
-./script/simplify_quast_result.py fpa/quast/*/report.tsv   # assembly stats of after fpa
-./script/simplify_quast_result.py combo/quast/*/report.tsv # assembly stats of modified miniasm pipeline assembly with yacrd and fpa
+./script/timming.py
 ```
+
